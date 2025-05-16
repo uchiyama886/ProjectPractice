@@ -1,5 +1,7 @@
 package wavelet;
 
+import java.awt.event.MouseEvent;
+
 public class WaveletPaneController extends PaneController implements ActionListener {
 
 	private boolean isMenuPopuping;
