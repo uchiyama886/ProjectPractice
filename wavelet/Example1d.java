@@ -1,5 +1,9 @@
 package wavelet;
 
+import java.awt.Point;
+import javax.swing.JPanel;
+import java.awt.image.BufferedImage;
+
 public class Example1d extends Object {
 
 	private static int fileNo = 0;
@@ -20,11 +24,11 @@ public class Example1d extends Object {
 
 	}
 
-	protected static void open(IPanel aPanel) {
+	protected static void open(JPanel aPanel) {
 
 	}
 
-	protected static void write(BufferdImage anImage) {
+	protected static void write(BufferedImage anImage) {
 
 	}
 

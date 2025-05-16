@@ -1,5 +1,8 @@
 package wavelet;
 
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+
 public class WaveletModel extends Model {
 
 	public static double accuracy = 1.0E-5d;

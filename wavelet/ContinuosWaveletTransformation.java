@@ -2,8 +2,7 @@ package wavelet;
 
 public class ContinuosWaveletTransformation extends WaveletTransformation {
 
-	public ContinuousWavelletTransformation() {
-
+	public ContinuosWaveletTransformation() {
 	}
 
 	public WaveletTransformation applyTo(Object anObject) {
