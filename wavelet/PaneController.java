@@ -1,6 +1,6 @@
 package wavelet;
-// テスト
 
+// git-test
 public class PaneController {
 
 }
