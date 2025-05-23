@@ -30,13 +30,16 @@ git push origin 作成したブランチ名
 
 3. 「New pull request」ボタンをクリック
 
-4. 「compare: working-好きな名前」になっていることを確認
+4. 「compare:」を自分のブランチ(今回はworking-ryo)に変更
+   - 「base:」はmainのままにしておく
 
 5. 「Create pull request」ボタンをクリック
 
 6. タイトルと説明を記入して「Create pull request」ボタンをクリック
+    - タイトルはデフォルトではコミットメッセージが入っているので、必要であれば変更してください
+    - 説明はコミットメッセージより具体的に書いてください
 
-7. 「Merge pull request」ボタンをクリック
+
 
 
 
