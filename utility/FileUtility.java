@@ -6,15 +6,15 @@ import java.io.IOException;
 
 public class FileUtility {
   public static String currentDirectory() {
-    null = System.getProperty("user.dir");
-    if (null == null)
-      null = (new File(".")).getAbsoluteFile().getParent(); 
-    if (null == null)
-      null = "."; 
+    String dir = System.getProperty("user.dir");
+    if (dir == null)
+        dir = new File(".").getAbsoluteFile().getParent();
+    if (dir == null)
+        dir = ".";
     StringBuffer stringBuffer = new StringBuffer();
-    stringBuffer.append(null);
-    if (null.charAt(null.length() - 1) != File.separatorChar)
-      stringBuffer.append(File.separator); 
+    stringBuffer.append(dir);
+    if (dir.charAt(dir.length() - 1) != File.separatorChar)
+        stringBuffer.append(File.separator);
     return stringBuffer.toString();
   }
   
