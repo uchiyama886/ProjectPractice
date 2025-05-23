@@ -1,38 +1,26 @@
 package wavelet;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import mvc.Model;
 
-public class WaveletModel extends Model {
-
-	public static double accuracy = 1.0E-5d;
-
-	public void actionPerformed(ActionEvent anActionEvent) {
-
-	}
-
-	public void computeFromPoint(Point aPoint, boolean isAltDown) {
-
-	}
-
-	public void computeRecomposedCoefficients() {
-
-	}
-
-	public void mouseClicked(Point aPoint, MouseEvent aMouseEvent) {
-
-	}
-
-	public void mouseDragged(Point aPoint, MouseEvent aMouseEvent) {
-
-	}
-
-	public void open() {
-
-	}
-
-	public void showPopupMenu(MouseEvent aMouseEvent, int aController) {
-
-	}
-
+public abstract class WaveletModel extends Model {
+  public static final double accuracy = 1.0E-5D;
+  
+  public abstract void actionPerformed(ActionEvent paramActionEvent);
+  
+  public abstract void computeFromPoint(Point paramPoint, boolean paramBoolean);
+  
+  public abstract void computeRecomposedCoefficients();
+  
+  public abstract void mouseClicked(Point paramPoint, MouseEvent paramMouseEvent);
+  
+  public abstract void mouseDragged(Point paramPoint, MouseEvent paramMouseEvent);
+  
+  public abstract void open();
+  
+  public abstract void showPopupMenu(MouseEvent paramMouseEvent, WaveletPaneController paramWaveletPaneController);
 }
+
+

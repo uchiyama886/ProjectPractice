@@ -1,21 +1,15 @@
 package wavelet;
 
-public class WaveletTransformation extends Object {
-
-	public WaveletTransformation() {
-
-	}
-
-	protected void initialize() {
-
-	}
-
-	public WaveletTransformation applyTo(Object anObject) {
-		return null;
-	}
-
-	public WaveletTransformation transform(WaveletTransformation waveletTransformation) {
-		return null;
-	}
-
+public abstract class WaveletTransformation {
+  public WaveletTransformation() {
+    initialize();
+  }
+  
+  protected void initialize() {}
+  
+  public abstract WaveletTransformation applyTo(Object paramObject);
+  
+  public abstract WaveletTransformation transform(WaveletTransformation paramWaveletTransformation);
 }
+
+
