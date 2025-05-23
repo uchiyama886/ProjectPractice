@@ -10,8 +10,11 @@ public class WaveletPaneModel extends PaneModel {
 
 	private WaveletModel listener;
 
+	/**
+	 * ペインモデルを作るコンストラクタ。
+	 */
 	public WaveletPaneModel() {
-
+		super();
 	}
 
 	public WaveletPaneModel(String aString) {
