@@ -9,6 +9,7 @@ all:
 
 clean:
 	$(ANT) clean
+	@rm -rf ./Wavelet.app
 
 test:
 	$(ANT) test
@@ -35,9 +36,9 @@ format:
 	for each in $(SOURCES) ; do echo ---[$${each}]--- ; clang-format -style=file $${each} ; echo ; done
 	@rm -f $(STYLE_CONF)
 
-app: install
-	@xattr -cr ./Wavelet.app
-	open ./Wavelet.app
+app: all
+	@echo "Starting application via JAR..."
+	java -Dfile.encoding=UTF-8 -jar wavelet.jar
 
 check: if while for ifTrue ifFalse ifThenElse whileTrue whileFalse forEach
 	@:
