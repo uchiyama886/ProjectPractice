@@ -1,5 +1,9 @@
 package wavelet;
 
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 public class Wavelet2dModel extends WaveletModel {
 
 	protected double maximumAbsoluteSourceCoefficient = Double.MIN_VALUE;
@@ -84,7 +88,7 @@ public class Wavelet2dModel extends WaveletModel {
 
 	}
 
-	public static void fill(double[][] in aMatrix, double in Value) {
+	public static void fill(double[][] aMatrix, double Value) {
 
 	}
 
@@ -96,7 +100,9 @@ public class Wavelet2dModel extends WaveletModel {
 		return null;
 	}
 
-	public static BufferedImage generateImage(BufferedImage imageScalingCoefficients, BufferedImage imageHorizontalWaveletCoeffixcients, BufferedImage imageVerticalWaveletCoefficients, BufferedImage imageDiagonalWaveletCoefficients) {
+	public static BufferedImage generateImage(BufferedImage imageScalingCoefficients,
+			BufferedImage imageHorizontalWaveletCoeffixcients, BufferedImage imageVerticalWaveletCoefficients,
+			BufferedImage imageDiagonalWaveletCoefficients) {
 		return null;
 	}
 
@@ -108,7 +114,7 @@ public class Wavelet2dModel extends WaveletModel {
 		return null;
 	}
 
-	public static double[][][] lrgbMatrixes(BufferedImage in anImage) {
+	public static double[][][] lrgbMatrixes(BufferedImage anImage) {
 		return null;
 	}
 
@@ -148,7 +154,7 @@ public class Wavelet2dModel extends WaveletModel {
 
 	}
 
-	public void showPopupMenu(MouseEvent aMouseEvent, WaveletPaneController in aController) {
+	public void showPopupMenu(MouseEvent aMouseEvent, WaveletPaneController aController) {
 
 	}
 

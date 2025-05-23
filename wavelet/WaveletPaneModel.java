@@ -1,5 +1,9 @@
 package wavelet;
 
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 public class WaveletPaneModel extends PaneModel {
 
 	private String label;
@@ -14,11 +18,11 @@ public class WaveletPaneModel extends PaneModel {
 
 	}
 
-	public WaveletPaneModel(BuffeedImage anlmage, String aString) {
+	public WaveletPaneModel(BufferedImage anlmage, String aString) {
 
 	}
 
-	public WaveletPaneModel(BuffeedImage anlmage, String aString, WaveletModel aModel) {
+	public WaveletPaneModel(BufferedImage anlmage, String aString, WaveletModel aModel) {
 
 	}
 

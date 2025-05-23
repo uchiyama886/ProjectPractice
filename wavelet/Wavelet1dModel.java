@@ -1,6 +1,11 @@
 package wavelet;
 
-public class Wavelet1dModel extends WaveletModel, Wavelet2dModel {
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+
+public class Wavelet1dModel extends WaveletModel {
 
 	protected double[] sourceCoefficients;
 

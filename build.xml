@@ -43,8 +43,7 @@
 		<jar
 			jarfile="${package}.jar"
 			basedir="${destdir}"
-			manifest="${package}.mf">
-			<zipfileset src="${condition}.jar" />
+		>
 		</jar>
 		<exec executable="date" spawn="false" />
 	</target>

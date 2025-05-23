@@ -1,5 +1,7 @@
 package wavelet;
 
+import java.awt.Graphics;
+
 public class WaveletPaneView extends PaneView {
 
 	public WaveletPaneView(WaveletPaneModel aModel) {
