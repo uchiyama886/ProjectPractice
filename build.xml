@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="MVC" default="all" basedir=".">
+<project name="Wavelet" default="all" basedir=".">
 
 	<property name="package" value="wavelet" />
 	<property name="condition" value="condition" />
@@ -40,10 +40,10 @@
 	</target>
 
 	<target name="jar" depends="compile" description="make jar file">
-		<jar
-			jarfile="${package}.jar"
-			basedir="${destdir}"
-		>
+		<jar jarfile="${package}.jar" basedir="${destdir}">
+			<manifest>
+				<attribute name="Main-Class" value="wavelet.Example"/>
+			</manifest>
 		</jar>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -68,11 +68,40 @@
 	</target>
 
 	<target name="install" depends="all" description="install into application">
-		<copy file="${package}.jar" todir="${instdir}"/>
-		<exec executable="chmod">
-			<arg line="755 ${instdir}/../../MacOS/applet" />
-		</exec>
-		<exec executable="date" spawn="false" />
+    	<!-- create app bundle skeleton -->
+    	<mkdir dir="${ant.project.name}.app/Contents/" />
+    	<mkdir dir="${ant.project.name}.app/Contents/MacOS" />
+    	<mkdir dir="${ant.project.name}.app/Contents/Resources/Java" />
+
+    	<!-- copy jar -->
+    	<copy file="${package}.jar" todir="${ant.project.name}.app/Contents/Resources/Java" />
+
+    	<!-- Info.plist -->
+    	<echo file="${ant.project.name}.app/Contents/Info.plist" append="false" encoding="UTF-8"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleName</key><string>${ant.project.name}</string>
+  <key>CFBundleDisplayName</key><string>${ant.project.name}</string>
+  <key>CFBundleIdentifier</key><string>jp.kyotosangyo.${ant.project.name}</string>
+  <key>CFBundleVersion</key><string>1.0</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleExecutable</key><string>${ant.project.name}</string>
+</dict>
+</plist>
+]]></echo>
+
+    	<!-- stub launcher -->
+    	<echo file="${ant.project.name}.app/Contents/MacOS/${ant.project.name}" append="false" encoding="UTF-8"><![CDATA[
+#!/bin/sh
+# resolve path to Java resources
+DIR="$(cd "$(dirname "$0")/../Resources/Java" && pwd)"
+exec java -jar "$DIR/${package}.jar" "$@"
+]]></echo>
+    	<chmod file="${ant.project.name}.app/Contents/MacOS/${ant.project.name}" perm="755" />
+
+    	<exec executable="date" spawn="false" />
 	</target>
 
 	<target name="doc" depends="all" description="make document (javadoc)">
