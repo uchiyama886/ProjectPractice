@@ -10,7 +10,7 @@ git pull origin main
 
 #### できたら、次は作業ブランチを作成しましょう
 ```
-git checkout -b "working-好きな名前"
+git checkout -b "作業名(コミットメッセージのルールに従って書いてください)"
 ```
 
 #### 作業を行い変更したファイルをコミット（変更を保存しておく）しましょう
@@ -27,17 +27,22 @@ git push origin 作成したブランチ名
 1. GitHubのリポジトリにアクセス
 
 2. 「Pull requests」タブをクリック
+  <img width="1200" alt="スクリーンショット 2025-05-23 14 29 13" src="https://github.com/user-attachments/assets/bd5fd491-8d25-4a72-89b9-e4ad8445e4d5" />
 
-3. 「New pull request」ボタンをクリック
+3. 「New pull request」ボタンをクリック  
+  <img width="1412" alt="スクリーンショット 2025-05-23 14 30 03" src="https://github.com/user-attachments/assets/02472388-15a4-4e21-b0e8-75f8f27fc114" />
 
-4. 「compare: working-好きな名前」になっていることを確認
+4. 「compare:」を自分のブランチ(今回はworking-ryo)に変更
+  <img width="1409" alt="スクリーンショット 2025-05-23 14 31 55" src="https://github.com/user-attachments/assets/f2814cd5-cf75-4d6f-a60f-4ebbee78bcb8" />
+     - 「base:」はmainのままにしておく
 
 5. 「Create pull request」ボタンをクリック
+  <img width="1407" alt="スクリーンショット 2025-05-23 14 32 37" src="https://github.com/user-attachments/assets/69a84f07-17ea-4ea3-a5ec-6c90b1ac67ff" />
 
 6. タイトルと説明を記入して「Create pull request」ボタンをクリック
-
-7. 「Merge pull request」ボタンをクリック
-
+   <img width="1413" alt="スクリーンショット 2025-05-23 14 35 45" src="https://github.com/user-attachments/assets/9fa36c93-9d2f-441b-8ddb-b96d5b79200d" />
+    - タイトルはデフォルトではコミットメッセージが入っているので、必要であれば変更してください
+    - 説明はコミットメッセージより具体的に書いてください
 
 
 ## コミットメッセージのルール
