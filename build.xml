@@ -41,9 +41,20 @@
 
 	<target name="jar" depends="compile" description="make jar file">
 		<jar
-			jarfile="${package}.jar"
+			destfile="${destdir}/${package}.jar"
 			basedir="${destdir}"
+			includes="*.class"
 		>
+			<manifest>
+				<attribute name="Project" value="XX"  />
+				<section name="Shared">
+					<attribute name="Title" value="Wavelet" />
+					<attribute name="Vender" value="Group4" />
+				</section>
+				<section name="Copyright" >
+					<attribute name="Copy" value="Project XX 2025" />
+				</section>
+			</manifest>
 		</jar>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -68,7 +79,7 @@
 	</target>
 
 	<target name="install" depends="all" description="install into application">
-		<copy file="${package}.jar" todir="${instdir}"/>
+		<copy file="${package}.jar" todir="${instdir}" />
 		<exec executable="chmod">
 			<arg line="755 ${instdir}/../../MacOS/applet" />
 		</exec>
