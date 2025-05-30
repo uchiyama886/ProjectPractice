@@ -14,39 +14,39 @@ import utility.ImageUtility;
 
 public class Example2d {
   private static int fileNo = 100;
-  
+
   private static Point displayPoint = new Point(130, 50);
-  
+
   private static Point offsetPoint = new Point(25, 25);
-  
+
   public static void main(String[] paramArrayOfString) {
     example1();
     example2();
     example3();
   }
-  
+
   protected static void example1() {
     fileNo = 100;
     double[][] arrayOfDouble = Wavelet2dModel.dataSampleCoefficients();
     perform(arrayOfDouble, new Point(4, 4), 0);
   }
-  
+
   protected static void example2() {
     fileNo = 200;
     double[][][] arrayOfDouble = Wavelet2dModel.dataSmalltalkBalloon();
     perform(arrayOfDouble, "Smalltalk Balloon");
   }
-  
+
   protected static void example3() {
     fileNo = 300;
     double[][][] arrayOfDouble = Wavelet2dModel.dataEarth();
     perform(arrayOfDouble, "Earth");
   }
-  
+
   private static void open(JPanel paramJPanel) {
     open(paramJPanel, 512, 512);
   }
-  
+
   protected static void open(JPanel paramJPanel, int paramInt1, int paramInt2) {
     JFrame jFrame = new JFrame("Wavelet Example (2D)");
     jFrame.getContentPane().add(paramJPanel);
@@ -61,10 +61,11 @@ public class Example2d {
     jFrame.toFront();
     displayPoint = new Point(displayPoint.x + offsetPoint.x, displayPoint.y + offsetPoint.y);
   }
-  
+
   protected static double[][] perform(double[][] paramArrayOfdouble, Point paramPoint, int paramInt) {
     double[][] arrayOfDouble1 = paramArrayOfdouble;
-    DiscreteWavelet2dTransformation discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(arrayOfDouble1);
+    DiscreteWavelet2dTransformation discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(
+        arrayOfDouble1);
     double[][] arrayOfDouble2 = discreteWavelet2dTransformation.scalingCoefficients();
     double[][] arrayOfDouble3 = discreteWavelet2dTransformation.horizontalWaveletCoefficients();
     double[][] arrayOfDouble4 = discreteWavelet2dTransformation.verticalWaveletCoefficients();
@@ -79,7 +80,8 @@ public class Example2d {
     write(bufferedImage3);
     write(bufferedImage4);
     write(bufferedImage5);
-    BufferedImage bufferedImage6 = Wavelet2dModel.generateImage(bufferedImage2, bufferedImage3, bufferedImage4, bufferedImage5);
+    BufferedImage bufferedImage6 = Wavelet2dModel.generateImage(bufferedImage2, bufferedImage3, bufferedImage4,
+        bufferedImage5);
     write(bufferedImage6);
     discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(arrayOfDouble2);
     double[][] arrayOfDouble6 = discreteWavelet2dTransformation.scalingCoefficients();
@@ -94,7 +96,8 @@ public class Example2d {
     write(bufferedImage8);
     write(bufferedImage9);
     write(bufferedImage10);
-    BufferedImage bufferedImage11 = Wavelet2dModel.generateImage(bufferedImage7, bufferedImage8, bufferedImage9, bufferedImage10);
+    BufferedImage bufferedImage11 = Wavelet2dModel.generateImage(bufferedImage7, bufferedImage8, bufferedImage9,
+        bufferedImage10);
     write(bufferedImage11);
     bufferedImage11 = Wavelet2dModel.generateImage(bufferedImage11, bufferedImage3, bufferedImage4, bufferedImage5);
     write(bufferedImage11);
@@ -120,8 +123,8 @@ public class Example2d {
     gridBagConstraints.gridheight = 1;
     gridBagConstraints.weightx = 0.5D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints((Component) waveletPaneView, gridBagConstraints);
+    jPanel.add((Component) waveletPaneView);
     waveletPaneModel = new WaveletPaneModel(bufferedImage6, "Scaling & Wavelet Coefficients");
     waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 1;
@@ -130,8 +133,8 @@ public class Example2d {
     gridBagConstraints.gridheight = 1;
     gridBagConstraints.weightx = 0.5D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints((Component) waveletPaneView, gridBagConstraints);
+    jPanel.add((Component) waveletPaneView);
     waveletPaneModel = new WaveletPaneModel(bufferedImage13, "Recomposed Coefficients");
     waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 0;
@@ -140,8 +143,8 @@ public class Example2d {
     gridBagConstraints.gridheight = 1;
     gridBagConstraints.weightx = 0.5D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints((Component) waveletPaneView, gridBagConstraints);
+    jPanel.add((Component) waveletPaneView);
     waveletPaneModel = new WaveletPaneModel(bufferedImage11, "Scaling & Wavelet Coefficients");
     waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 1;
@@ -150,12 +153,12 @@ public class Example2d {
     gridBagConstraints.gridheight = 1;
     gridBagConstraints.weightx = 0.5D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints((Component) waveletPaneView, gridBagConstraints);
+    jPanel.add((Component) waveletPaneView);
     open(jPanel, paramArrayOfdouble.length * paramPoint.x, (paramArrayOfdouble[0]).length * paramPoint.y);
     return arrayOfDouble13;
   }
-  
+
   protected static void perform(double[][][] paramArrayOfdouble, String paramString) {
     double[][] arrayOfDouble1 = paramArrayOfdouble[0];
     double[][] arrayOfDouble2 = paramArrayOfdouble[1];
@@ -169,29 +172,28 @@ public class Example2d {
     int i = arrayOfDouble5.length;
     int j = (arrayOfDouble5[0]).length;
     BufferedImage bufferedImage = new BufferedImage(i, j, 1);
-    for (byte b = 0; b < j; b++) {
-      for (byte b1 = 0; b1 < i; b1++) {
+    for (int b = 0; b < j; b++) {
+      for (int b1 = 0; b1 < i; b1++) {
         double d1 = arrayOfDouble6[b1][b];
         double d2 = arrayOfDouble7[b1][b];
         double d3 = arrayOfDouble8[b1][b];
         int k = ColorUtility.convertRGBtoINT(d1, d2, d3);
         bufferedImage.setRGB(b1, b, k);
-      } 
-    } 
+      }
+    }
     write(bufferedImage);
     WaveletPaneModel waveletPaneModel = new WaveletPaneModel(bufferedImage, paramString);
     WaveletPaneView waveletPaneView = new WaveletPaneView(waveletPaneModel);
-    open((JPanel)waveletPaneView, arrayOfDouble1.length, (arrayOfDouble1[0]).length);
+    open((JPanel) waveletPaneView, arrayOfDouble1.length, (arrayOfDouble1[0]).length);
   }
-  
+
   protected static void write(BufferedImage paramBufferedImage) {
     File file = new File("ResultImages");
     if (!file.exists())
-      file.mkdir(); 
+      file.mkdir();
     String str;
-    for (str = Integer.toString(fileNo++); str.length() < 3; str = "0" + str);
+    for (str = Integer.toString(fileNo++); str.length() < 3; str = "0" + str)
+      ;
     ImageUtility.writeImage(paramBufferedImage, file.getName() + "/Wavelet" + file.getName() + ".jpg");
   }
 }
-
-
