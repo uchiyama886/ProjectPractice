@@ -1,5 +1,3 @@
-//変数名の指定とかは設計図に記述がないから、参考にしたとおりにした。
-
 package pane;
 
 import java.awt.Point;
