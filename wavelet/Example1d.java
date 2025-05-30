@@ -13,98 +13,108 @@ import utility.ImageUtility;
 
 public class Example1d {
   private static int fileNo = 0;
-  
+
   private static Point displayPoint = new Point(30, 50);
-  
+
   private static Point offsetPoint = new Point(25, 25);
-  
-  public static void main(String[] paramArrayOfString) {
+
+  public static void main(String[] args) {
     example1();
   }
-  
+
   protected static void example1() {
-    double[] arrayOfDouble = Wavelet1dModel.dataSampleCoefficients();
-    perform(arrayOfDouble);
+    double[] sampleData = Wavelet1dModel.dataSampleCoefficients();
+    perform(sampleData);
   }
-  
-  protected static void perform(double[] paramArrayOfdouble) {
-    double[] arrayOfDouble1 = paramArrayOfdouble;
-    DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(arrayOfDouble1);
-    double[] arrayOfDouble2 = discreteWavelet1dTransformation.scalingCoefficients();
-    double[] arrayOfDouble3 = discreteWavelet1dTransformation.waveletCoefficients();
-    double[] arrayOfDouble4 = discreteWavelet1dTransformation.recomposedCoefficients();
-    BufferedImage bufferedImage1 = Wavelet1dModel.generateImage(arrayOfDouble1);
-    BufferedImage bufferedImage2 = Wavelet1dModel.generateImage(arrayOfDouble2);
-    BufferedImage bufferedImage3 = Wavelet1dModel.generateImage(arrayOfDouble3);
-    BufferedImage bufferedImage4 = Wavelet1dModel.generateImage(arrayOfDouble4);
-    write(bufferedImage1);
-    write(bufferedImage2);
-    write(bufferedImage3);
-    write(bufferedImage4);
-    GridBagLayout gridBagLayout = new GridBagLayout();
-    JPanel jPanel = new JPanel(gridBagLayout);
-    GridBagConstraints gridBagConstraints = new GridBagConstraints();
-    gridBagConstraints.fill = 1;
-    gridBagConstraints.gridwidth = 1;
-    gridBagConstraints.gridheight = 1;
-    WaveletPaneModel waveletPaneModel = new WaveletPaneModel(bufferedImage1, "Source Coefficients");
-    WaveletPaneView waveletPaneView = new WaveletPaneView(waveletPaneModel);
-    gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 0;
-    gridBagConstraints.weightx = 0.67D;
-    gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
-    waveletPaneModel = new WaveletPaneModel(bufferedImage2, "Scaling Coefficients");
-    waveletPaneView = new WaveletPaneView(waveletPaneModel);
-    gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 0;
-    gridBagConstraints.weightx = 0.33D;
-    gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
-    waveletPaneModel = new WaveletPaneModel(bufferedImage4, "Recomposed Coefficients");
-    waveletPaneView = new WaveletPaneView(waveletPaneModel);
-    gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 1;
-    gridBagConstraints.weightx = 0.66D;
-    gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
-    waveletPaneModel = new WaveletPaneModel(bufferedImage3, "Wavelet Coefficients");
-    waveletPaneView = new WaveletPaneView(waveletPaneModel);
-    gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 1;
-    gridBagConstraints.weightx = 0.33D;
-    gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
-    open(jPanel);
+
+  protected static void perform(double[] sampleCoefficients) {
+    double[] sourceCoefficients = sampleCoefficients;
+    DiscreteWavelet1dTransformation waveletTransform = new DiscreteWavelet1dTransformation(sourceCoefficients);
+    double[] scalingCoefficients = waveletTransform.scalingCoefficients();
+    double[] waveletCoefficients = waveletTransform.waveletCoefficients();
+    double[] recomposedCoefficients = waveletTransform.recomposedCoefficients();
+
+    BufferedImage sourceImage = Wavelet1dModel.generateImage(sourceCoefficients);
+    BufferedImage scalingImage = Wavelet1dModel.generateImage(scalingCoefficients);
+    BufferedImage waveletImage = Wavelet1dModel.generateImage(waveletCoefficients);
+    BufferedImage recomposedImage = Wavelet1dModel.generateImage(recomposedCoefficients);
+
+    write(sourceImage);
+    write(scalingImage);
+    write(waveletImage);
+    write(recomposedImage);
+
+    GridBagLayout layout = new GridBagLayout();
+    JPanel panel = new JPanel(layout);
+    GridBagConstraints constraints = new GridBagConstraints();
+    constraints.fill = 1;
+    constraints.gridwidth = 1;
+    constraints.gridheight = 1;
+
+    // 元データのパネル
+    WaveletPaneModel sourceModel = new WaveletPaneModel(sourceImage, "Source Coefficients");
+    WaveletPaneView sourceView = new WaveletPaneView(sourceModel);
+    constraints.gridx = 0;
+    constraints.gridy = 0;
+    constraints.weightx = 0.67D;
+    constraints.weighty = 0.5D;
+    layout.setConstraints((Component) sourceView, constraints);
+    panel.add((Component) sourceView);
+
+    // スケーリング係数のパネル
+    WaveletPaneModel scalingModel = new WaveletPaneModel(scalingImage, "Scaling Coefficients");
+    WaveletPaneView scalingView = new WaveletPaneView(scalingModel);
+    constraints.gridx = 1;
+    constraints.gridy = 0;
+    constraints.weightx = 0.33D;
+    constraints.weighty = 0.5D;
+    layout.setConstraints((Component) scalingView, constraints);
+    panel.add((Component) scalingView);
+
+    // 再構成係数のパネル
+    WaveletPaneModel recomposedModel = new WaveletPaneModel(recomposedImage, "Recomposed Coefficients");
+    WaveletPaneView recomposedView = new WaveletPaneView(recomposedModel);
+    constraints.gridx = 0;
+    constraints.gridy = 1;
+    constraints.weightx = 0.66D;
+    constraints.weighty = 0.5D;
+    layout.setConstraints((Component) recomposedView, constraints);
+    panel.add((Component) recomposedView);
+
+    // ウェーブレット係数のパネル
+    WaveletPaneModel waveletModel = new WaveletPaneModel(waveletImage, "Wavelet Coefficients");
+    WaveletPaneView waveletView = new WaveletPaneView(waveletModel);
+    constraints.gridx = 1;
+    constraints.gridy = 1;
+    constraints.weightx = 0.33D;
+    constraints.weighty = 0.5D;
+    layout.setConstraints((Component) waveletView, constraints);
+    panel.add((Component) waveletView);
+
+    open(panel);
   }
-  
-  protected static void open(JPanel paramJPanel) {
-    JFrame jFrame = new JFrame("Wavelet Example (1D)");
-    jFrame.getContentPane().add(paramJPanel);
-    jFrame.setDefaultCloseOperation(2);
-    jFrame.addNotify();
-    int i = (jFrame.getInsets()).top;
-    jFrame.setMinimumSize(new Dimension(400, 200 + i));
-    jFrame.setResizable(true);
-    jFrame.setSize(800, 400 + i);
-    jFrame.setLocation(displayPoint.x, displayPoint.y);
-    jFrame.setVisible(true);
-    jFrame.toFront();
+
+  protected static void open(JPanel panel) {
+    JFrame frame = new JFrame("Wavelet Example (1D)");
+    frame.getContentPane().add(panel);
+    frame.setDefaultCloseOperation(2);
+    frame.addNotify();
+    int topInset = (frame.getInsets()).top;
+    frame.setMinimumSize(new Dimension(400, 200 + topInset));
+    frame.setResizable(true);
+    frame.setSize(800, 400 + topInset);
+    frame.setLocation(displayPoint.x, displayPoint.y);
+    frame.setVisible(true);
+    frame.toFront();
     displayPoint = new Point(displayPoint.x + offsetPoint.x, displayPoint.y + offsetPoint.y);
   }
-  
-  protected static void write(BufferedImage paramBufferedImage) {
-    File file = new File("ResultImages");
-    if (!file.exists())
-      file.mkdir(); 
-    String str;
-    for (str = Integer.toString(fileNo++); str.length() < 3; str = "0" + str);
-    ImageUtility.writeImage(paramBufferedImage, file.getName() + "/Wavelet" + file.getName() + ".jpg");
+
+  protected static void write(BufferedImage image) {
+    File outputDir = new File("ResultImages");
+    if (!outputDir.exists()) {
+      outputDir.mkdir();
+    }
+    String numberStr = String.format("%03d", fileNo++);
+    ImageUtility.writeImage(image, outputDir.getName() + "/Wavelet" + numberStr + ".jpg");
   }
 }
-
-
