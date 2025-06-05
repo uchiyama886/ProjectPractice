@@ -26,8 +26,8 @@ public class Model {
 
   // モデルが変更されたとき、登録されている全ての View に更新を通知する
   public void changed() {
-    for (View view : this.dependents)
-      view.update(); // View 側の update メソッドを呼び出す
+    Consumer<Object> aConsumer=(view -> view.update());
+    this.dependents.forEach(aConsumer);
   }
 
   // モデルの内部状態（依存ビューリストと画像）を初期化
