@@ -24,7 +24,7 @@ public class Example1d extends Object {
   /**
    * example1を実行
    */
-  public static void main(String[] paramArrayOfString) {
+  public static void main(String[] argument) {
     example1();
   }
   
@@ -40,29 +40,29 @@ public class Example1d extends Object {
     perform(arrayOfDouble);
   }
   /**
-   * ウェーブレットの変換を主に扱う
-   * @param arrayOfDouble1：データのサンプル係数
-   *        arrayOfDouble2：離散ウェーブレットのスケーリング係数
-   *        arrayOfDouble3：離散ウェーブレットのウェーブレット係数
-   *        arrayOfDouble4：離散ウェーブレットの再構成した（元の信号に戻した）係数
-   *        bufferedImage1：サンプル係数を元にした画像
-   *        bufferedImage2：スケーリング係数を元にした画像
-   *        bufferedImage3：ウェーブレット係数を元にした画像
-   *        bufferedImage4：再構成した係数を元にした（元の信号に戻した）画像
+   * 各種変数を所得し、画像の生成、表示、保存する
+   * @param arrayOfDouble1 データのサンプル係数
+   * @param arrayOfDouble2 離散ウェーブレットのスケーリング係数
+   * @param arrayOfDouble3 離散ウェーブレットのウェーブレット係数
+   * @param arrayOfDouble4 離散ウェーブレットの再構成した（元の信号に戻した）係数
+   * @param bufferedImage1 サンプル係数を元にした画像
+   * @param bufferedImage2 スケーリング係数を元にした画像
+   * @param bufferedImage3 ウェーブレット係数を元にした画像
+   * @param bufferedImage4 再構成した係数を元にした（元の信号に戻した）画像
    */
-  protected static void perform(double[] paramArrayOfdouble) {
-    // サンプル係数をコピー
-    double[] arrayOfDouble1 = paramArrayOfdouble;
+  protected static void perform(double[] sourceData) {
+    // サンプル係数を束縛
+    double[] arrayOfDouble1 = sourceData;
 
     // 離散ウェーブレット変換を実行
     DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(arrayOfDouble1);
     
-    // 各係数を取得
+    // 各係数を束縛
     double[] arrayOfDouble2 = discreteWavelet1dTransformation.scalingCoefficients();
     double[] arrayOfDouble3 = discreteWavelet1dTransformation.waveletCoefficients();
     double[] arrayOfDouble4 = discreteWavelet1dTransformation.recomposedCoefficients();
 
-    // 各係数を元に画像を生成
+    // 各係数をもとに画像を生成
     BufferedImage bufferedImage1 = Wavelet1dModel.generateImage(arrayOfDouble1);
     BufferedImage bufferedImage2 = Wavelet1dModel.generateImage(arrayOfDouble2);
     BufferedImage bufferedImage3 = Wavelet1dModel.generateImage(arrayOfDouble3);
@@ -82,7 +82,7 @@ public class Example1d extends Object {
     gridBagConstraints.gridwidth = 1;
     gridBagConstraints.gridheight = 1;
 
-    // 元データのパネルのレイアウト構成
+    // 元画像のパネルのレイアウト構成
     WaveletPaneModel waveletPaneModel = new WaveletPaneModel(bufferedImage1, "Source Coefficients");
     WaveletPaneView waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 0;
@@ -92,7 +92,7 @@ public class Example1d extends Object {
     gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
     jPanel.add((Component)waveletPaneView);
 
-    // スケーリング係数のパネルのレイアウト構成
+    // スケーリング係数の画像のパネルのレイアウト構成
     waveletPaneModel = new WaveletPaneModel(bufferedImage2, "Scaling Coefficients");
     waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 1;
@@ -102,22 +102,22 @@ public class Example1d extends Object {
     gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
     jPanel.add((Component)waveletPaneView);
 
-    // 再構成した結果のパネルのレイアウト構成
+	// ウェーブレット係数のパネルのレイアウト構成
+    waveletPaneModel = 画像のnew WaveletPaneModel(bufferedImage3, "Wavelet Coefficients");
+    waveletPaneView = new WaveletPaneView(waveletPaneModel);
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 1;
+    gridBagConstraints.weightx = 0.33D;
+    gridBagConstraints.weighty = 0.5D;
+    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
+    jPanel.add((Component)waveletPaneView);
+
+    // 再構成した画像のパネルのレイアウト構成
     waveletPaneModel = new WaveletPaneModel(bufferedImage4, "Recomposed Coefficients");
     waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 0;
     gridBagConstraints.gridy = 1;
     gridBagConstraints.weightx = 0.66D;
-    gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
-
-    // ウェーブレット係数のパネルのレイアウト構成
-    waveletPaneModel = new WaveletPaneModel(bufferedImage3, "Wavelet Coefficients");
-    waveletPaneView = new WaveletPaneView(waveletPaneModel);
-    gridBagConstraints.gridx = 1;
-    gridBagConstraints.gridy = 1;
-    gridBagConstraints.weightx = 0.33D;
     gridBagConstraints.weighty = 0.5D;
     gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
     jPanel.add((Component)waveletPaneView);
@@ -130,7 +130,7 @@ public class Example1d extends Object {
    * パネルを開いて表示
    */
   protected static void open(JPanel paramJPanel) {
-    // タイトルをWavelet Example (1D)にしてフレームを用意
+    // タイトルをWavelet Example (1D）にしてフレームを用意
     JFrame jFrame = new JFrame("Wavelet Example (1D)");
 
     // paramJPanelをJFrameの表示エリアに追加する
@@ -147,7 +147,7 @@ public class Example1d extends Object {
     // ウィンドウの最小サイズを設定
     jFrame.setMinimumSize(new Dimension(400, 200 + i));
 
-    // ウィンドウのリサイズを可能
+    // ウィンドウのリサイズを可能にする
     jFrame.setResizable(true);
 
     // 初期サイズを設定
@@ -168,8 +168,8 @@ public class Example1d extends Object {
   
   /**
    * 画像ファイルを保存
-   * @param str：ファイル名の連番（001, 002, 003,,）
-   *        file：書き出す用のファイル
+   * @param fileNumber ファイル名の連番（001, 002, 003,,）
+   * @param file 書き出す用のファイル
    */
   protected static void write(BufferedImage paramBufferedImage) {
     // 処理する画像を束縛
@@ -189,7 +189,7 @@ public class Example1d extends Object {
 
   /**
    * ファイルが存在するかの条件分岐
-   * @param file：書き出す用のファイル
+   * @param file 書き出す用のファイル
    */
   private void ifThenElse(File file)
   {
