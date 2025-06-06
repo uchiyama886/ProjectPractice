@@ -22,6 +22,7 @@ public class WaveletPaneController extends PaneController implements ActionListe
 	 * モデルにアクションイベントを転送します。
 	 * @param anActionEvent アクションイベント
 	 */
+	// ActionListenerをimportしているのでオーバーライドできる
 	@Override
 	public void actionPerformed(ActionEvent anActionEvent) {
 
