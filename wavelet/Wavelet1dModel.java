@@ -76,8 +76,8 @@ public class Wavelet1dModel extends WaveletModel {
      * Altキーが押されているかどうかに応じて、係数を0にするか元の値に戻すかを決定する。
      */
 	public void computeFromPoint(Point aPoint, boolean isAltDown) {
-		int maxIndex = this.interactiveWaveletCoefficients.length - 1;	// 係数配列の最大インデックス
-		int coefficientIndex = Math.min(Math.max(aPoint.x / scaleFactor.x, 0), maxIndex);	// クリック位置から係数インデックスを計算
+		Integer maxIndex = this.interactiveWaveletCoefficients.length - 1;	// 係数配列の最大インデックス
+		Integer coefficientIndex = Math.min(Math.max(aPoint.x / scaleFactor.x, 0), maxIndex);	// クリック位置から係数インデックスを計算
 		// Altキーの状態に応じて係数を設定
 		if (isAltDown) {
 		this.interactiveWaveletCoefficients[coefficientIndex] = 0.0D;	// Altキーが押されていれば0に設定
@@ -163,9 +163,9 @@ public class Wavelet1dModel extends WaveletModel {
      * データは折れ線グラフとして描画される。
      */
 	public static BufferedImage generateImage(double[] valueCollection) {
-        int dataLength = valueCollection.length; // データコレクションの要素数
-        int imageWidth = (int) Math.round(dataLength * scaleFactor.x); // 画像の幅を計算
-        int imageHeight = (int) Math.round(rangeValue * scaleFactor.y); // 画像の高さを計算
+        Integer dataLength = valueCollection.length; // データコレクションの要素数
+        Integer imageWidth = (Integer) Math.round(dataLength * scaleFactor.x); // 画像の幅を計算
+        Integer imageHeight = (Integer) Math.round(rangeValue * scaleFactor.y); // 画像の高さを計算
         BufferedImage bufferedImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB); // RGBタイプの画像を生成
         Graphics2D graphics2D = bufferedImage.createGraphics(); // Graphics2Dオブジェクトを取得
 
@@ -179,8 +179,8 @@ public class Wavelet1dModel extends WaveletModel {
         IntStream.range(0, dataLength)
                 .forEach(dataIndex -> {
                     double dataValue = valueCollection[dataIndex]; // 現在のデータ値
-                    int plotX = (int) Math.round(dataIndex * scaleFactor.x + scaleFactor.x / 2.0D); // X座標を計算
-                    int plotY = (int) Math.round((0.0D - dataValue) * scaleFactor.y + imageHeight / 2.0D); // Y座標を計算 (Y軸反転)
+                    Integer plotX = (Integer) Math.round(dataIndex * scaleFactor.x + scaleFactor.x / 2.0D); // X座標を計算
+                    Integer plotY = (Integer) Math.round((0.0D - dataValue) * scaleFactor.y + imageHeight / 2.0D); // Y座標を計算 (Y軸反転)
                     Rectangle rectangle = new Rectangle(plotX, plotY, 1, 1); // 1x1の四角形を作成
                     rectangle.grow(2, 2); // 四角形を拡大
                     graphics2D.setColor(Color.black); // 黒で描画色を設定
@@ -219,7 +219,7 @@ public class Wavelet1dModel extends WaveletModel {
 
         // 各WaveletPaneViewの配置と追加（コードの重複を避けるため、ここでは簡略化。実際には共通メソッド化を検討）
 
-        // Source Coefficients Pane
+        // ソース係数Pane
         WaveletPaneView waveletPaneViewSource = new WaveletPaneView(this.sourceCoefficientsPaneModel);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -228,7 +228,7 @@ public class Wavelet1dModel extends WaveletModel {
         gridBagLayout.setConstraints(waveletPaneViewSource, gridBagConstraints);
         jPanel.add(waveletPaneViewSource);
 
-        // Scaling Coefficients Pane (Top Right)
+        // スケーリング係数Pane　（右上）
         WaveletPaneView waveletPaneViewScalingTop = new WaveletPaneView(this.scalingCoefficientsPaneModel);
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -237,7 +237,7 @@ public class Wavelet1dModel extends WaveletModel {
         gridBagLayout.setConstraints(waveletPaneViewScalingTop, gridBagConstraints);
         jPanel.add(waveletPaneViewScalingTop);
 
-        // Wavelet Coefficients Pane
+        // Wavelet係数Pane
         WaveletPaneView waveletPaneViewWavelet = new WaveletPaneView(this.waveletCoefficientsPaneModel);
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -246,7 +246,7 @@ public class Wavelet1dModel extends WaveletModel {
         gridBagLayout.setConstraints(waveletPaneViewWavelet, gridBagConstraints);
         jPanel.add(waveletPaneViewWavelet);
 
-        // Recomposed Coefficients Pane
+        // 再構成係数Pane
         WaveletPaneView waveletPaneViewRecomposed = new WaveletPaneView(this.recomposedCoefficientsPaneModel);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -255,7 +255,7 @@ public class Wavelet1dModel extends WaveletModel {
         gridBagLayout.setConstraints(waveletPaneViewRecomposed, gridBagConstraints);
         jPanel.add(waveletPaneViewRecomposed);
 
-        // Scaling Coefficients Pane (Bottom Middle - Appears to be a duplicate or intended for a different purpose, keeping as is)
+        // スケーリング係数Pane
         WaveletPaneView waveletPaneViewScalingBottom = new WaveletPaneView(this.scalingCoefficientsPaneModel);
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -264,7 +264,7 @@ public class Wavelet1dModel extends WaveletModel {
         gridBagLayout.setConstraints(waveletPaneViewScalingBottom, gridBagConstraints);
         jPanel.add(waveletPaneViewScalingBottom);
 
-        // Interactive Wavelet Coefficients Pane
+        // インタラクティブウェーブレット係数Pane
         WaveletPaneView waveletPaneViewInteractive = new WaveletPaneView(this.interactiveWaveletCoefficientsPaneModel);
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -278,7 +278,7 @@ public class Wavelet1dModel extends WaveletModel {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // クローズボタンでアプリケーションを終了
         jFrame.pack(); // コンポーネントの推奨サイズに合わせてフレームのサイズを調整 (addNotify()の代わりにpack()を推奨)
         // jFrame.addNotify(); // レガシーな呼び出し、pack()で通常不要
-        int i = jFrame.getInsets().top; // フレームの上部インセットを取得
+        Integer i = jFrame.getInsets().top; // フレームの上部インセットを取得
         jFrame.setMinimumSize(new Dimension(500, 200 + i)); // 最小サイズを設定
         jFrame.setResizable(true); // リサイズ可能に設定
         jFrame.setSize(1000, 400 + i); // サイズを設定
@@ -343,8 +343,8 @@ public class Wavelet1dModel extends WaveletModel {
      * メニューアイテムにアクションリスナーを設定する。
      */
 	public void showPopupMenu(MouseEvent aMouseEvent, WaveletPaneController aController) {
-        int mouseX = aMouseEvent.getX(); // マウスイベントのX座標
-        int mouseY = aMouseEvent.getY(); // マウスイベントのY座標
+        Integer mouseX = aMouseEvent.getX(); // マウスイベントのX座標
+        Integer mouseY = aMouseEvent.getY(); // マウスイベントのY座標
         Cursor defaultCursor = Cursor.getDefaultCursor(); // デフォルトのカーソルを取得
         Component eventComponent = aMouseEvent.getComponent(); // イベント発生元のコンポーネントを取得
         eventComponent.setCursor(defaultCursor); // コンポーネントのカーソルをデフォルトに戻す
