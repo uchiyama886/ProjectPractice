@@ -89,8 +89,8 @@ public class Example1d extends Object {
     gridBagConstraints.gridy = 0;
     gridBagConstraints.weightx = 0.67D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints(waveletPaneView, gridBagConstraints);
+    jPanel.add(waveletPaneView);
 
     // スケーリング係数の画像のパネルのレイアウト構成
     waveletPaneModel = new WaveletPaneModel(bufferedImage2, "Scaling Coefficients");
@@ -99,18 +99,18 @@ public class Example1d extends Object {
     gridBagConstraints.gridy = 0;
     gridBagConstraints.weightx = 0.33D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
+    gridBagLayout.setConstraints(waveletPaneView, gridBagConstraints);
     jPanel.add((Component)waveletPaneView);
 
 	// ウェーブレット係数のパネルのレイアウト構成
-    waveletPaneModel = 画像のnew WaveletPaneModel(bufferedImage3, "Wavelet Coefficients");
+    waveletPaneModel = new WaveletPaneModel(bufferedImage3, "Wavelet Coefficients");
     waveletPaneView = new WaveletPaneView(waveletPaneModel);
     gridBagConstraints.gridx = 1;
     gridBagConstraints.gridy = 1;
     gridBagConstraints.weightx = 0.33D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints(waveletPaneView, gridBagConstraints);
+    jPanel.add(waveletPaneView);
 
     // 再構成した画像のパネルのレイアウト構成
     waveletPaneModel = new WaveletPaneModel(bufferedImage4, "Recomposed Coefficients");
@@ -119,8 +119,8 @@ public class Example1d extends Object {
     gridBagConstraints.gridy = 1;
     gridBagConstraints.weightx = 0.66D;
     gridBagConstraints.weighty = 0.5D;
-    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);
-    jPanel.add((Component)waveletPaneView);
+    gridBagLayout.setConstraints(waveletPaneView, gridBagConstraints);
+    jPanel.add(waveletPaneView);
 
     // パネルを可視化
     open(jPanel);
@@ -178,7 +178,7 @@ public class Example1d extends Object {
     // if (!file.exists()) file.mkdir(); 
 
     // ファイルが存在するか
-    this.ifThenElse(file);
+    ifThenElse(file);
 
     // ファイル名の作成（連番）
     String fileNumber = String.format("%03d", fileNo++);
@@ -191,7 +191,7 @@ public class Example1d extends Object {
    * ファイルが存在するかの条件分岐
    * @param file 書き出す用のファイル
    */
-  private void ifThenElse(File file)
+  private static void ifThenElse(File file)
   {
     // ファイルが存在しないならディレクトリを作成する
     if(!file.exists()) {file.mkdir();}

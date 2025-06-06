@@ -3,7 +3,6 @@ package wavelet;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import mvc.Model;
 
 /**
  * ウェーブレット処理のロジックを担当するモデルクラスです。
@@ -17,6 +16,7 @@ public class WaveletModel extends Model {
 	/**
 	 * アクションイベントに対する処理を行う。
 	 * GUIイベントなどのアクションに応答するために使用される。
+	 * 
 	 * @param anActionEvent 実行されたアクションイベント
 	 */
 	public void actionPerformed(ActionEvent anActionEvent) {
@@ -26,7 +26,8 @@ public class WaveletModel extends Model {
 	/**
 	 * 指定されたポイントからウェーブレット処理を開始する。
 	 * Altキーの押下状態に応じて処理内容が変わる可能性がある。
-	 * @param aPoint 入力ポイント（座標）
+	 * 
+	 * @param aPoint    入力ポイント（座標）
 	 * @param isAltDown Altキーが押されているかどうか
 	 */
 	public void computeFromPoint(Point aPoint, boolean isAltDown) {
@@ -43,7 +44,8 @@ public class WaveletModel extends Model {
 
 	/**
 	 * マウスクリックイベントに対する処理を行う。
-	 * @param aPoint クリックされた位置
+	 * 
+	 * @param aPoint      クリックされた位置
 	 * @param aMouseEvent 発生したマウスイベント
 	 */
 	public void mouseClicked(Point aPoint, MouseEvent aMouseEvent) {
@@ -52,7 +54,8 @@ public class WaveletModel extends Model {
 
 	/**
 	 * マウスドラッグイベントに対する処理を行う。
-	 * @param aPoint ドラッグ中の位置
+	 * 
+	 * @param aPoint      ドラッグ中の位置
 	 * @param aMouseEvent 発生したマウスイベント
 	 */
 	public void mouseDragged(Point aPoint, MouseEvent aMouseEvent) {
@@ -68,10 +71,11 @@ public class WaveletModel extends Model {
 
 	/**
 	 * ポップアップメニューを表示する。
+	 * 
 	 * @param aMouseEvent トリガーとなるマウスイベント
-	 * @param aController ポップアップの制御に使用される情報（IDや状態など）
+	 * @param aController ポップアップの制御用コントローラ
 	 */
-	public void showPopupMenu(MouseEvent aMouseEvent, int aController) {
-
+	public void showPopupMenu(MouseEvent aMouseEvent, WaveletPaneController aController) {
+		// デフォルトは何もしない。必要に応じてオーバーライド。
 	}
 }
