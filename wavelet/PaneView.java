@@ -9,14 +9,7 @@ import java.lang.ModuleLayer.Controller;
 
 import javax.swing.JPanel;
 
-public class PaneView extends JPanel{
-
-    // ビューに対応するデータ
-    protected Model model;
-    // イベント処理をするコントローラ
-    protected Controller controller;
-    // 画像を描画する場所を決める
-    private Point offset;
+public class PaneView extends JPanel {
 
     /* PaneView */
     // 画像の表示開始位置
@@ -25,19 +18,7 @@ public class PaneView extends JPanel{
     private Point2D.Double scaleFactor;
 
     public PaneView(PaneModel aPaneModel, PaneController aPaneController) {
-        // モデルを受け取る
-        this.model = aPaneModel;
-        // モデルにこのビューを依存先として登録
-        this.model.addDependent(this);
-        // 外部から渡されたコントローラを用いる
-        this.controller = aPaneController;
-        // コントローラにモデルを設定
-        this.controller.setModel(this.model);
-        // コントローラにビューを渡す
-        this.controller.setView(this);
-        // 初期のスクロール位置を設定
-        this.offset = new Point(0, 0);
-
+        super(aPaneModel, aPaneController);
         intialize();// 初期化
     }
 
@@ -76,46 +57,42 @@ public class PaneView extends JPanel{
         double d2 = (paramPoint.y - this.originPoint.y) / this.scaleFactor.y;
         int i = (int) d1;
         int j = (int) d2;
-        if (i < 0)
-            return null;
-        if (j < 0)
-            return null;
+
         // 画像をリサイズするユーティリティクラスを使って画像を変形
         int k = bufferedImage.getWidth();
         int m = bufferedImage.getHeight();
-        return (i > k) ? null : ((j > m) ? null : new Point(i, j));
+        return (i < 0 || j < 0 || i > k || j > m) ? null : new Point(i, j);
     }
 
-    public void paintComponent(Graphics paramGraphics) {
+    public void paintComponent(Graphics aGraphics) {
         int i = getWidth();
         int j = getHeight();
-        paramGraphics.setColor(Color.white);// 背景を白に
-        paramGraphics.fillRect(0, 0, i, j);
-        if (this.model == null)
-            return;
-        BufferedImage bufferedImage = this.model.picture();// モデルから画像所得
-        if (bufferedImage == null)
-            return;
-        int k = bufferedImage.getWidth();
-        int m = bufferedImage.getHeight();
-        // アスペクト比を維持して画像サイズを決定
-        double d1 = i / k;
-        double d2 = j / m;
-        if (d1 > d2) {
-            d1 = d2;
-        } else {
-            d2 = d1;
+        // 背景を白に
+        aGraphics.setColor(Color.white);
+        aGraphics.fillRect(0, 0, i, j);
+        BufferedImage bufferedImage = (model == null) ? null : model.picture();
+
+        // false なら return
+        while (bufferedImage != null) {
+            int k = bufferedImage.getWidth();
+            int m = bufferedImage.getHeight();
+            // アスペクト比を維持して画像サイズを決定
+            double d1 = (double) i / k;
+            double d2 = (double) j / m;
+            double scale = (d1 > d2) ? d2 : d1;
+
+            this.scaleFactor = new Point2D.Double(scale, scale);
+            k = (int) (k * scale);
+            m = (int) (m * scale);
+            // 画像をリサイズ
+            bufferedImage = ImageUtility.adjustImage(bufferedImage, k, m);
+            double x = (i - k) / 2.0;
+            double y = (j - m) / 2.0;
+            // 画像をパネル中央に配置
+            this.originPoint = new Point2D.Double(x, y);
+            aGraphics.drawImage(bufferedImage, (int) x, (int) y, null);
+            break;// whileは1回のみ
         }
-        this.scaleFactor = new Point2D.Double(d1, d2);
-        k = (int) (k * d1);
-        m = (int) (m * d2);
-        // 画像をリサイズ
-        bufferedImage = ImageUtility.adjustImage(bufferedImage, k, m);
-        d1 = (i - k) / 2.0D;
-        d2 = (j - m) / 2.0D;
-        // 画像をパネル中央に配置
-        this.originPoint = new Point2D.Double(d1, d2);
-        paramGraphics.drawImage(bufferedImage, (int) d1, (int) d2, null);// 描画
     }
 
     // スクロール関連
