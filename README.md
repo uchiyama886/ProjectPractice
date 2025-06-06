@@ -34,7 +34,7 @@ git push origin 作成したブランチ名
 
 4. 「compare:」を自分のブランチ(今回はworking-ryo)に変更
   <img width="1409" alt="スクリーンショット 2025-05-23 14 31 55" src="https://github.com/user-attachments/assets/f2814cd5-cf75-4d6f-a60f-4ebbee78bcb8" />
-     - 「base:」はmainのままにしておく
+     - 「base:」は必ず「dev」にする
 
 5. 「Create pull request」ボタンをクリック
   <img width="1407" alt="スクリーンショット 2025-05-23 14 32 37" src="https://github.com/user-attachments/assets/69a84f07-17ea-4ea3-a5ec-6c90b1ac67ff" />
