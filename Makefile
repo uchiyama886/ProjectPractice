@@ -26,10 +26,6 @@ wipe: clean
 zip:
 	$(ANT) zip
 
-# zip: wipe
-# 	@find . -exec touch -t `date "+%Y%m%d%H%M"` {} \; ; xattr -cr .
-# 	(cd ../ ; zip -r ./$(ARCHIVE).zip ./$(ARCHIVE)/ --exclude='*/.svn/*')
-
 format:
 	@rm -f $(STYLE_CONF) ; ln -s $(STYLE_YAML) $(STYLE_CONF)
 	for each in $(SOURCES) ; do echo ---[$${each}]--- ; clang-format -style=file $${each} ; echo ; done
