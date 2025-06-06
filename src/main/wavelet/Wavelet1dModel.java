@@ -19,7 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-/*
+/**
  * 1次ウェーブレット変換のモデルクラス。
  * データの変換、表示、およびユーザーインタラクションによる操作を管理する
 */
@@ -43,14 +43,14 @@ public class Wavelet1dModel extends WaveletModel {
 	private static Point scaleFactor = new Point(10, 100);	// 描画時のスケールファクター
 	private static double rangeValue = 2.8d;	// 描画範囲の値
 
-    /*
+    /**
      * 初期状態でサンプル係数を生成し、設定する。
      */
 	public Wavelet1dModel() {
 		doSampleCoefficients();	// サンプル係数を初期化
 	}
 
-    /*
+    /**
      * アクションイベントを処理する。
      * イベントコマンドに基づいて異なる係数操作を実行する。
      */
@@ -71,7 +71,7 @@ public class Wavelet1dModel extends WaveletModel {
 		}
 	}
 
-    /*
+    /**
      * 指定されたポイントに基づいて、インタラクティブなウェーブレット係数を計算する。
      * Altキーが押されているかどうかに応じて、係数を0にするか元の値に戻すかを決定する。
      */
@@ -87,7 +87,7 @@ public class Wavelet1dModel extends WaveletModel {
 		computeRecomposedCoefficients();	// 再構成された係数を計算し、更新
 	}
 
-    /*
+    /**
      * インタラクティブなウェーブレット係数から信号を再構成し、
      * 関連するペインモデルを更新する。
      */
@@ -107,7 +107,7 @@ public class Wavelet1dModel extends WaveletModel {
 		this.recomposedCoefficientsPaneModel.changed();
 	}
 
-    /*
+    /**
      * サンプルの係数データを生成して返す。
      * 特定のパターンを持つダブル配列を生成する。
      */
@@ -126,7 +126,7 @@ public class Wavelet1dModel extends WaveletModel {
         return arrayOfDouble; // 生成されたサンプル係数配列を返す
 	}
 
-    /*
+    /**
      * 全てのウェーブレット係数をインタラクティブな係数にコピーする。
      */
 	public void doAllCoefficients() {
@@ -136,7 +136,7 @@ public class Wavelet1dModel extends WaveletModel {
         computeRecomposedCoefficients(); // 再構成された係数を計算し、更新
 	}
 
-    /*
+    /**
      * インタラクティブなウェーブレット係数を全てクリア（0に設定）する。
      */
 	public void doClearCoefficients() {
@@ -144,21 +144,21 @@ public class Wavelet1dModel extends WaveletModel {
         computeRecomposedCoefficients(); // 再構成された係数を計算し、更新
 	}
 
-    /*
+    /**
      * サンプル係数を生成し、現在のソースデータとして設定する。
      */
 	public void doSampleCoefficients() {
         setSourceData(dataSampleCoefficients()); // サンプル係数を生成し、ソースデータとして設定
 	}
 
-    /*
+    /**
      * 指定された配列を特定の値で埋める。
      */
 	public static void fill(double[] anArray, double aValue) {
         Arrays.fill(anArray, aValue); // Arrays.fillメソッドを使用して配列を埋める
 	}
 
-    /*
+    /**
      * double配列のデータから画像を生成する。
      * データは折れ線グラフとして描画される。
      */
@@ -190,7 +190,7 @@ public class Wavelet1dModel extends WaveletModel {
         return bufferedImage; // 生成された画像を返す
 	}
 
-    /*
+    /**
      * マウスクリックイベントを処理する。
      * クリックされた点に基づいてインタラクティブな係数を更新する。
      */
@@ -198,7 +198,7 @@ public class Wavelet1dModel extends WaveletModel {
         computeFromPoint(aPoint, aMouseEvent.isAltDown()); // ポイントとAltキーの状態に基づいて係数を計算
 	}
 
-    /*
+    /**
      * マウスドラッグイベントを処理する。
      * ドラッグされた点に基づいてインタラクティブな係数を継続的に更新する。
      */
@@ -206,7 +206,7 @@ public class Wavelet1dModel extends WaveletModel {
         computeFromPoint(aPoint, aMouseEvent.isAltDown()); // ポイントとAltキーの状態に基づいて係数を計算
 	}
 
-    /*
+    /**
      * アプリケーションのメインウィンドウを開き、UIコンポーネントを配置する。
      */
 	public void open() {
@@ -287,8 +287,8 @@ public class Wavelet1dModel extends WaveletModel {
         jFrame.toFront(); // フレームを最前面に表示
 	}
 
-    /*
-     * ソースデータを設定し、ウェーブレット変換を実行して、関連するペインモデルを更新する。
+    /**
+     *  ソースデータを設定し、ウェーブレット変換を実行して、関連するペインモデルを更新する。
      */
 	public void setSourceData(double[] sourceDataArray) {
 		        this.sourceCoefficients = sourceDataArray; // ソースデータを設定
@@ -338,7 +338,7 @@ public class Wavelet1dModel extends WaveletModel {
 		this.recomposedCoefficientsPaneModel.changed();
 	}
 
-    /*
+    /**
      * ポップアップメニューを表示する。
      * メニューアイテムにアクションリスナーを設定する。
      */
