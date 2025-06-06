@@ -15,7 +15,8 @@ public class PaneModel extends Model {
   /**
    * デフォルトコンストラクタ。
    */
-  public PaneModel() {}
+  public PaneModel() {
+  }
 
   /**
    * ファイル名を指定して画像を読み込み、モデルにセットするコンストラクタ。
@@ -39,7 +40,7 @@ public class PaneModel extends Model {
   /**
    * マウスがクリックされたときに呼び出されるメソッド。
    * 現在はクリック位置を標準出力に表示するだけのデバッグ用実装。
-   * @param paramPoint クリックされた座標
+   * @param paramPoint      クリックされた座標
    * @param paramMouseEvent マウスイベントオブジェクト
    */
   public void mouseClicked(Point paramPoint, MouseEvent paramMouseEvent) {
@@ -49,7 +50,7 @@ public class PaneModel extends Model {
   /**
    * マウスがドラッグされたときに呼び出されるメソッド。
    * 現在はドラッグ位置を標準出力に表示するだけのデバッグ用実装。
-   * @param paramPoint ドラッグされた座標
+   * @param paramPoint      ドラッグされた座標
    * @param paramMouseEvent マウスイベントオブジェクト
    */
   public void mouseDragged(Point paramPoint, MouseEvent paramMouseEvent) {
