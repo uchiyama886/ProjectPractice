@@ -1,9 +1,9 @@
-package pane;
+package wavelet;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import mvc.Model;
+import wavelet.Model;
 import utility.ImageUtility;
 
 /**
@@ -20,6 +20,7 @@ public class PaneModel extends Model {
 
   /**
    * ファイル名を指定して画像を読み込み、モデルにセットするコンストラクタ。
+   * 
    * @param paramString 画像ファイルのパス（文字列）
    */
   public PaneModel(String paramString) {
@@ -31,6 +32,7 @@ public class PaneModel extends Model {
 
   /**
    * 画像を直接指定してモデルにセットするコンストラクタ。
+   * 
    * @param paramBufferedImage セットする画像
    */
   public PaneModel(BufferedImage paramBufferedImage) {
@@ -40,6 +42,7 @@ public class PaneModel extends Model {
   /**
    * マウスがクリックされたときに呼び出されるメソッド。
    * 現在はクリック位置を標準出力に表示するだけのデバッグ用実装。
+   * 
    * @param paramPoint      クリックされた座標
    * @param paramMouseEvent マウスイベントオブジェクト
    */
@@ -50,6 +53,7 @@ public class PaneModel extends Model {
   /**
    * マウスがドラッグされたときに呼び出されるメソッド。
    * 現在はドラッグ位置を標準出力に表示するだけのデバッグ用実装。
+   * 
    * @param paramPoint      ドラッグされた座標
    * @param paramMouseEvent マウスイベントオブジェクト
    */

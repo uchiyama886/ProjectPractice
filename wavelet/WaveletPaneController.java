@@ -3,13 +3,12 @@ package wavelet;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import pane.PaneController;
 
 public class WaveletPaneController extends PaneController implements ActionListener {
 
 	// ポップアップメニュー(右クリックメニュー)が表示中かどうかを表すフラグ
 	private boolean isMenuPopuping = false;
-	
+
 	/**
 	 * 上位コンストラクタを継承するただけのコンストラクタ。
 	 */
@@ -20,16 +19,14 @@ public class WaveletPaneController extends PaneController implements ActionListe
 	/**
 	 * アクションイベントが発生したときに呼び出されます。
 	 * モデルにアクションイベントを転送します。
+	 * 
 	 * @param anActionEvent アクションイベント
 	 */
 	@Override
 	public void actionPerformed(ActionEvent anActionEvent) {
 
-		// アクションコマンド文字列を取得(デバック用)
-		String string = anActionEvent.getActionCommand();
-
 		// modelをWaveletPaneModel にキャスト
-		WaveletPaneModel aWaveletPaneModel = (WaveletPaneModel)this.model;
+		WaveletPaneModel aWaveletPaneModel = (WaveletPaneModel) this.model;
 
 		// aWaveletPaneModelのactionPerformedメソッドを呼び出し、イベント処理を委譲
 		aWaveletPaneModel.actionPerformed(anActionEvent);
@@ -42,7 +39,7 @@ public class WaveletPaneController extends PaneController implements ActionListe
 		if (this.isMenuPopuping) {
 			this.isMenuPopuping = false;
 			return;
-		} 
+		}
 		super.mouseClicked(aMouseEvent);
 	}
 
@@ -51,7 +48,7 @@ public class WaveletPaneController extends PaneController implements ActionListe
 	public void mouseDragged(MouseEvent aMouseEvent) {
 		// メニューをポップアップ中のときのとき、親クラスを呼ばない
 		if (this.isMenuPopuping)
-			return; 
+			return;
 		super.mouseDragged(aMouseEvent);
 	}
 
@@ -73,7 +70,7 @@ public class WaveletPaneController extends PaneController implements ActionListe
 			showPopupMenu(aMouseEvent);
 		} else {
 			this.isMenuPopuping = false;
-		} 
+		}
 	}
 
 	@Override
@@ -86,10 +83,8 @@ public class WaveletPaneController extends PaneController implements ActionListe
 
 	@Override
 	public void showPopupMenu(MouseEvent aMouseEvent) {
-		WaveletPaneModel waveletPaneModel = (WaveletPaneModel)this.model;
+		WaveletPaneModel waveletPaneModel = (WaveletPaneModel) this.model;
 		waveletPaneModel.showPopupMenu(aMouseEvent, this);
 		this.isMenuPopuping = true;
 	}
 }
-
-

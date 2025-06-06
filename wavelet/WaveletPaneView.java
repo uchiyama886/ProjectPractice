@@ -5,15 +5,19 @@ import java.awt.Graphics;
 public class WaveletPaneView extends PaneView {
 
 	public WaveletPaneView(WaveletPaneModel aModel) {
-
+		super(aModel);
 	}
 
 	public WaveletPaneView(WaveletPaneModel aModel, WaveletPaneController aController) {
-
+		super(aModel, aController);
 	}
 
-	public void paintComponent(Graphics aGraohics) {
-
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (model.picture() != null) {
+			g.drawImage(model.picture(), 0, 0, getWidth(), getHeight(), null);
+		}
 	}
 
 }

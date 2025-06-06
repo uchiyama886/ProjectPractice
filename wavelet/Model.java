@@ -1,6 +1,7 @@
-package mvc;
+package wavelet;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public class Model {
 
   // このモデルに依存しているビュー(View)の一覧を保持するリスト
-  protected ArrayList<View> dependents;
+  protected List<View> dependents;
 
   // モデルが保持している画像データ
   private BufferedImage picture;
@@ -26,8 +27,9 @@ public class Model {
 
   // モデルが変更されたとき、登録されている全ての View に更新を通知する
   public void changed() {
-    Consumer<Object> aConsumer=(view -> view.update());
-    this.dependents.forEach(aConsumer);
+    for (View v : this.dependents) {
+      v.update();
+    }
   }
 
   // モデルの内部状態（依存ビューリストと画像）を初期化
@@ -37,7 +39,8 @@ public class Model {
   }
 
   // モデルに対して操作を行うメソッド（空実装）
-  public void perform() {}
+  public void perform() {
+  }
 
   // 現在保持している画像（picture）を返すメソッド
   public BufferedImage picture() {
@@ -52,12 +55,12 @@ public class Model {
   // モデルの文字列表現を返す
   @Override
   public String toString() {
-    StringBuffer stringBuffer = new StringBuffer();  // 文字列を効率よく連結するためのバッファ
-    Class<?> clazz = getClass();                     // このクラスの実行時クラスを取得
-    stringBuffer.append(clazz.getName());            // クラス名を追加
-    stringBuffer.append("[picture=");                // ラベル文字列
-    stringBuffer.append(this.picture);               // picture の中身を追加（null か画像情報）
-    stringBuffer.append("]");                        // 閉じる
-    return stringBuffer.toString();                  // 完成した文字列を返す
+    StringBuffer stringBuffer = new StringBuffer(); // 文字列を効率よく連結するためのバッファ
+    Class<?> clazz = getClass(); // このクラスの実行時クラスを取得
+    stringBuffer.append(clazz.getName()); // クラス名を追加
+    stringBuffer.append("[picture="); // ラベル文字列
+    stringBuffer.append(this.picture); // picture の中身を追加（null か画像情報）
+    stringBuffer.append("]"); // 閉じる
+    return stringBuffer.toString(); // 完成した文字列を返す
   }
 }
