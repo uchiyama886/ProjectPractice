@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="MVC" default="all" basedir=".">
+<project name="Wavelet" default="all" basedir=".">
 
+	<property name="mvc" value="mvc" /> 
 	<property name="package" value="wavelet" />
-	<property name="condition" value="condition" />
-	<property name="packagenames" value="${package},${condition}" />
+	<property name="utility" value="utility" />
+	<property name="pane" value="pane" />
+	<property name="packagenames" value="${package},${mvc},${utility},${pane}" />
+
 	<property name="destdir" value="./Classes" />
 	<property name="docdir" value="./JavaDoc" />
 	<property name="instdir" value="./${ant.project.name}.app/Contents/Resources/Java" />
@@ -33,7 +36,6 @@
 			<compilerarg value="-Xlint:all" />
 			<classpath>
 				<pathelement location="." />
-				<pathelement location="${condition}.jar" />
 			</classpath>
 		</javac>
 		<exec executable="date" spawn="false" />
@@ -43,7 +45,7 @@
 		<jar
 			destfile="${destdir}/${package}.jar"
 			basedir="${destdir}"
-			includes="*.class"
+			includes="**/*.class"
 		>
 			<manifest>
 				<attribute name="Project" value="XX"  />
@@ -61,13 +63,9 @@
 
 	<target name="clean" description="cleaning">
 		<delete dir="${destdir}" />
-		<delete file="${package}.jar" />
 		<delete dir="${docdir}" />
 		<delete dir="${instdir}" />
 		<delete file="../${zipname}.zip" />
-		<delete>
-			<fileset dir="${package}" includes="*.class" />
-		</delete>
 		<exec executable="date" spawn="false" />
 	</target>
 
@@ -105,7 +103,6 @@
 			<bottom>${copyright}</bottom>
 			<classpath>
 				<pathelement location="." />
-				<pathelement location="${condition}.jar" />
 			</classpath>
 		</javadoc>
 		<exec executable="open">
