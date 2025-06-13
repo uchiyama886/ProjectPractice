@@ -10,10 +10,12 @@ public class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformati
   protected double[] recomposedCoefficients;
   
   public DiscreteWavelet1dTransformation(double[] paramArrayOfdouble) {
+    initialize();
     sourceCoefficients(paramArrayOfdouble);
   }
   
   public DiscreteWavelet1dTransformation(double[] paramArrayOfdouble1, double[] paramArrayOfdouble2) {
+    initialize();
     scalingCoefficients(paramArrayOfdouble1);
     waveletCoefficients(paramArrayOfdouble2);
   }
