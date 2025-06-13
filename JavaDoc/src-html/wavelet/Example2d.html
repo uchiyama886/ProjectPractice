@@ -17,51 +17,133 @@
 <span class="source-line-no">004</span><span id="line-4">import javax.swing.JPanel;</span>
 <span class="source-line-no">005</span><span id="line-5">import java.awt.image.BufferedImage;</span>
 <span class="source-line-no">006</span><span id="line-6"></span>
-<span class="source-line-no">007</span><span id="line-7">public class Example2d extends Object {</span>
-<span class="source-line-no">008</span><span id="line-8"></span>
-<span class="source-line-no">009</span><span id="line-9">        private static int fileNo = 100;</span>
-<span class="source-line-no">010</span><span id="line-10"></span>
-<span class="source-line-no">011</span><span id="line-11">        private static Point displayPoint = new Point(130, 50);</span>
-<span class="source-line-no">012</span><span id="line-12"></span>
-<span class="source-line-no">013</span><span id="line-13">        private static Point offsetPoint = new Point(25, 25);</span>
-<span class="source-line-no">014</span><span id="line-14"></span>
-<span class="source-line-no">015</span><span id="line-15">        public static void main(String[] arguments) {</span>
-<span class="source-line-no">016</span><span id="line-16"></span>
-<span class="source-line-no">017</span><span id="line-17">        }</span>
-<span class="source-line-no">018</span><span id="line-18"></span>
-<span class="source-line-no">019</span><span id="line-19">        protected static void example1() {</span>
-<span class="source-line-no">020</span><span id="line-20"></span>
-<span class="source-line-no">021</span><span id="line-21">        }</span>
-<span class="source-line-no">022</span><span id="line-22"></span>
-<span class="source-line-no">023</span><span id="line-23">        protected static void example2() {</span>
-<span class="source-line-no">024</span><span id="line-24"></span>
-<span class="source-line-no">025</span><span id="line-25">        }</span>
-<span class="source-line-no">026</span><span id="line-26"></span>
-<span class="source-line-no">027</span><span id="line-27">        protected static void example3() {</span>
-<span class="source-line-no">028</span><span id="line-28"></span>
-<span class="source-line-no">029</span><span id="line-29">        }</span>
-<span class="source-line-no">030</span><span id="line-30"></span>
-<span class="source-line-no">031</span><span id="line-31">        private static void open(JPanel aPanel) {</span>
-<span class="source-line-no">032</span><span id="line-32"></span>
-<span class="source-line-no">033</span><span id="line-33">        }</span>
-<span class="source-line-no">034</span><span id="line-34"></span>
-<span class="source-line-no">035</span><span id="line-35">        protected static void open(JPanel aPanel, int width, int height) {</span>
-<span class="source-line-no">036</span><span id="line-36"></span>
-<span class="source-line-no">037</span><span id="line-37">        }</span>
-<span class="source-line-no">038</span><span id="line-38"></span>
-<span class="source-line-no">039</span><span id="line-39">        protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) {</span>
-<span class="source-line-no">040</span><span id="line-40">                return null;</span>
-<span class="source-line-no">041</span><span id="line-41">        }</span>
-<span class="source-line-no">042</span><span id="line-42"></span>
-<span class="source-line-no">043</span><span id="line-43">        protected static void perform(double[][][] IrgbSourceCoefficients, String labelString) {</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">        }</span>
-<span class="source-line-no">046</span><span id="line-46"></span>
-<span class="source-line-no">047</span><span id="line-47">        protected static void write(BufferedImage anlmage) {</span>
-<span class="source-line-no">048</span><span id="line-48"></span>
-<span class="source-line-no">049</span><span id="line-49">        }</span>
-<span class="source-line-no">050</span><span id="line-50"></span>
-<span class="source-line-no">051</span><span id="line-51">}</span>
+<span class="source-line-no">007</span><span id="line-7">/**</span>
+<span class="source-line-no">008</span><span id="line-8"> * 2次元離散ウェーブレット変換（2D DWT）の利用例を示すクラスである。</span>
+<span class="source-line-no">009</span><span id="line-9"> * このクラスは、2次元ウェーブレット変換のデモンストレーション、</span>
+<span class="source-line-no">010</span><span id="line-10"> * 結果の表示、および関連するユーティリティメソッドを含む。</span>
+<span class="source-line-no">011</span><span id="line-11"> *</span>
+<span class="source-line-no">012</span><span id="line-12"> * &lt;p&gt;主に静的メソッドで構成され、特定の画像データに対するウェーブレット変換の適用、</span>
+<span class="source-line-no">013</span><span id="line-13"> * 変換結果の可視化、およびファイルへの保存などの機能を提供する。</span>
+<span class="source-line-no">014</span><span id="line-14"> * 本クラスは、プログラムの実行例として利用されることを意図する。&lt;/p&gt;</span>
+<span class="source-line-no">015</span><span id="line-15"> */</span>
+<span class="source-line-no">016</span><span id="line-16">public class Example2d extends Object {</span>
+<span class="source-line-no">017</span><span id="line-17"></span>
+<span class="source-line-no">018</span><span id="line-18">    /**</span>
+<span class="source-line-no">019</span><span id="line-19">     * 出力ファイル名の連番を管理するフィールドである。</span>
+<span class="source-line-no">020</span><span id="line-20">     * 画像ファイルなどを保存する際にファイル名に付加される。</span>
+<span class="source-line-no">021</span><span id="line-21">     */</span>
+<span class="source-line-no">022</span><span id="line-22">    private static int fileNo = 100;</span>
+<span class="source-line-no">023</span><span id="line-23"></span>
+<span class="source-line-no">024</span><span id="line-24">    /**</span>
+<span class="source-line-no">025</span><span id="line-25">     * GUIにおける表示開始位置（X, Y座標）を表すフィールドである。</span>
+<span class="source-line-no">026</span><span id="line-26">     * ウィンドウやパネルの配置に利用される。</span>
+<span class="source-line-no">027</span><span id="line-27">     */</span>
+<span class="source-line-no">028</span><span id="line-28">    private static Point displayPoint = new Point(130, 50);</span>
+<span class="source-line-no">029</span><span id="line-29"></span>
+<span class="source-line-no">030</span><span id="line-30">    /**</span>
+<span class="source-line-no">031</span><span id="line-31">     * GUIにおけるオフセット量（X, Y方向）を表すフィールドである。</span>
+<span class="source-line-no">032</span><span id="line-32">     * 各要素の配置間隔などに利用される。</span>
+<span class="source-line-no">033</span><span id="line-33">     */</span>
+<span class="source-line-no">034</span><span id="line-34">    private static Point offsetPoint = new Point(25, 25);</span>
+<span class="source-line-no">035</span><span id="line-35"></span>
+<span class="source-line-no">036</span><span id="line-36">    /**</span>
+<span class="source-line-no">037</span><span id="line-37">     * メインメソッドである。</span>
+<span class="source-line-no">038</span><span id="line-38">     * プログラムのエントリポイントであり、このクラスの各種デモンストレーション例を呼び出すために使用される。</span>
+<span class="source-line-no">039</span><span id="line-39">     * 現在は実装を持たないが、{@code example1()}, {@code example2()}, {@code example3()}</span>
+<span class="source-line-no">040</span><span id="line-40">     * などのメソッドがここから呼び出されることを想定する。</span>
+<span class="source-line-no">041</span><span id="line-41">     *</span>
+<span class="source-line-no">042</span><span id="line-42">     * @param arguments コマンドライン引数</span>
+<span class="source-line-no">043</span><span id="line-43">     */</span>
+<span class="source-line-no">044</span><span id="line-44">    public static void main(String[] arguments) {</span>
+<span class="source-line-no">045</span><span id="line-45">        // 現在は実装を持たない</span>
+<span class="source-line-no">046</span><span id="line-46">    }</span>
+<span class="source-line-no">047</span><span id="line-47"></span>
+<span class="source-line-no">048</span><span id="line-48">    /**</span>
+<span class="source-line-no">049</span><span id="line-49">     * ウェーブレット変換の利用例1を示すメソッドである。</span>
+<span class="source-line-no">050</span><span id="line-50">     * 具体的な変換処理や表示のデモンストレーションがここに実装されることを想定する。</span>
+<span class="source-line-no">051</span><span id="line-51">     */</span>
+<span class="source-line-no">052</span><span id="line-52">    protected static void example1() {</span>
+<span class="source-line-no">053</span><span id="line-53">        // 実装はサブクラスに委ねられるか、具体的な例が追加されることを想定</span>
+<span class="source-line-no">054</span><span id="line-54">    }</span>
+<span class="source-line-no">055</span><span id="line-55"></span>
+<span class="source-line-no">056</span><span id="line-56">    /**</span>
+<span class="source-line-no">057</span><span id="line-57">     * ウェーブレット変換の利用例2を示すメソッドである。</span>
+<span class="source-line-no">058</span><span id="line-58">     * 具体的な変換処理や表示のデモンストレーションがここに実装されることを想定する。</span>
+<span class="source-line-no">059</span><span id="line-59">     */</span>
+<span class="source-line-no">060</span><span id="line-60">    protected static void example2() {</span>
+<span class="source-line-no">061</span><span id="line-61">        // 実装はサブクラスに委ねられるか、具体的な例が追加されることを想定</span>
+<span class="source-line-no">062</span><span id="line-62">    }</span>
+<span class="source-line-no">063</span><span id="line-63"></span>
+<span class="source-line-no">064</span><span id="line-64">    /**</span>
+<span class="source-line-no">065</span><span id="line-65">     * ウェーブレット変換の利用例3を示すメソッドである。</span>
+<span class="source-line-no">066</span><span id="line-66">     * 具体的な変換処理や表示のデモンストレーションがここに実装されることを想定する。</span>
+<span class="source-line-no">067</span><span id="line-67">     */</span>
+<span class="source-line-no">068</span><span id="line-68">    protected static void example3() {</span>
+<span class="source-line-no">069</span><span id="line-69">        // 実装はサブクラスに委ねられるか、具体的な例が追加されることを想定</span>
+<span class="source-line-no">070</span><span id="line-70">    }</span>
+<span class="source-line-no">071</span><span id="line-71"></span>
+<span class="source-line-no">072</span><span id="line-72">    /**</span>
+<span class="source-line-no">073</span><span id="line-73">     * 指定されたJPanelを開く。</span>
+<span class="source-line-no">074</span><span id="line-74">     * このメソッドは、サイズ指定なしでパネルを開く場合に利用されることを想定する。</span>
+<span class="source-line-no">075</span><span id="line-75">     * 現在は具体的な実装を持たない。</span>
+<span class="source-line-no">076</span><span id="line-76">     *</span>
+<span class="source-line-no">077</span><span id="line-77">     * @param aPanel 開く対象の {@link JPanel}</span>
+<span class="source-line-no">078</span><span id="line-78">     */</span>
+<span class="source-line-no">079</span><span id="line-79">    private static void open(JPanel aPanel) {</span>
+<span class="source-line-no">080</span><span id="line-80">        // 現在は何も行わない</span>
+<span class="source-line-no">081</span><span id="line-81">    }</span>
+<span class="source-line-no">082</span><span id="line-82"></span>
+<span class="source-line-no">083</span><span id="line-83">    /**</span>
+<span class="source-line-no">084</span><span id="line-84">     * 指定されたJPanelを指定された幅と高さで開く。</span>
+<span class="source-line-no">085</span><span id="line-85">     * このメソッドは、パネルのサイズを明示的に指定して開く場合に利用されることを想定する。</span>
+<span class="source-line-no">086</span><span id="line-86">     * 現在は具体的な実装を持たない。</span>
+<span class="source-line-no">087</span><span id="line-87">     *</span>
+<span class="source-line-no">088</span><span id="line-88">     * @param aPanel 開く対象の {@link JPanel}</span>
+<span class="source-line-no">089</span><span id="line-89">     * @param width 開くパネルの幅</span>
+<span class="source-line-no">090</span><span id="line-90">     * @param height 開くパネルの高さ</span>
+<span class="source-line-no">091</span><span id="line-91">     */</span>
+<span class="source-line-no">092</span><span id="line-92">    protected static void open(JPanel aPanel, int width, int height) {</span>
+<span class="source-line-no">093</span><span id="line-93">        // 現在は何も行わない</span>
+<span class="source-line-no">094</span><span id="line-94">    }</span>
+<span class="source-line-no">095</span><span id="line-95"></span>
+<span class="source-line-no">096</span><span id="line-96">    /**</span>
+<span class="source-line-no">097</span><span id="line-97">     * 2次元のソースデータ行列に対し、ウェーブレット変換を実行する。</span>
+<span class="source-line-no">098</span><span id="line-98">     * スケールファクターとRGBフラグに基づいて変換結果を処理し、</span>
+<span class="source-line-no">099</span><span id="line-99">     * 変換後のデータ行列を応答することを想定する。</span>
+<span class="source-line-no">100</span><span id="line-100">     * 現在は具体的な変換ロジックは実装されておらず、常に {@code null} を応答する。</span>
+<span class="source-line-no">101</span><span id="line-101">     *</span>
+<span class="source-line-no">102</span><span id="line-102">     * @param sourceDataMatrix 変換元の2次元データ行列</span>
+<span class="source-line-no">103</span><span id="line-103">     * @param scaleFactor 変換結果の表示スケールに影響する可能性のある {@link Point} オブジェクト</span>
+<span class="source-line-no">104</span><span id="line-104">     * @param rgbFlag RGB成分のいずれかを示すフラグ（例: {@link wavelet.Constants#Red} など）</span>
+<span class="source-line-no">105</span><span id="line-105">     * @return 変換後のデータ行列、または {@code null}（現在の実装では）</span>
+<span class="source-line-no">106</span><span id="line-106">     */</span>
+<span class="source-line-no">107</span><span id="line-107">    protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) {</span>
+<span class="source-line-no">108</span><span id="line-108">        return null;</span>
+<span class="source-line-no">109</span><span id="line-109">    }</span>
+<span class="source-line-no">110</span><span id="line-110"></span>
+<span class="source-line-no">111</span><span id="line-111">    /**</span>
+<span class="source-line-no">112</span><span id="line-112">     * 輝度およびRGB各成分を含む3次元配列のソースデータに対し、ウェーブレット変換を実行する。</span>
+<span class="source-line-no">113</span><span id="line-113">     * 変換結果を、指定されたラベル文字列と共に処理・表示することを想定する。</span>
+<span class="source-line-no">114</span><span id="line-114">     * 現在は具体的な変換ロジックは実装されていない。</span>
+<span class="source-line-no">115</span><span id="line-115">     *</span>
+<span class="source-line-no">116</span><span id="line-116">     * @param IrgbSourceCoefficients 輝度およびRGB各成分を含む3次元配列のソースデータ</span>
+<span class="source-line-no">117</span><span id="line-117">     * @param labelString 変換結果に付加するラベル文字列</span>
+<span class="source-line-no">118</span><span id="line-118">     */</span>
+<span class="source-line-no">119</span><span id="line-119">    protected static void perform(double[][][] IrgbSourceCoefficients, String labelString) {</span>
+<span class="source-line-no">120</span><span id="line-120">        // 現在は何も行わない</span>
+<span class="source-line-no">121</span><span id="line-121">    }</span>
+<span class="source-line-no">122</span><span id="line-122"></span>
+<span class="source-line-no">123</span><span id="line-123">    /**</span>
+<span class="source-line-no">124</span><span id="line-124">     * 指定された {@link BufferedImage} オブジェクトをファイルに書き出す。</span>
+<span class="source-line-no">125</span><span id="line-125">     * ファイル名は内部で管理される連番（{@link #fileNo}）を用いて生成されることを想定する。</span>
+<span class="source-line-no">126</span><span id="line-126">     * 現在は具体的なファイル書き出しロジックは実装されていない。</span>
+<span class="source-line-no">127</span><span id="line-127">     *</span>
+<span class="source-line-no">128</span><span id="line-128">     * @param anlmage 書き出す対象の {@link BufferedImage} オブジェクト</span>
+<span class="source-line-no">129</span><span id="line-129">     */</span>
+<span class="source-line-no">130</span><span id="line-130">    protected static void write(BufferedImage anlmage) {</span>
+<span class="source-line-no">131</span><span id="line-131">        // 現在は何も行わない</span>
+<span class="source-line-no">132</span><span id="line-132">    }</span>
+<span class="source-line-no">133</span><span id="line-133">}</span>
 
 
 
