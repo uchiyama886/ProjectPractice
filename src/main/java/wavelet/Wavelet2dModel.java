@@ -21,6 +21,7 @@ import javax.swing.JFileChooser;
 import java.io.File;
 import utility.ColorUtility;
 import utility.ImageUtility;
+import java.awt.RenderingHints; // 追加: 画像リサイズ用のレンダリングヒント
 
 /**
  * 2次ウェーブレット変換のモデルクラス
@@ -248,6 +249,21 @@ public class Wavelet2dModel extends WaveletModel {
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
             inputImage = ImageUtility.readImage(file.getAbsolutePath());
+        }
+        // 画像が読み込まれたら、幅・高さを2のべき乗にリサイズ
+        if (inputImage != null) {
+            int w = inputImage.getWidth();
+            int h = inputImage.getHeight();
+            int tw = nextPowerOfTwo(w);
+            int th = nextPowerOfTwo(h);
+            if (tw != w || th != h) {
+                BufferedImage resized = new BufferedImage(tw, th, inputImage.getType());
+                Graphics2D g2 = resized.createGraphics();
+                g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g2.drawImage(inputImage, 0, 0, tw, th, null);
+                g2.dispose();
+                inputImage = resized;
+            }
         }
         return lrgbMatrixes(inputImage); // RGBをLuminanceとRGB行列に変換
     }
@@ -878,4 +894,12 @@ public class Wavelet2dModel extends WaveletModel {
         popupMenu.show(eventComponent, mouseX, mouseY); // 指定された位置にポップアップメニューを表示
     }
 
+    /**
+     * 与えられた値以上の最小の2のべき乗を返す
+     */
+    private static int nextPowerOfTwo(int value) {
+        int n = 1;
+        while (n < value) n <<= 1;
+        return n;
+    }
 }
