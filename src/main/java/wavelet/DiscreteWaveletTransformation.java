@@ -18,7 +18,7 @@ public abstract class DiscreteWaveletTransformation extends WaveletTransformatio
       this.daubechiesScalingSequence = new double[] { 0.2303778133088964D, 0.7148465705529155D, 0.6308807679298599D, -0.0279837694168599D, -0.1870348117190931D, 0.0308413818355607D, 0.0328830116668852D, -0.010597401785069D }; 
     int i = this.daubechiesScalingSequence.length;
     this.daubechiesWaveletSequence = new double[i];
-    for (byte b = 0; b < i; b++)
+    for (Integer b = 0; b < i; b++)
       this.daubechiesWaveletSequence[b] = Math.pow(-1.0D, b) * this.daubechiesScalingSequence[i - 1 - b]; 
   }
 }
