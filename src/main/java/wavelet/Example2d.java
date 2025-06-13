@@ -16,13 +16,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Example2d {
-  // 保存する画像ファイルの連番カウンター
+  /**
+   * 保存する画像ファイルの連番カウンター
+   */
   private static int fileNo = 100;
   
-  // ウィンドウの初期表示座標
+  /**
+   * ウィンドウの初期表示座標
+   */
   private static Point displayPoint = new Point(130, 50);
   
-  // ウィンドウを開いていく際に少しずつずらしていくオフセット
+  /**
+   * ウィンドウを開いていく際に少しずつずらしていくオフセット
+   */
   private static Point offsetPoint = new Point(25, 25);
   
   /**
