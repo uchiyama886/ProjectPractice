@@ -20,13 +20,19 @@ import java.nio.file.Paths;
 
 
 public class Example1d extends Object {
-  // 保存する画像ファイルの連番カウンター
+  /**
+   * 保存する画像ファイルの連番カウンター
+   */
   private static int fileNo = 0;
   
-  // ウィンドウの初期表示座標
+  /**
+   * ウィンドウの初期表示座標
+   */
   private static Point displayPoint = new Point(30, 50);
   
-  // ウィンドウを開いていく際に少しずつずらしていくオフセット
+  /**
+   * ウィンドウを開いていく際に少しずつずらしていくオフセット
+   */
   private static Point offsetPoint = new Point(25, 25);
   
   /**
