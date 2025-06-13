@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JFileChooser;
+import java.io.File;
 import utility.ColorUtility;
 import utility.ImageUtility;
 
@@ -67,7 +69,20 @@ public class Wavelet2dModel extends WaveletModel {
      * @param anActionEvent 発生したアクションイベント
      */
     public void actionPerformed(ActionEvent anActionEvent) {
-        String commandString = anActionEvent.getActionCommand();  // アクションコマンドを取得
+        String commandString = anActionEvent.getActionCommand();
+
+        // 画像変更メニューの処理
+        if ("Change Image".equals(commandString)) {
+            // JFileChooser chooser = new JFileChooser();
+            // int result = chooser.showOpenDialog(null);
+            // if (result == JFileChooser.APPROVE_OPTION) {
+            //     File file = chooser.getSelectedFile();
+            //     BufferedImage img = ImageUtility.readImage(file.getAbsolutePath());
+            // }
+            doInputImage();
+            return;
+        }
+
         if (commandString == "sample coefficients") {
             doSampleCoefficients();
             return;
@@ -222,6 +237,22 @@ public class Wavelet2dModel extends WaveletModel {
     }
 
     /**
+     * 入力画像データを取得し、それを輝度およびRGB成分の係数行列に変換する。
+     * @return 入力画像の輝度およびRGB係数行列
+     */
+    public static double[][][] dataInput() {
+        JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(null);
+
+        BufferedImage inputImage = null; // 変数をメソッドスコープで宣言
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            inputImage = ImageUtility.readImage(file.getAbsolutePath());
+        }
+        return lrgbMatrixes(inputImage); // RGBをLuminanceとRGB行列に変換
+    }
+
+    /**
      * 全てのウェーブレット係数をインタラクティブな係数配列にコピーする。
      * これにより、再構成時に全てのウェーブレット情報が使用され、元の画像が再構成される。
      */
@@ -306,6 +337,10 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public void doSmalltalkBalloon() {
         setSourceData(dataSmalltalkBalloon());
+    }
+
+    public void doInputImage(){
+        setSourceData(dataInput()); // メソッド名のスペル修正
     }
 
     /**
@@ -824,6 +859,11 @@ public class Wavelet2dModel extends WaveletModel {
         menuItem = new JMenuItem("earth");
         menuItem.addActionListener(aController);
         popupMenu.add(menuItem);
+
+        popupMenu.addSeparator();
+        JMenuItem changeItem = new JMenuItem("Change Image");
+        changeItem.addActionListener(aController);
+        popupMenu.add(changeItem);
 
         popupMenu.addSeparator(); // 区切り線を追加
 
