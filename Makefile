@@ -14,6 +14,12 @@ clean:
 test:
 	$(ANT) test
 
+unittest:
+	$(ANT) unittest
+
+assert:
+	$(ANT) assert
+
 install:
 	$(ANT) install
 
