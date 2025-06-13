@@ -11,6 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import utility.ColorUtility;
 import utility.ImageUtility;
+import utility.Condition;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Example2d {
   // 保存する画像ファイルの連番カウンター
@@ -134,7 +137,7 @@ public class Example2d {
   /**
    * 各種変数を取得し、画像の生成、表示、保存する
    * @param coefficientsOfSampledata           データのサンプル係数
-   * @param coefficientsOfScaling1             離散ウェーブレットのスケーリング係数
+   * @param coefficientsOfScaling              離散ウェーブレットのスケーリング係数
    * @param coefficientsOfHorizontalWavelet    水平方向の離散ウェーブレットのウェーブレット係数
    * @param coefficientsOfVerticalWavelet      垂直方向の離散ウェーブレットのウェーブレット係数
    * @param coefficientsOfDiagonalWavelet      対角方向の離散ウェーブレットのウェーブレット係数
@@ -376,36 +379,22 @@ public class Example2d {
   * @param file 書き出す用のファイル
   */
   protected static void write(BufferedImage anImage) {
+    // 処理する画像を束縛
     File file = new File("ResultImages");
 
-
     // ファイルが存在するか
-    ifThenElse(file);
+    new Condition(() -> file == null).ifTrue(() -> file.mkdir());
+
+    // ファイル名をパスオブジェクトに束縛
+    Path path = Paths.get(file.getName());
 
     // ファイル名の作成（連番）
     String fileNumber = String.format("%03d", fileNo++);
 
+    // ファイル名をパスで連結
+    Path filePath = path.resolve(path).resolve("Wavelet" + fileNumber + ".jpg");
+
     // 画像ファイルを書き出す
-    ImageUtility.writeImage(anImage, file.getName() + "/Wavelet" + fileNumber + ".jpg");
-
-    // if (!file.exists())
-    //   file.mkdir(); 
-
-    // String str;
-    // for (str = Integer.toString(fileNo++); str.length() < 3; str = "0" + str);
-    // ImageUtility.writeImage(paramBufferedImage, file.getName() + "/Wavelet" + file.getName() + ".jpg");
-    
-  }
-
-  /**
-  * ファイルが存在するかの条件分岐
-  * @param file 書き出す用のファイル
-  */
-  private static void ifThenElse(File file)
-  {
-    // ファイルが存在しないならディレクトリを作成する
-    if(!file.exists()) {file.mkdir();}
-
-    return;
+    ImageUtility.writeImage(anImage, filePath.toString());
   }
 }
