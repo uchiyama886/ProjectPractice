@@ -66,15 +66,16 @@
 			includes="**/*.class"
 		>
 			<manifest>
-				<attribute name="Project" value="XX"  />
-				<section name="Shared">
-					<attribute name="Title" value="Wavelet" />
-					<attribute name="Vender" value="Group4" />
-				</section>
-				<section name="Copyright" >
-					<attribute name="Copy" value="Project XX 2025" />
-				</section>
-			</manifest>
+            <attribute name="Project" value="XX"  />
+            <attribute name="Main-Class" value="wavelet.Example" /> 
+			<section name="Shared">
+                <attribute name="Title" value="Wavelet" />
+                <attribute name="Vender" value="Group4" />
+            </section>
+            <section name="Copyright" >
+                <attribute name="Copy" value="Project XX 2025" />
+            </section>
+        </manifest>
 	  		<zipfileset src="${junitjar}" />
 	  		<zipfileset src="${hamcrestjar}" />
 		</jar>
