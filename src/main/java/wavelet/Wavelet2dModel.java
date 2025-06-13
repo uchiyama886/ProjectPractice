@@ -98,7 +98,7 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public void computeFromPoint(Point aPoint, boolean isAltDown) {
         // 各チャネル（例：Luminance, R, G, B）に対して処理を繰り返す
-        for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+        for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
             double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
             if (sourceData != null) { // データが存在する場合のみ処理
                 double[][] scalingCoefficients = this.scalingCoefficientsArray[channelIndex];
@@ -116,8 +116,8 @@ public class Wavelet2dModel extends WaveletModel {
                 double[][] interactiveDiagonalCoefficients = this.interactiveDiagonalWaveletCoefficientsArray[channelIndex];
 
                 // 指定された点から-2から+2の範囲（5x5の領域）の係数を操作
-                for (byte rowOffset = -2; rowOffset <= 2; rowOffset++) {
-                    for (byte colOffset = -2; colOffset <= 2; colOffset++) {
+                for (Integer rowOffset = -2; rowOffset <= 2; rowOffset++) {
+                    for (Integer colOffset = -2; colOffset <= 2; colOffset++) {
                         Integer adjustedX = mousePointX + colOffset; // 操作対象のX座標
                         Integer adjustedY = mousePointY + rowOffset; // 操作対象のY座標
                         // 座標を配列の範囲内に制限
@@ -149,7 +149,7 @@ public class Wavelet2dModel extends WaveletModel {
         this.maximumAbsoluteRecomposedCoefficient = Double.MIN_VALUE; // 再構成係数の最大絶対値をリセット
 
         // 各チャネルに対して再構成処理を繰り返す
-        for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+        for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
             double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
             if (sourceData != null) { // データが存在する場合のみ処理
                 double[][] scalingCoefficients = this.scalingCoefficientsArray[channelIndex]; // スケーリング係数
@@ -185,9 +185,9 @@ public class Wavelet2dModel extends WaveletModel {
      * @return サンプルの2次元係数行列
      */
     public static double[][] dataSampleCoefficients() {
-        byte matrixSize = 64; // 行列のサイズ（64x64）
+        Integer matrixSize = 64; // 行列のサイズ（64x64）
         double[][] coefficientMatrix = new double[matrixSize][matrixSize];
-        byte loopIndex;
+        Integer loopIndex;
         // 全ての要素を0.2で埋める
         for (loopIndex = 0; loopIndex < coefficientMatrix.length; loopIndex++)
             Arrays.fill(coefficientMatrix[loopIndex], 0.2D); 
@@ -227,7 +227,7 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public void doAllCoefficients() {
         // 各チャネルに対して処理を繰り返す
-        for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+        for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
             double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
             if (sourceData != null) { // データが存在する場合のみ処理
                 double[][] scalingCoefficients = this.scalingCoefficientsArray[channelIndex];
@@ -244,8 +244,8 @@ public class Wavelet2dModel extends WaveletModel {
                 double[][] interactiveDiagonalCoefficients = this.interactiveDiagonalWaveletCoefficientsArray[channelIndex];
 
                 // 全てのウェーブレット係数をインタラクティブな係数配列にコピー
-                for (byte rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
-                    for (byte colIndex = 0; colIndex < coefficientWidth; colIndex++) {
+                for (Integer rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
+                    for (Integer colIndex = 0; colIndex < coefficientWidth; colIndex++) {
                         interactiveHorizontalCoefficients[colIndex][rowIndex] = horizontalCoefficients[colIndex][rowIndex];
                         interactiveVerticalCoefficients[colIndex][rowIndex] = verticalCoefficients[colIndex][rowIndex];
                         interactiveDiagonalCoefficients[colIndex][rowIndex] = diagonalCoefficients[colIndex][rowIndex];
@@ -262,7 +262,7 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public void doClearCoefficients() {
         // 各チャネルに対して処理を繰り返す
-        for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+        for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
             double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
             if (sourceData != null) { // データが存在する場合のみ処理
                 double[][] scalingCoefficients = this.scalingCoefficientsArray[channelIndex];
@@ -275,8 +275,8 @@ public class Wavelet2dModel extends WaveletModel {
                 double[][] interactiveDiagonalCoefficients = this.interactiveDiagonalWaveletCoefficientsArray[channelIndex];
 
                 // 全てのインタラクティブなウェーブレット係数を0にクリア
-                for (byte rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
-                    for (byte colIndex = 0; colIndex < coefficientWidth; colIndex++) {
+                for (Integer rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
+                    for (Integer colIndex = 0; colIndex < coefficientWidth; colIndex++) {
                         interactiveHorizontalCoefficients[colIndex][rowIndex] = 0.0D;
                         interactiveVerticalCoefficients[colIndex][rowIndex] = 0.0D;
                         interactiveDiagonalCoefficients[colIndex][rowIndex] = 0.0D;
@@ -314,7 +314,7 @@ public class Wavelet2dModel extends WaveletModel {
      * @param fillValue 埋める値
      */
     public static void fill(double[][] aMatrix, double fillValue) {
-        for (byte rowIndex = 0; rowIndex < aMatrix.length; rowIndex++) {
+        for (Integer rowIndex = 0; rowIndex < aMatrix.length; rowIndex++) {
             double[] rowArray = aMatrix[rowIndex];
             Arrays.fill(rowArray, fillValue); // JavaのArrays.fillを使用して行を埋める
         } 
@@ -336,8 +336,8 @@ public class Wavelet2dModel extends WaveletModel {
 
         // 2番目以降のチャネルがnullの場合（輝度画像の場合など）、グレースケール画像を生成
         if (valueMatrixArray[1] == null || valueMatrixArray[2] == null || valueMatrixArray[3] == null) {
-            for (byte rowIndex = 0; rowIndex < imageHeight; rowIndex++) {
-                for (byte colIndex = 0; colIndex < imageWidth; colIndex++) {
+            for (Integer rowIndex = 0; rowIndex < imageHeight; rowIndex++) {
+                for (Integer colIndex = 0; colIndex < imageWidth; colIndex++) {
                     double absoluteValue = Math.abs(firstChannelMatrix[colIndex][rowIndex]); // 係数の絶対値
                     Integer grayValue = (Integer)Math.round((float) (absoluteValue / maxValue * 255.0D)); // 0-255に正規化
                     Color pixelColor = new Color(grayValue, grayValue, grayValue); // グレースケールカラー
@@ -351,8 +351,8 @@ public class Wavelet2dModel extends WaveletModel {
             Integer[][] greenValues = new Integer[imageWidth][imageHeight];
             Integer[][] blueValues = new Integer[imageWidth][imageHeight];
 
-            for (byte rowIndex = 0; rowIndex < imageHeight; rowIndex++) {
-                for (byte colIndex = 0; colIndex < imageWidth; colIndex++) {
+            for (Integer rowIndex = 0; rowIndex < imageHeight; rowIndex++) {
+                for (Integer colIndex = 0; colIndex < imageWidth; colIndex++) {
                     double redCoefficient = Math.abs(valueMatrixArray[1][colIndex][rowIndex]); // Rチャネル
                     Integer redValue = (Integer)Math.round((float) (redCoefficient / maxValue * 255.0D));
                     double greenCoefficient = Math.abs(valueMatrixArray[2][colIndex][rowIndex]); // Gチャネル
@@ -386,9 +386,9 @@ public class Wavelet2dModel extends WaveletModel {
 
         // 係数行列の絶対値の最大値を計算（正規化用）
         double maxAbsoluteValue = Double.MIN_VALUE;
-        byte rowIndex;
+        Integer rowIndex;
         for (rowIndex = 0; rowIndex < matrixHeight; rowIndex++) {
-            for (byte colIndex = 0; colIndex < matrixWidth; colIndex++) {
+            for (Integer colIndex = 0; colIndex < matrixWidth; colIndex++) {
                 double currentValue = Math.abs(valueMatrix[colIndex][rowIndex]);
                 maxAbsoluteValue = Math.max(currentValue, maxAbsoluteValue);
             } 
@@ -396,7 +396,7 @@ public class Wavelet2dModel extends WaveletModel {
 
         // ピクセルごとに色を設定して画像を生成
         for (rowIndex = 0; rowIndex < matrixHeight; rowIndex++) {
-            for (byte colIndex = 0; colIndex < matrixWidth; colIndex++) {
+            for (Integer colIndex = 0; colIndex < matrixWidth; colIndex++) {
                 double currentValue = Math.abs(valueMatrix[colIndex][rowIndex]);
                 Integer normalizedValue = (Integer)Math.round((float) (currentValue / maxAbsoluteValue * 255.0D)); // 0-255に正規化
                 Color pixelColor = new Color(normalizedValue, normalizedValue, normalizedValue); // デフォルトはグレースケール
@@ -485,8 +485,8 @@ public class Wavelet2dModel extends WaveletModel {
         double[][] blueMatrix = new double[imageWidth][imageHeight]; // 青
 
         // ピクセルごとに処理
-        for (byte rowIndex = 0; rowIndex < imageHeight; rowIndex++) {
-            for (byte colIndex = 0; colIndex < imageWidth; colIndex++) {
+        for (Integer rowIndex = 0; rowIndex < imageHeight; rowIndex++) {
+            for (Integer colIndex = 0; colIndex < imageWidth; colIndex++) {
                 Integer rgbValue = anImage.getRGB(colIndex, rowIndex); // ピクセルのRGB値を取得
                 luminanceMatrix[colIndex][rowIndex] = ColorUtility.luminanceFromRGB(rgbValue); // 輝度を計算して格納
                 double[] rgbComponents = ColorUtility.convertINTtoRGB(rgbValue); // RGB値をdouble配列に変換
@@ -507,14 +507,14 @@ public class Wavelet2dModel extends WaveletModel {
     public double maximumAbsoluteScalingCoefficient() {
         // まだ計算されていない場合（初期値の場合）のみ計算を実行
         if (this.maximumAbsoluteScalingCoefficient == Double.MIN_VALUE) {
-            for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+            for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
                 double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
                 if (sourceData != null) {
                     double[][] scalingCoefficients = this.scalingCoefficientsArray[channelIndex];
                     Integer coefficientWidth = scalingCoefficients.length;
                     Integer coefficientHeight = (scalingCoefficients[0]).length;
-                    for (byte rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
-                        for (byte colIndex = 0; colIndex < coefficientWidth; colIndex++)
+                    for (Integer rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
+                        for (Integer colIndex = 0; colIndex < coefficientWidth; colIndex++)
                             this.maximumAbsoluteScalingCoefficient = Math.max(Math.abs(scalingCoefficients[colIndex][rowIndex]), this.maximumAbsoluteScalingCoefficient); 
                     } 
                 } 
@@ -531,13 +531,13 @@ public class Wavelet2dModel extends WaveletModel {
     public double maximumAbsoluteSourceCoefficient() {
         // まだ計算されていない場合（初期値の場合）のみ計算を実行
         if (this.maximumAbsoluteSourceCoefficient == Double.MIN_VALUE) {
-            for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+            for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
                 double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
                 if (sourceData != null) {
                     Integer coefficientWidth = sourceData.length;
                     Integer coefficientHeight = (sourceData[0]).length;
-                    for (byte rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
-                        for (byte colIndex = 0; colIndex < coefficientWidth; colIndex++)
+                    for (Integer rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
+                        for (Integer colIndex = 0; colIndex < coefficientWidth; colIndex++)
                             this.maximumAbsoluteSourceCoefficient = Math.max(Math.abs(sourceData[colIndex][rowIndex]), this.maximumAbsoluteSourceCoefficient); 
                     } 
                 } 
@@ -554,14 +554,14 @@ public class Wavelet2dModel extends WaveletModel {
     public double maximumAbsoluteRecomposedCoefficient() {
         // まだ計算されていない場合（初期値の場合）のみ計算を実行
         if (this.maximumAbsoluteRecomposedCoefficient == Double.MIN_VALUE) {
-            for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+            for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
                 double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
                 if (sourceData != null) {
                     double[][] recomposedCoefficients = this.recomposedCoefficientsArray[channelIndex];
                     Integer coefficientWidth = recomposedCoefficients.length;
                     Integer coefficientHeight = (recomposedCoefficients[0]).length;
-                    for (byte rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
-                        for (byte colIndex = 0; colIndex < coefficientWidth; colIndex++)
+                    for (Integer rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
+                        for (Integer colIndex = 0; colIndex < coefficientWidth; colIndex++)
                             this.maximumAbsoluteRecomposedCoefficient = Math.max(Math.abs(recomposedCoefficients[colIndex][rowIndex]), this.maximumAbsoluteRecomposedCoefficient); 
                     } 
                 } 
@@ -578,7 +578,7 @@ public class Wavelet2dModel extends WaveletModel {
     public double maximumAbsoluteWaveletCoefficient() {
         // まだ計算されていない場合（初期値の場合）のみ計算を実行
         if (this.maximumAbsoluteWaveletCoefficient == Double.MIN_VALUE) {
-            for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+            for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
                 double[][] sourceData = this.sourceCoefficientsArray[channelIndex];
                 if (sourceData != null) {
                     double[][] scalingCoefficients = this.scalingCoefficientsArray[channelIndex];
@@ -587,8 +587,8 @@ public class Wavelet2dModel extends WaveletModel {
                     double[][] horizontalCoefficients = this.horizontalWaveletCoefficientsArray[channelIndex];
                     double[][] verticalCoefficients = this.verticalWaveletCoefficientsArray[channelIndex];
                     double[][] diagonalCoefficients = this.diagonalWaveletCoefficientsArray[channelIndex];
-                    for (byte rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
-                        for (byte colIndex = 0; colIndex < coefficientWidth; colIndex++) {
+                    for (Integer rowIndex = 0; rowIndex < coefficientHeight; rowIndex++) {
+                        for (Integer colIndex = 0; colIndex < coefficientWidth; colIndex++) {
                             this.maximumAbsoluteWaveletCoefficient = Math.max(Math.abs(horizontalCoefficients[colIndex][rowIndex]), this.maximumAbsoluteWaveletCoefficient);
                             this.maximumAbsoluteWaveletCoefficient = Math.max(Math.abs(verticalCoefficients[colIndex][rowIndex]), this.maximumAbsoluteWaveletCoefficient);
                             this.maximumAbsoluteWaveletCoefficient = Math.max(Math.abs(diagonalCoefficients[colIndex][rowIndex]), this.maximumAbsoluteWaveletCoefficient);
@@ -719,7 +719,7 @@ public class Wavelet2dModel extends WaveletModel {
         this.recomposedCoefficientsArray = new double[this.sourceCoefficientsArray.length][][];
 
         // 各チャネルに対してウェーブレット変換を実行
-        for (byte channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
+        for (Integer channelIndex = 0; channelIndex < this.sourceCoefficientsArray.length; channelIndex++) {
             double[][] currentSourceData = this.sourceCoefficientsArray[channelIndex];
             if (currentSourceData != null) { // データが存在する場合のみ処理
                 // 離散ウェーブレット2D変換を実行

@@ -345,8 +345,8 @@ public class Example2d {
     BufferedImage colorImage = new BufferedImage(height, width, 1);
 
     // 各ピクセルにRGB値を設定
-    for (byte b = 0; b < width; b++) {
-      for (byte b1 = 0; b1 < height; b1++) {
+    for (Integer b = 0; b < width; b++) {
+      for (Integer b1 = 0; b1 < height; b1++) {
         double red = disRedDataMatrix[b1][b];     // R成分
         double green = disGreenDataMatrix[b1][b]; // G成分
         double blue = disBlueDataMatrix[b1][b];   // B成分
