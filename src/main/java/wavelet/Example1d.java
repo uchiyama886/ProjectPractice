@@ -1,5 +1,7 @@
 package wavelet;
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -10,6 +12,22 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import utility.ImageUtility;
+=======
+=======
+>>>>>>> Stashed changes
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
 public class Example1d extends Object {
   // 保存する画像ファイルの連番カウンター
@@ -176,6 +194,7 @@ public class Example1d extends Object {
     File file = new File("ResultImages");
 
 
+<<<<<<< Updated upstream
     // ファイルが存在するか
     if (!file.exists()) file.mkdir(); 
     // this.ifThenElse(file);
@@ -199,3 +218,56 @@ public class Example1d extends Object {
     return;
   }
 }
+=======
+	static class IPanel extends JPanel
+	{
+		private BufferedImage  image;
+
+		public IPanel(String readImage)
+		{
+			try
+			{
+				this.image = ImageIO.read(new File(readImage));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+
+		}
+
+		public void PaintComponent (Graphics g)
+		{
+			super.paintComponent(g);
+
+			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+		}
+	} 
+
+	static class IPanel extends JPanel
+	{
+		private BufferedImage  image;
+
+		public IPanel(String readImage)
+		{
+			try
+			{
+				this.image = ImageIO.read(new File(readImage));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+
+		}
+
+		public void PaintComponent (Graphics g)
+		{
+			super.paintComponent(g);
+
+			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
+		}
+	} 
+
+}
+>>>>>>> Stashed changes
