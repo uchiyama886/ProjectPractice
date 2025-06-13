@@ -9,6 +9,7 @@ all:
 
 clean:
 	$(ANT) clean
+	@rm -rf ResultImages
 
 test:
 	$(ANT) test

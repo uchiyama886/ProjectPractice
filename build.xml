@@ -2,6 +2,7 @@
 
 <project name="Wavelet" default="all" basedir=".">
 
+	<property name="progdir" value="src/main/java" />
 	<property name="mvc" value="mvc" /> 
 	<property name="package" value="wavelet" />
 	<property name="utility" value="utility" />
@@ -37,7 +38,7 @@
 	<target name="compile" depends="prepare" description="compile all sources">
 		<javac
 			fork="true"
-			srcdir="${basedir}"
+			srcdir="${progdir}"
 			destdir="${destdir}"
 			includeAntRuntime="true"
 			encoding="UTF-8"
@@ -55,7 +56,7 @@
 
 	<target name="jar" depends="compile" description="make jar file">
 		<jar
-			destfile="${destdir}/${package}.jar"
+			destfile="${destdir}/${ant.project.name}.jar"
 			basedir="${destdir}"
 			includes="**/*.class"
 		>
@@ -126,7 +127,7 @@
 
 	<target name="test" depends="all" description="test">
 		<exec executable="java" spawn="false">
-			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${package}.jar" />
+			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${destdir}/${ant.project.name}.jar" />
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -150,7 +151,7 @@
 		<mkdir dir="${docdir}" />
 		<javadoc
 			locale="ja_JP"
-			sourcepath="${basedir}"
+			sourcepath="${progdir}"
 			destdir="${docdir}"
 			packagenames="${packagenames}"
 			author="true"
@@ -161,7 +162,7 @@
 			linksource="yes"
 			additionalparam="-J-Dfile.encoding=UTF-8"
 			access="private">
-			<doctitle>${doc-title}</doctitle>
+			<doctitle><![CDATA[<h1>Wavelet プロジェクト API仕様書</h1>]]></doctitle>
 			<bottom>${copyright}</bottom>
 			<classpath>
 				<pathelement location="." />
