@@ -2,6 +2,7 @@
 
 <project name="Wavelet" default="all" basedir=".">
 
+	<property name="progdir" value="src/main/java" />
 	<property name="mvc" value="mvc" /> 
 	<property name="package" value="wavelet" />
 	<property name="utility" value="utility" />
@@ -26,7 +27,7 @@
 	<target name="compile" depends="prepare" description="compile all sources">
 		<javac
 			fork="true"
-			srcdir="${basedir}"
+			srcdir="${progdir}"
 			destdir="${destdir}"
 			includeAntRuntime="true"
 			encoding="UTF-8"
@@ -43,20 +44,20 @@
 
 	<target name="jar" depends="compile" description="make jar file">
 		<jar
-			destfile="${destdir}/${package}.jar"
+			destfile="${destdir}/${ant.project.name}.jar"
 			basedir="${destdir}"
 			includes="**/*.class"
 		>
 			<manifest>
-				<attribute name="Project" value="XX"  />
-				<section name="Shared">
-					<attribute name="Title" value="Wavelet" />
-					<attribute name="Vender" value="Group4" />
-				</section>
-				<section name="Copyright" >
-					<attribute name="Copy" value="Project XX 2025" />
-				</section>
-			</manifest>
+                <attribute name="Project" value="XX"  />
+                <attribute name="Main-Class" value="wavelet.Example" /> <section name="Shared">
+                    <attribute name="Title" value="Wavelet" />
+                    <attribute name="Vender" value="Group4" />
+                </section>
+                <section name="Copyright" >
+                    <attribute name="Copy" value="Project XX 2025" />
+                </section>
+            </manifest>
 		</jar>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -71,7 +72,7 @@
 
 	<target name="test" depends="all" description="test">
 		<exec executable="java" spawn="false">
-			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${package}.jar" />
+			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${destdir}/${ant.project.name}.jar" />
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -88,7 +89,7 @@
 		<mkdir dir="${docdir}" />
 		<javadoc
 			locale="ja_JP"
-			sourcepath="${basedir}"
+			sourcepath="${progdir}"
 			destdir="${docdir}"
 			packagenames="${packagenames}"
 			author="true"
