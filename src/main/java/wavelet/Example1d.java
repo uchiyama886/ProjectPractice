@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+/**
+ * ウィンドウ表示やユーザ操作の処理、画像変換への指示など、UIと処理をつなぐメイン機能全般(一次元)
+ */
 public class Example1d extends Object {
   /**
    * 保存する画像ファイルの連番カウンター
@@ -36,7 +38,7 @@ public class Example1d extends Object {
   private static Point offsetPoint = new Point(25, 25);
   
   /**
-   * example1を実行
+   * データのサンプル係数を取得する
    */
   public static void main(String[] argument) {
     example1();

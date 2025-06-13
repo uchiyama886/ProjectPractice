@@ -15,6 +15,9 @@ import utility.Condition;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * ウィンドウ表示やユーザ操作の処理、画像変換への指示など、UIと処理をつなぐメイン機能全般(二次元)
+ */
 public class Example2d {
   /**
    * 保存する画像ファイルの連番カウンター
@@ -32,7 +35,9 @@ public class Example2d {
   private static Point offsetPoint = new Point(25, 25);
   
   /**
-   * example1,2,3をそれぞれ実行
+   * 1：データのサンプル係数を取得
+   * 2：RGBデータを取得(SmalltalkBalloon)
+   * 3：RGBデータを取得(Earth)
    */
   public static void main(String[] arguments) {
     // グレースケールデータの処理
