@@ -269,8 +269,11 @@ public class Wavelet2dModel extends WaveletModel {
                 inputImage = tmp; // 更新
                 w = rw; h = rh;
             }
-            int tw = nextPowerOfTwo(w);
-            int th = nextPowerOfTwo(h);
+            // 縦横比を保ったまま、長辺を2のべき乗サイズに拡大/縮小
+            int maxDim = Math.max(w, h);
+            int p2 = nextPowerOfTwo(maxDim);
+            int tw = (int) Math.round((double) w * p2 / maxDim);
+            int th = (int) Math.round((double) h * p2 / maxDim);
             if (tw != w || th != h) {
                 BufferedImage resized = new BufferedImage(tw, th, inputImage.getType());
                 Graphics2D g2 = resized.createGraphics();
