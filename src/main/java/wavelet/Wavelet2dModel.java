@@ -17,8 +17,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JFileChooser;
+import java.io.File;
 import utility.ColorUtility;
 import utility.ImageUtility;
+import java.awt.RenderingHints; // 追加: 画像リサイズ用のレンダリングヒント
 
 /**
  * 2次ウェーブレット変換のモデルクラス
@@ -26,6 +29,8 @@ import utility.ImageUtility;
  * ウェーブレット変換の結果を保持し、再構成、係数の操作、および表示用の画像生成機能を提供する。
  */
 public class Wavelet2dModel extends WaveletModel {
+    // 読み込み時の最大画像長辺ピクセル数 (2のべき乗にリサイズ後も大きくならない)
+    private static final int MAX_IMAGE_DIMENSION = 1024;
 
     // 各種の係数配列における絶対値の最大値を保持するフィールド。
     // 画像表示時の正規化などに使用される。
@@ -67,7 +72,20 @@ public class Wavelet2dModel extends WaveletModel {
      * @param anActionEvent 発生したアクションイベント
      */
     public void actionPerformed(ActionEvent anActionEvent) {
-        String commandString = anActionEvent.getActionCommand();  // アクションコマンドを取得
+        String commandString = anActionEvent.getActionCommand();
+
+        // 画像変更メニューの処理
+        if ("Change Image".equals(commandString)) {
+            // JFileChooser chooser = new JFileChooser();
+            // int result = chooser.showOpenDialog(null);
+            // if (result == JFileChooser.APPROVE_OPTION) {
+            //     File file = chooser.getSelectedFile();
+            //     BufferedImage img = ImageUtility.readImage(file.getAbsolutePath());
+            // }
+            doInputImage();
+            return;
+        }
+
         if (commandString == "sample coefficients") {
             doSampleCoefficients();
             return;
@@ -222,6 +240,53 @@ public class Wavelet2dModel extends WaveletModel {
     }
 
     /**
+     * 入力画像データを取得し、それを輝度およびRGB成分の係数行列に変換する。
+     * @return 入力画像の輝度およびRGB係数行列
+     */
+    public static double[][][] dataInput() {
+        JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(null);
+
+        BufferedImage inputImage = null; // 変数をメソッドスコープで宣言
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            inputImage = ImageUtility.readImage(file.getAbsolutePath());
+        }
+        // 画像が読み込まれたら、幅・高さを2のべき乗にリサイズ
+        if (inputImage != null) {
+            int w = inputImage.getWidth();
+            int h = inputImage.getHeight();
+            // 高解像度画像をヒープ節約のため、最大寸法にリサイズ
+            if (w > MAX_IMAGE_DIMENSION || h > MAX_IMAGE_DIMENSION) {
+                double scale = (double)MAX_IMAGE_DIMENSION / Math.max(w, h);
+                int rw = (int)(w * scale);
+                int rh = (int)(h * scale);
+                BufferedImage tmp = new BufferedImage(rw, rh, inputImage.getType());
+                Graphics2D gTmp = tmp.createGraphics();
+                gTmp.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                gTmp.drawImage(inputImage, 0, 0, rw, rh, null);
+                gTmp.dispose();
+                inputImage = tmp; // 更新
+                w = rw; h = rh;
+            }
+            // 縦横比を保ったまま、長辺を2のべき乗サイズに拡大/縮小
+            int maxDim = Math.max(w, h);
+            int p2 = nextPowerOfTwo(maxDim);
+            int tw = (int) Math.round((double) w * p2 / maxDim);
+            int th = (int) Math.round((double) h * p2 / maxDim);
+            if (tw != w || th != h) {
+                BufferedImage resized = new BufferedImage(tw, th, inputImage.getType());
+                Graphics2D g2 = resized.createGraphics();
+                g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g2.drawImage(inputImage, 0, 0, tw, th, null);
+                g2.dispose();
+                inputImage = resized;
+            }
+        }
+        return lrgbMatrixes(inputImage); // RGBをLuminanceとRGB行列に変換
+    }
+
+    /**
      * 全てのウェーブレット係数をインタラクティブな係数配列にコピーする。
      * これにより、再構成時に全てのウェーブレット情報が使用され、元の画像が再構成される。
      */
@@ -306,6 +371,10 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public void doSmalltalkBalloon() {
         setSourceData(dataSmalltalkBalloon());
+    }
+
+    public void doInputImage(){
+        setSourceData(dataInput()); // メソッド名のスペル修正
     }
 
     /**
@@ -825,6 +894,11 @@ public class Wavelet2dModel extends WaveletModel {
         menuItem.addActionListener(aController);
         popupMenu.add(menuItem);
 
+        popupMenu.addSeparator();
+        JMenuItem changeItem = new JMenuItem("Change Image");
+        changeItem.addActionListener(aController);
+        popupMenu.add(changeItem);
+
         popupMenu.addSeparator(); // 区切り線を追加
 
         menuItem = new JMenuItem("all coefficients");
@@ -838,4 +912,12 @@ public class Wavelet2dModel extends WaveletModel {
         popupMenu.show(eventComponent, mouseX, mouseY); // 指定された位置にポップアップメニューを表示
     }
 
+    /**
+     * 与えられた値以上の最小の2のべき乗を返す
+     */
+    private static int nextPowerOfTwo(int value) {
+        int n = 1;
+        while (n < value) n <<= 1;
+        return n;
+    }
 }
