@@ -13,6 +13,16 @@
 	<property name="instdir" value="./${ant.project.name}.app/Contents/Resources/Java" />
 	<property name="copyright" value="Copyright 2025 Project XX All Rights Reserved." />
 	<property name="zipname" value="${ant.project.name}" />
+	<property name="junitjar" value="./junit-platform-console-standalone-1.7.0.jar" /> 
+	<property name="reportdir" value="./test-report" /> 
+
+	<fail message="Apache Ant 1.10.4+ is required.">
+		<condition>
+			<not>
+				<antversion atleast="1.10.4"/>
+			</not>
+		</condition>
+	</fail>
 
 	<target name="all" depends="jar" description="build all">
 		<exec executable="date" spawn="false" />
@@ -20,6 +30,7 @@
 
 	<target name="prepare" depends="" description="prepare to compile">
 		<mkdir dir="${destdir}" />
+		<copy file="./JUnitArchives/${junitjar}" todir="./" />  
 		<exec executable="date" spawn="false" />
 	</target>
 
@@ -36,6 +47,7 @@
 			<compilerarg value="-Xlint:all" />
 			<classpath>
 				<pathelement location="." />
+				<pathelement location="${junitjar}" /> 
 			</classpath>
 		</javac>
 		<exec executable="date" spawn="false" />
@@ -57,6 +69,7 @@
 					<attribute name="Copy" value="Project XX 2025" />
 				</section>
 			</manifest>
+			<zipfileset src="${junitjar}" />  
 		</jar>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -66,12 +79,61 @@
 		<delete dir="${docdir}" />
 		<delete dir="${instdir}" />
 		<delete file="../${zipname}.zip" />
+		<delete file="${junitjar}" />  
+		<delete dir="${reportdir}" /> 
+		<exec executable="date" spawn="false" />
+	</target>
+
+<target name="unittest.junit.launcher" depends="all"  description="junit launcher">
+		<delete dir="${reportdir}" />
+		<junitlauncher haltOnFailure="true" printSummary="true">
+			<classpath>
+				<pathelement location="." />
+				<pathelement location="${junitjar}" />
+			</classpath>
+			<testclasses outputdir="${reportdir}">
+				<fileset dir="${destdir}">
+					<include name="*Test.class"/>
+				</fileset>
+				<listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>
+				<listener type="legacy-plain" sendSysOut="true" />
+			</testclasses>
+		</junitlauncher>
+		<exec executable="date" spawn="false" />
+	</target>
+
+	<target name="unittest.console.launcher" depends="all"  description="console launcher">
+		<java classpath="${package}.jar" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="false">
+			<arg value="--scan-class-path=${destdir}" />
+			<arg line="--reports-dir ${reportdir}" />
+			<jvmarg value="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k" />
+		</java>
+		<junitreport todir="${reportdir}">
+			<fileset dir="${reportdir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="noframes" todir="${reportdir}/html"/>
+		</junitreport>
+		<exec executable="open" spawn="true">
+			<arg line="-a 'Safari' ${reportdir}/html/junit-noframes.html" />
+		</exec>
+		<exec executable="date" spawn="false" />
+	</target>
+
+	<target name="unittest" depends="unittest.junit.launcher, unittest.console.launcher">
 		<exec executable="date" spawn="false" />
 	</target>
 
 	<target name="test" depends="all" description="test">
 		<exec executable="java" spawn="false">
 			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${package}.jar" />
+		</exec>
+		<exec executable="date" spawn="false" />
+	</target>
+
+	<target name="assert" depends="all" description="assert">
+		<exec executable="java" spawn="false">
+			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -ea -jar ${package}.jar" />
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -103,6 +165,7 @@
 			<bottom>${copyright}</bottom>
 			<classpath>
 				<pathelement location="." />
+				<pathelement location="${junitjar}" />  
 			</classpath>
 		</javadoc>
 		<exec executable="open">
