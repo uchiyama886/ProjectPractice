@@ -48,15 +48,8 @@ public class Model {
     return;
   }
 
-<<<<<<< HEAD:src/main/java/mvc/Model.java
   // モデルに対して操作を行うメソッド（空実装）
   public void perform() {return;}
-=======
-  /**
-   * モデルに対して操作を行うメソッド（空実装）
-   */
-  public void perform() {}
->>>>>>> 5ecd0b9e5ae91dee22295ce1c0210e5678cda14f:src/main/mvc/Model.java
 
   /**
    * 現在保持している画像（picture）を返すメソッド
