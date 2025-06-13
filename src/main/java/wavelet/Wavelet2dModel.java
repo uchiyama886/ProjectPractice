@@ -29,6 +29,8 @@ import java.awt.RenderingHints; // 追加: 画像リサイズ用のレンダリ�
  * ウェーブレット変換の結果を保持し、再構成、係数の操作、および表示用の画像生成機能を提供する。
  */
 public class Wavelet2dModel extends WaveletModel {
+    // 読み込み時の最大画像長辺ピクセル数 (2のべき乗にリサイズ後も大きくならない)
+    private static final int MAX_IMAGE_DIMENSION = 1024;
 
     // 各種の係数配列における絶対値の最大値を保持するフィールド。
     // 画像表示時の正規化などに使用される。
@@ -254,6 +256,19 @@ public class Wavelet2dModel extends WaveletModel {
         if (inputImage != null) {
             int w = inputImage.getWidth();
             int h = inputImage.getHeight();
+            // 高解像度画像をヒープ節約のため、最大寸法にリサイズ
+            if (w > MAX_IMAGE_DIMENSION || h > MAX_IMAGE_DIMENSION) {
+                double scale = (double)MAX_IMAGE_DIMENSION / Math.max(w, h);
+                int rw = (int)(w * scale);
+                int rh = (int)(h * scale);
+                BufferedImage tmp = new BufferedImage(rw, rh, inputImage.getType());
+                Graphics2D gTmp = tmp.createGraphics();
+                gTmp.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                gTmp.drawImage(inputImage, 0, 0, rw, rh, null);
+                gTmp.dispose();
+                inputImage = tmp; // 更新
+                w = rw; h = rh;
+            }
             int tw = nextPowerOfTwo(w);
             int th = nextPowerOfTwo(h);
             if (tw != w || th != h) {
