@@ -380,7 +380,7 @@ public class Example2d {
 
 
     // ファイルが存在するか
-    this.ifThenElse(file);
+    ifThenElse(file);
 
     // ファイル名の作成（連番）
     String fileNumber = String.format("%03d", fileNo++);
@@ -401,7 +401,7 @@ public class Example2d {
   * ファイルが存在するかの条件分岐
   * @param file 書き出す用のファイル
   */
-  private void ifThenElse(File file)
+  private static void ifThenElse(File file)
   {
     // ファイルが存在しないならディレクトリを作成する
     if(!file.exists()) {file.mkdir();}
