@@ -2,7 +2,9 @@ package utility;
 
 import java.util.function.Supplier;
 
-//条件分岐をメッセージで行うためのクラス
+/**
+ * 条件分岐をメッセージで行うためのクラス
+ */
 public class Condition extends Object
 {
     /**

@@ -4,14 +4,18 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
- * ビューの依存リストと画像データ（picture）を管理し、変更通知も行う。
+ * MVCデザインパターンにおける、アプリケーションのビジネスロジックとデータを管理するモデルクラス。
  */
 public class Model {
 
-  // このモデルに依存しているビュー(View)の一覧を保持するリスト
+  /**
+   * このモデルに依存しているビュー(View)の一覧を保持するリスト
+   */
   protected ArrayList<View> dependents;
 
-  // モデルが保持している画像データ
+  /**
+   * モデルが保持している画像データ
+   */
   private BufferedImage picture;
 
   /**

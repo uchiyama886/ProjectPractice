@@ -1,5 +1,17 @@
 package wavelet;
 
+/**
+ * 1次元離散ウェーブレット変換（DWT）を実装するクラス。
+ * このクラスは、与えられた1次元のデータ（配列）に対して、
+ * スケーリング係数とウェーブレット係数への分解、およびそれらの係数からの再構成を扱う。
+ *
+ * <p>離散ウェーブレット変換は、信号を異なる周波数帯域に分解することで、
+ * 信号の様々なスケールにおける特徴を抽出するために用いられる。
+ * この実装は、特にDaubechiesウェーブレットに基づく変換をサポートしている。</p>
+ *
+ * @see DiscreteWaveletTransformation
+ * @see ContinuosWaveletTransformation
+ */
 public class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformation {
   protected double[] sourceCoefficients;
   

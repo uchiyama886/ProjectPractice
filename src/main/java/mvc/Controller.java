@@ -15,7 +15,7 @@ import utility.ValueHolder;
 
 
 /**
- * コントローラ。制御まわりを専門に行う。
+ * MVCデザインパターンにおける、GUIのインタラクションを制御するコントローラクラス。
  */
 public class Controller extends MouseInputAdapter implements MouseWheelListener
 {

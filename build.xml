@@ -100,7 +100,7 @@
 			linksource="yes"
 			additionalparam="-J-Dfile.encoding=UTF-8"
 			access="private">
-			<doctitle>${doc-title}</doctitle>
+			<doctitle><![CDATA[<h1>Wavelet プロジェクト API仕様書</h1>]]></doctitle>
 			<bottom>${copyright}</bottom>
 			<classpath>
 				<pathelement location="." />

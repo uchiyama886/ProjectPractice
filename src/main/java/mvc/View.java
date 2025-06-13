@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import utility.Condition;
 
 /**
- * ビュー。表示まわりを専門に行う。
+ * MVCデザインパターンにおける、ユーザーインターフェースを表示するビュークラス。
  */
 @SuppressWarnings("serial")
 public class View extends JPanel
