@@ -11,7 +11,8 @@ import utility.Condition;
 import utility.ValueHolder;
 
 /**
- * 窓（ペイン）のビュー。
+ * 窓（ペイン）のビュークラス。
+ * モデルから画像データを取得し、それをGUI上に描画する。
  */
 @SuppressWarnings("serial")
 public class PaneView extends mvc.View
