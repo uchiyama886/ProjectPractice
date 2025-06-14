@@ -10,6 +10,7 @@ all:
 clean:
 	$(ANT) clean
 	@rm -rf ResultImages
+	@rm -rf Wavelet.app
 
 test:
 	$(ANT) test
