@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"mvc"},{"l":"pane"},{"l":"utility"},{"l":"wavelet"},{"l":"すべてのパッケージ","u":"allpackages-index.html"}];updateSearchResults();

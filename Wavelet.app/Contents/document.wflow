@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>528</string>
+	<key>AMApplicationVersion</key>
+	<string>2.10</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>AppleScriptを実行</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}    return POSIX path of (path to me)end run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>4E9AE35B-389E-458A-B67A-71361AF81CCB</string>
+				<key>Keywords</key>
+				<array>
+					<string>実行</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>D31E9D00-748B-4A6E-B386-4C315040C9A2</string>
+				<key>UUID</key>
+				<string>99BBB352-BE76-4B74-BCC1-3007BC85D339</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>336.500000:315.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>2.0.3</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<dict/>
+					<key>CheckedForUserDefaultShell</key>
+					<dict/>
+					<key>inputMethod</key>
+					<dict/>
+					<key>shell</key>
+					<dict/>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run Shell Script.action</string>
+				<key>ActionName</key>
+				<string>シェルスクリプトを実行</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<string>#!/bin/bash
+
+APP_BUNDLE_PATH="$1" # AppleScriptから渡された .app のフルパス
+
+LOG_FILE="/tmp/wavelet_launch.log"
+
+echo "--- Wavelet Automator Log (Path Corrected V3) ---" &gt; "$LOG_FILE"
+date &gt;&gt; "$LOG_FILE"
+echo "Script started." &gt;&gt; "$LOG_FILE"
+echo "Received APP_BUNDLE_PATH from AppleScript: $APP_BUNDLE_PATH" &gt;&gt; "$LOG_FILE"
+
+# APP_BUNDLE_PATH は末尾に / が付いているので、ここでは / を追加しない
+RESOURCES_DIR="${APP_BUNDLE_PATH}Contents/Resources"
+echo "Expected RESOURCES_DIR: $RESOURCES_DIR" &gt;&gt; "$LOG_FILE"
+
+JAR_FILE="$RESOURCES_DIR/Wavelet.jar"
+echo "Expected JAR_FILE: $JAR_FILE" &gt;&gt; "$LOG_FILE"
+
+if [ ! -f "$JAR_FILE" ]; then
+    echo "ERROR: JAR file not found at $JAR_FILE" &gt;&gt; "$LOG_FILE"
+    osascript -e "display dialog \"アプリケーションエラー:\nWavelet.jar が見つかりません。\n\n確認場所:\n$JAR_FILE\n\nログファイル:\n$LOG_FILE\" with title \"Wavelet エラー\" buttons {\"OK\"} default button \"OK\""
+    exit 1
+fi
+echo "JAR file found." &gt;&gt; "$LOG_FILE"
+
+# Javaコマンドのパスを確認
+JAVA_CMD="/usr/bin/java" # 標準的なパス
+if [ ! -x "$JAVA_CMD" ]; then
+    echo "/usr/bin/java not found, trying /usr/libexec/java_home" &gt;&gt; "$LOG_FILE"
+    JAVA_HOME_PATH=$(/usr/libexec/java_home 2&gt;/dev/null)
+    if [ -n "$JAVA_HOME_PATH" ]; then
+        JAVA_CMD="$JAVA_HOME_PATH/bin/java"
+        echo "Found Java via java_home: $JAVA_CMD" &gt;&gt; "$LOG_FILE"
+    else
+        echo "ERROR: Java command not found using /usr/bin/java or /usr/libexec/java_home." &gt;&gt; "$LOG_FILE"
+        osascript -e "display dialog \"アプリケーションエラー:\nJavaコマンドが見つかりません。\nJavaが正しくインストールされ、設定されているか確認してください。\n\nログファイル:\n$LOG_FILE\" with title \"Wavelet エラー\" buttons {\"OK\"} default button \"OK\""
+        exit 1
+    fi
+else
+    echo "Using Java at: $JAVA_CMD" &gt;&gt; "$LOG_FILE"
+fi
+
+if [ ! -x "$JAVA_CMD" ]; then
+    echo "ERROR: Java command is not executable: $JAVA_CMD" &gt;&gt; "$LOG_FILE"
+    osascript -e "display dialog \"アプリケーションエラー:\nJavaコマンドが実行できません ($JAVA_CMD)。\n\nログファイル:\n$LOG_FILE\" with title \"Wavelet エラー\" buttons {\"OK\"} default button \"OK\""
+    exit 1
+fi
+echo "Attempting to execute Java application..." &gt;&gt; "$LOG_FILE"
+
+# Javaアプリケーションを実行し、標準出力と標準エラー出力をログファイルに追記
+"$JAVA_CMD" -jar "$JAR_FILE" &gt;&gt; "$LOG_FILE" 2&gt;&amp;1
+echo "Script finished." &gt;&gt; "$LOG_FILE"
+exit 0</string>
+					<key>CheckedForUserDefaultShell</key>
+					<true/>
+					<key>inputMethod</key>
+					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/bash</string>
+					<key>source</key>
+					<string></string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.RunShellScript</string>
+				<key>CFBundleVersion</key>
+				<string>2.0.3</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunShellScriptAction</string>
+				<key>InputUUID</key>
+				<string>425C6AF7-0F46-4B02-A92E-8F36516579B9</string>
+				<key>Keywords</key>
+				<array>
+					<string>シェル</string>
+					<string>スクリプト</string>
+					<string>コマンド</string>
+					<string>実行</string>
+					<string>UNIX</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>2CEBEE22-DACB-424C-BC6D-99D887FA41F4</string>
+				<key>UUID</key>
+				<string>8B097D3D-8687-4075-94A1-8DB819BBC4B1</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<integer>0</integer>
+						<key>name</key>
+						<string>inputMethod</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<false/>
+						<key>name</key>
+						<string>CheckedForUserDefaultShell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+					<key>3</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>COMMAND_STRING</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>3</string>
+					</dict>
+					<key>4</key>
+					<dict>
+						<key>default value</key>
+						<string>/bin/sh</string>
+						<key>name</key>
+						<string>shell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>4</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<integer>1</integer>
+				<key>location</key>
+				<string>336.500000:497.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict>
+		<key>E10FDD5D-2C32-49A7-AB3A-5C7AD01CCE89</key>
+		<dict>
+			<key>from</key>
+			<string>99BBB352-BE76-4B74-BCC1-3007BC85D339 - 99BBB352-BE76-4B74-BCC1-3007BC85D339</string>
+			<key>to</key>
+			<string>8B097D3D-8687-4075-94A1-8DB819BBC4B1 - 8B097D3D-8687-4075-94A1-8DB819BBC4B1</string>
+		</dict>
+	</dict>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.application</string>
+	</dict>
+</dict>
+</plist>

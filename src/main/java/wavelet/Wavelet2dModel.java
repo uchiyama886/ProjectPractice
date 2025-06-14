@@ -8,20 +8,21 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
 import java.util.Arrays;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JFileChooser;
-import java.io.File;
 import utility.ColorUtility;
+import utility.FileUtility; // 追加: 画像リサイズ用のレンダリングヒント
 import utility.ImageUtility;
-import java.awt.RenderingHints; // 追加: 画像リサイズ用のレンダリングヒント
 
 /**
  * 2次ウェーブレット変換のモデルクラス
@@ -524,7 +525,7 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public static BufferedImage imageEarth() {
         String imagePath = "SampleImages/imageEarth512x256.jpg"; // 画像ファイルのパス
-        return ImageUtility.readImage(imagePath); // ImageUtilityを使用して画像を読み込む
+        return FileUtility.readImageFromResource(imagePath); // ImageUtilityを使用して画像を読み込む
     }
 
     /**
@@ -533,7 +534,7 @@ public class Wavelet2dModel extends WaveletModel {
      */
     public static BufferedImage imageSmalltalkBalloon() {
         String imagePath = "SampleImages/imageSmalltalkBalloon256x256.jpg"; // 画像ファイルのパス
-        return ImageUtility.readImage(imagePath); // ImageUtilityを使用して画像を読み込む
+        return FileUtility.readImageFromResource(imagePath); // ImageUtilityを使用して画像を読み込む
     }
 
     /**
