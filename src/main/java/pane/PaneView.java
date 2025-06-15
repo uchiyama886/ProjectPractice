@@ -1,13 +1,12 @@
 package pane;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import utility.ImageUtility;
-
 import utility.Condition;
+import utility.ImageUtility;
 import utility.ValueHolder;
 
 /**
@@ -130,8 +129,8 @@ public class PaneView extends mvc.View
 
 			Integer w = picture.get().getWidth();
 			Integer h = picture.get().getHeight();
-			ValueHolder<Double> x = new ValueHolder<Double>(Double.valueOf(width) / Double.valueOf(w));
-			ValueHolder<Double> y = new ValueHolder<Double>(Double.valueOf(height) / Double.valueOf(h));
+			ValueHolder<Double> x = new ValueHolder<>(Double.valueOf(width) / Double.valueOf(w));
+			ValueHolder<Double> y = new ValueHolder<>(Double.valueOf(height) / Double.valueOf(h));
 			new Condition(() -> x.get() > y.get()).ifThenElse(() -> { x.set(y.get()); }, () -> { y.set(x.get()); });
 			scaleFactor = new Point2D.Double(x.get(), y.get());
 
@@ -174,4 +173,8 @@ public class PaneView extends mvc.View
 	{
 		return;
 	}
+
+    Point convertViewPointToPicturePoint(ValueHolder<Point> point) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

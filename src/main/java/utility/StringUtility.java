@@ -19,10 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import utility.Condition;
-import utility.Interval;
-import utility.ValueHolder;
-
 /**
  * 文字列のユーティリティ。
  */

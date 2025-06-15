@@ -1,5 +1,7 @@
 package utility;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -56,7 +58,6 @@ public class Condition extends Object
         {
             thenPassage.run();
         }
-        return;
     }
     
     /**
@@ -199,4 +200,89 @@ public class Condition extends Object
             
         }
     }
+
+    /**
+     * Case文の選択肢を表す内部クラス
+     * Case文の追加、Default Case、
+     */
+    public static class Case {
+        private Supplier<Boolean> condition;
+        private Runnable action;
+
+        public Case(final Supplier<Boolean> condition, final Runnable action) {
+            this.condition = condition;
+            this.action = action;
+        }
+
+        /**
+         * このCaseの条件が真かどうかを評価します。
+         * @return 条件が真の場合true
+         */
+        public boolean evaluate() {
+            return condition.get();
+        }
+
+        /**
+         * このCaseに関連付けられたアクションを実行します。
+         */
+        public void execute() {
+            action.run();
+        }
+    }
+
+    /**
+     * 複数の条件とそれに対応するアクションを処理するためのクラスです。
+     */
+    public static class Switch {
+        private List<Case> cases;
+        private Runnable defaultAction;
+        private boolean executed; // 最初のマッチしたケースが実行されたかを追跡する
+
+        public Switch() {
+            this.cases = new ArrayList<>();
+            this.defaultAction = () -> {};
+            this.executed = false;
+        }
+
+        /**
+         * 新しいCaseを追加する。
+         * @param condition このケースの条件
+         * @param action このケースが選択されたときに実行するアクション
+         * @return このSwitchインスタンス
+         */
+        public Switch addCase(Supplier<Boolean> condition, Runnable action) {
+            this.cases.add(new Case(condition, action));
+            return this;
+        }
+
+        /**
+         * デフォルトのアクションを設定する。どのケースもマッチしなかった場合に実行される。
+         * @param action デフォルトのアクション
+         * @return このSwitchインスタンス
+         */
+        public Switch defaultCase(Runnable action) {
+            this.defaultAction = action;
+            return this;
+        }
+
+        /**
+         * ケースを評価し、最初に見つかった真の条件に対応するアクションを実行します。
+         * どのケースもマッチしない場合は、デフォルトアクションを実行します。
+         */
+        public void evaluate() {
+            executed = false; // 評価前にリセット
+            for (Case singleCase : cases) {
+                if (singleCase.evaluate()) {
+                    singleCase.execute();
+                    executed = true; // 実行されたことをマーク
+                    break; // 最初のマッチしたケースで終了
+                }
+            }
+            // どのケースも実行されなかった場合、デフォルトアクションを実行
+            if (!executed) {
+                defaultAction.run();
+            }
+        }
+    }
+    
 }

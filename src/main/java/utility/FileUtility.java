@@ -1,40 +1,41 @@
 package utility;
 
 import java.awt.Desktop;
-import java.awt.image.BufferedImage; // BufferedImage を追加
-import java.io.Console;
-import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.File; // BufferedImage を追加
 import java.io.IOException;
-import java.io.InputStream; // InputStream を追加
-import javax.imageio.ImageIO; // ImageIO を追加
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 
 // ConditionとValueHolderが同じutilityパッケージにあることを前提とします
-
 /**
- * ファイルのユーティリティ。
- * ファイルシステム上のファイル操作と、JAR/クラスパス内のリソース操作を提供します。
+ * ファイルのユーティリティ。 ファイルシステム上のファイル操作と、JAR/クラスパス内のリソース操作を提供します。
  */
-public class FileUtility extends Object
-{
+public class FileUtility extends Object {
+
     /**
      * カレントディレクトリを文字列（最後が必ずパス区切り文字となる）として応答する。
+     *
      * @return カレントディレクトリの文字列
      */
-    public static String currentDirectory()
-    {
-        ValueHolder<String> aString = new ValueHolder<String>(System.getProperty("user.dir"));
+    public static String currentDirectory() {
+        ValueHolder<String> aString = new ValueHolder<>(System.getProperty("user.dir"));
         // 最初のConditionは不要な重複の可能性があるので削除するか、ロジックを整理すると良いでしょう。
         // ここでは original のままにしておきますが、通常は new File(".").getAbsoluteFile().getParent() は null を返しません。
-        new Condition(() -> aString.get() == null).ifTrue(() ->
-        { aString.set(new File(".").getAbsoluteFile().getParent());});
+        new Condition(() -> aString.get() == null).ifTrue(()
+                -> {
+            aString.set(new File(".").getAbsoluteFile().getParent());
+        });
         new Condition(() -> aString.get() == null).ifTrue(() -> {
-        aString.set(new File(".").getAbsoluteFile().getParent());
+            aString.set(new File(".").getAbsoluteFile().getParent());
         });
         StringBuffer aBuffer = new StringBuffer();
         aBuffer.append(aString.get());
         Character aCharacter = aString.get().charAt(aString.get().length() - 1);
-        new Condition(() -> aCharacter != File.separatorChar).ifTrue(() ->
-        { aBuffer.append(File.separator);});
+        new Condition(() -> aCharacter != File.separatorChar).ifTrue(()
+                -> {
+            aBuffer.append(File.separator);
+        });
         aString.set(aBuffer.toString());
 
         return aString.get();
@@ -42,13 +43,14 @@ public class FileUtility extends Object
 
     /**
      * 開こうとするファイルを受け取り、そのファイルに関連付けられたアプリケーションを起動してファイルを開く。
+     *
      * @param aFile 開こうとするファイル
      */
-    public static void open(File aFile)
-    {
+    public static void open(File aFile) {
         Desktop aDesktop = Desktop.getDesktop();
-        try { aDesktop.open(aFile); }
-        catch (IOException anException) {
+        try {
+            aDesktop.open(aFile);
+        } catch (IOException anException) {
             System.err.println("ファイルのオープン中にエラーが発生しました: " + aFile.getAbsolutePath());
             anException.printStackTrace();
         }
@@ -56,57 +58,64 @@ public class FileUtility extends Object
 
     /**
      * 開こうとするファイル名を文字列として受け取り、そのファイルに関連付けられたアプリケーションを起動してファイルを開く。
+     *
      * @param aString 開こうとするファイル名の文字列
      */
-    public static void open(String aString)
-    {
+    public static void open(String aString) {
         File aFile = new File(aString);
         FileUtility.open(aFile);
     }
 
-
     /**
-     * 指定されたパスのリソースを InputStream として読み込む。
-     * 主にJARファイル内やクラスパス上のリソースにアクセスするために使用します。
+     * 指定されたパスのリソースを InputStream として読み込む。 主にJARファイル内やクラスパス上のリソースにアクセスするために使用します。
      *
-     * @param resourcePath クラスパス上のリソースのパス (例: "images/icon.png", "data/config.txt")
+     * @param resourcePath クラスパス上のリソースのパス (例: "images/icon.png",
+     * "data/config.txt")
      * @return リソースへの InputStream。リソースが見つからない場合は null。
      */
     public static InputStream getResourceAsStream(String resourcePath) {
         // 現在のクラスのClassLoaderを使ってリソースストリームを取得します。
         // これにより、JARファイル内部のリソースも適切にロードできます。
-        InputStream is = FileUtility.class.getClassLoader().getResourceAsStream(resourcePath);
-        if (is == null) {
+        ValueHolder<InputStream> is = new ValueHolder<>(FileUtility.class.getClassLoader().getResourceAsStream(resourcePath));
+        new Condition(() -> is.get() == null).ifTrue(() -> {
             System.err.println("警告: リソースが見つかりません: " + resourcePath);
-        }
-        return is;
+        });
+        return is.get();
     }
 
     /**
-     * 指定されたパスのリソースとして画像を読み込む。
-     * このメソッドは getResourceAsStream() を内部で使用し、JARファイル内の画像を安全にロードします。
+     * 指定されたパスのリソースとして画像を読み込む。 このメソッドは getResourceAsStream()
+     * を内部で使用し、JARファイル内の画像を安全にロードします。
      *
-     * @param resourcePath クラスパス上の画像ファイルのパス (例: "SampleImages/imageEarth512x256.jpg")
+     * @param resourcePath クラスパス上の画像ファイルのパス (例:
+     * "SampleImages/imageEarth512x256.jpg")
      * @return 読み込まれたBufferedImage。読み込みに失敗した場合は null。
      */
     public static BufferedImage readImageFromResource(String resourcePath) {
         try (InputStream input = getResourceAsStream(resourcePath)) {
-            if (input != null) {
-                BufferedImage image = ImageIO.read(input);
-                if (image != null) {
-                    System.out.println("画像が正常にロードされました: " + resourcePath);
-                    return image;
-                } else {
-                    System.out.println("resourcePath = "+input);
-                    System.err.println("エラー: 画像ファイルとして読み込めませんでした。パスが正しいか、画像が破損していないか確認してください: " + resourcePath);
-                    return null;
+            ValueHolder<BufferedImage> imageHolder = new ValueHolder<>(null);
+            Condition.ifThenElse(() -> input != null, () -> {
+                try {
+                    BufferedImage image = ImageIO.read(input);
+                    Condition.ifThenElse(() -> image != null,() -> {
+                            System.out.println("画像が正常にロードされました: " + resourcePath);
+                            imageHolder.set(image);
+                        },() -> {
+                            System.out.println("resourcePath = " + input);
+                            System.err.println("エラー: 画像ファイルとして読み込めませんでした。パスが正しいか、画像が破損していないか確認してください: " + resourcePath);
+                        }
+                    );
+                } catch (IOException e) {
+                    throw new RuntimeException("Error reading image: " + e.getMessage(), e);
                 }
-            } else {
-                // getResourceAsStream() で既に警告が出ているのでここでは出力しない
-                return null;
-            }
+            },() -> {});
+            return imageHolder.get();
         } catch (IOException e) {
             System.err.println("エラー: 画像 '" + resourcePath + "' の読み込み中にIO例外が発生しました: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        } catch (RuntimeException e) { // Catch the RuntimeException re-thrown from the lambda
+            System.err.println("エラー: 画像 '" + resourcePath + "' の読み込み中に予期せぬエラーが発生しました: " + e.getMessage());
             e.printStackTrace();
             return null;
         } catch (Exception e) {
@@ -116,3 +125,4 @@ public class FileUtility extends Object
         }
     }
 }
+
