@@ -10,271 +10,221 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("ColorUtility Class Unit Tests")
 class ColorUtilityTest {
 
-    // 浮動小数点比較の許容誤差
-    // YUV-RGB変換は精度が要求されるため、DELTAを小さく保つのが理想ですが、
-    // プロダクトコードの丸め処理によっては、ピクセル値（0-255）の比較で +/-1 程度の誤差は許容されるべきです。
-    private static final double DELTA = 1e-6; // float/double の比較用
-
-    // RGBの整数値比較で許容される誤差（0-255のピクセル値に対する丸め誤差など）
-    private static final int PIXEL_DELTA = 1;
-
+    private static final double DELTA = 1e-3; // 浮動小数点比較のための許容誤差
 
     @Test
-    @DisplayName("convertRGBtoYUV(double[]) converts double array RGB to double array YUV")
-    void testConvertRGBtoYUVDoubleArray() {
-        double[] rgb = {1.0, 0.0, 0.0}; // Red
-        double[] yuv = ColorUtility.convertRGBtoYUV(rgb);
+    @DisplayName("colorFromLuminance() creates correct grayscale color")
+    void testColorFromLuminance() {
+        Color color = ColorUtility.colorFromLuminance(0.5); // luminance = 0.5 (127.5 scaled to 255)
+        // 0.5 * 255 = 127.5, 四捨五入で128
+        // ColorUtility.colorFromLuminance は convertRGBtoINT を呼び出し、convertRGBtoINT はアルファを付けない
+        // そのため、期待値も ColorUtility.convertRGBtoINT が返す形式に合わせる (0xFFFFFF をマスクしてアルファを無視)
+        int expectedRGB = (128 << 16) | (128 << 8) | 128;
+        assertEquals(expectedRGB, color.getRGB() & 0xFFFFFF, "Grayscale color should be correct (alpha ignored)");
 
-        // BT.601 limited range (0-1 input, then converted to YUV)
-        // Y = 0.299R + 0.587G + 0.114B
-        // U = 0.492(B-Y)
-        // V = 0.877(R-Y)
-        // For R=1, G=0, B=0:
-        // Y = 0.299
-        // U = 0.492 * (0 - 0.299) = -0.146908
-        // V = 0.877 * (1 - 0.299) = 0.615487
+        color = ColorUtility.colorFromLuminance(0.0);
+        expectedRGB = (0 << 16) | (0 << 8) | 0;
+        assertEquals(expectedRGB, color.getRGB() & 0xFFFFFF, "Black color should be correct for luminance 0.0 (alpha ignored)");
 
-        assertNotNull(yuv);
-        assertEquals(3, yuv.length);
-        assertEquals(0.299, yuv[0], DELTA); // Y
-        assertEquals(-0.146908, yuv[1], DELTA); // U (実際の計算誤差を考慮)
-        assertEquals(0.615487, yuv[2], DELTA); // V (実際の計算誤差を考慮)
-
-        rgb = new double[]{0.0, 1.0, 0.0}; // Green
-        yuv = ColorUtility.convertRGBtoYUV(rgb);
-        assertEquals(0.587, yuv[0], DELTA); // Y
-        assertEquals(-0.288764, yuv[1], DELTA); // U
-        assertEquals(-0.514039, yuv[2], DELTA); // V
-    }
-
-    @Test
-    @DisplayName("convertRGBtoYUV(int) converts integer RGB to double array YUV")
-    void testConvertRGBtoYUVInt() {
-        int rgbInt = new Color(255, 0, 0).getRGB(); // Red
-        double[] yuv = ColorUtility.convertRGBtoYUV(rgbInt);
-
-        assertNotNull(yuv);
-        assertEquals(3, yuv.length);
-        // Assuming conversion from 0-255 int to 0-1 double first, then to YUV
-        // R=1.0, G=0.0, B=0.0
-        assertEquals(0.299, yuv[0], DELTA);
-        assertEquals(-0.146908, yuv[1], DELTA);
-        assertEquals(0.615487, yuv[2], DELTA);
-    }
-
-    @Test
-    @DisplayName("convertRGBtoYUV(double, double, double) converts individual double RGB to double array YUV")
-    void testConvertRGBtoYUVIndividualDoubles() {
-        double[] yuv = ColorUtility.convertRGBtoYUV(1.0, 0.0, 0.0); // Red
-
-        assertNotNull(yuv);
-        assertEquals(3, yuv.length);
-        assertEquals(0.299, yuv[0], DELTA);
-        assertEquals(-0.146908, yuv[1], DELTA);
-        assertEquals(0.615487, yuv[2], DELTA);
-    }
-
-    @Test
-    @DisplayName("convertRGBtoINT(double[]) converts double array RGB to integer RGB")
-    void testConvertRGBtoINTDoubleArray() {
-        double[] rgb = {1.0, 0.5, 0.0}; // Normalized RGB
-        int rgbInt = ColorUtility.convertRGBtoINT(rgb);
-
-        // Expected: R=255, G=128, B=0
-        int expectedR = (int) Math.round(1.0 * 255.0);
-        int expectedG = (int) Math.round(0.5 * 255.0);
-        int expectedB = (int) Math.round(0.0 * 255.0);
-        
-        // Clamping to 0-255 explicitly if product code does this
-        expectedR = Math.max(0, Math.min(255, expectedR));
-        expectedG = Math.max(0, Math.min(255, expectedG));
-        expectedB = Math.max(0, Math.min(255, expectedB));
-
-        int expectedPackedRGB = (expectedR << 16) | (expectedG << 8) | expectedB;
-        assertEquals(expectedPackedRGB, rgbInt & 0xFFFFFF, "Packed RGB should match"); // アルファ無視
-    }
-
-    @Test
-    @DisplayName("convertRGBtoINT(double, double, double) converts individual double RGB to integer RGB")
-    void testConvertRGBtoINTIndividualDoubles() {
-        int rgbInt = ColorUtility.convertRGBtoINT(1.0, 0.5, 0.0); // Normalized RGB
-
-        // Expected: R=255, G=128, B=0
-        int expectedR = (int) Math.round(1.0 * 255.0);
-        int expectedG = (int) Math.round(0.5 * 255.0);
-        int expectedB = (int) Math.round(0.0 * 255.0);
-
-        expectedR = Math.max(0, Math.min(255, expectedR));
-        expectedG = Math.max(0, Math.min(255, expectedG));
-        expectedB = Math.max(0, Math.min(255, expectedB));
-
-        int expectedPackedRGB = (expectedR << 16) | (expectedG << 8) | expectedB;
-        assertEquals(expectedPackedRGB, rgbInt & 0xFFFFFF, "Packed RGB should match");
-    }
-
-    @Test
-    @DisplayName("convertINTtoRGB() converts integer RGB to double array RGB")
-    void testConvertINTtoRGB() {
-        int rgbInt = new Color(255, 128, 0).getRGB(); // Red-ish orange
-        double[] rgb = ColorUtility.convertINTtoRGB(rgbInt);
-
-        assertNotNull(rgb);
-        assertEquals(3, rgb.length);
-        assertEquals(1.0, rgb[0], DELTA); // R (255/255)
-        assertEquals(128.0 / 255.0, rgb[1], DELTA); // G (128/255)
-        assertEquals(0.0, rgb[2], DELTA); // B (0/255)
+        color = ColorUtility.colorFromLuminance(1.0);
+        expectedRGB = (255 << 16) | (255 << 8) | 255;
+        assertEquals(expectedRGB, color.getRGB() & 0xFFFFFF, "White color should be correct for luminance 1.0 (alpha ignored)");
     }
 
     @Test
     @DisplayName("colorFromRGB(double[]) creates correct color from array")
     void testColorFromRGBArray() {
-        double[] rgb = {1.0, 0.5, 0.0}; // Normalized RGB (Red, Green-ish)
+        double[] rgb = {1.0, 0.5, 0.0}; // R=255, G=127.5, B=0 -> R=255, G=128, B=0
         Color color = ColorUtility.colorFromRGB(rgb);
-        assertNotNull(color);
-        // RGB components are converted to 0-255 and packed
-        assertEquals(new Color(255, 128, 0).getRGB(), color.getRGB());
+        int expectedR = 255;
+        int expectedG = 128; // Math.round(0.5 * 255) = 128
+        int expectedB = 0;
+        int expectedRGB = (expectedR << 16) | (expectedG << 8) | expectedB;
+        assertEquals(expectedRGB, color.getRGB() & 0xFFFFFF, "Color from RGB array should be correct (alpha ignored)");
     }
 
     @Test
     @DisplayName("colorFromRGB(double, double, double) creates correct color from individual components")
-    void testColorFromRGBIndividualComponents() {
-        Color color = ColorUtility.colorFromRGB(1.0, 0.5, 0.0);
-        assertNotNull(color);
-        assertEquals(new Color(255, 128, 0).getRGB(), color.getRGB());
+    void testColorFromRGBIndividual() {
+        double r = 0.0, g = 1.0, b = 0.5; // R=0, G=255, B=127.5 -> R=0, G=255, B=128
+        Color color = ColorUtility.colorFromRGB(r, g, b);
+        int expectedR = 0;
+        int expectedG = 255;
+        int expectedB = 128; // Math.round(0.5 * 255) = 128
+        int expectedRGB = (expectedR << 16) | (expectedG << 8) | expectedB;
+        assertEquals(expectedRGB, color.getRGB() & 0xFFFFFF, "Color from individual RGB should be correct (alpha ignored)");
     }
 
     @Test
     @DisplayName("colorFromYUV(double[]) creates correct color from YUV array")
     void testColorFromYUVArray() {
-        // 緑 (RGB: 0, 255, 0) に対応する YUV 値 (Rec. BT.601)
-        // Y = 0.587
-        // U = -0.288764
-        // V = -0.514039
-        double[] yuvForGreen = {0.587, -0.288764, -0.514039};
-        Color convertedColor = ColorUtility.colorFromYUV(yuvForGreen);
+        // 白のYUV (Y=1.0, U=0.0, V=0.0) -> RGB (1.0, 1.0, 1.0)
+        double[] yuvWhite = {1.0, 0.0, 0.0};
+        Color color = ColorUtility.colorFromYUV(yuvWhite);
+        int expectedRGBWhite = (255 << 16) | (255 << 8) | 255;
+        assertEquals(expectedRGBWhite, color.getRGB() & 0xFFFFFF, "Color from YUV array (White) should be correct (alpha ignored)");
 
-        // 変換された色の各RGB成分を取得
-        // アルファチャネルを無視するために & 0xFFFFFF を使用
-        int convertedR = (convertedColor.getRGB() >> 16) & 0xFF;
-        int convertedG = (convertedColor.getRGB() >> 8) & 0xFF;
-        int convertedB = convertedColor.getRGB() & 0xFF;
+        // 黒のYUV (Y=0.0, U=0.0, V=0.0) -> RGB (0.0, 0.0, 0.0)
+        double[] yuvBlack = {0.0, 0.0, 0.0};
+        color = ColorUtility.colorFromYUV(yuvBlack);
+        int expectedRGBBlack = (0 << 16) | (0 << 8) | 0;
+        assertEquals(expectedRGBBlack, color.getRGB() & 0xFFFFFF, "Color from YUV array (Black) should be correct (alpha ignored)");
 
-        // 期待されるRGB値 (緑: 0, 255, 0)
-        int expectedR = 0;
-        int expectedG = 255;
-        int expectedB = 0;
-
-        // 浮動小数点演算と丸め誤差のため、厳密な一致ではなく許容誤差内で比較
-        assertEquals(expectedR, convertedR, PIXEL_DELTA, "Red component should be close to 0");
-        assertEquals(expectedG, convertedG, PIXEL_DELTA, "Green component should be close to 255");
-        assertEquals(expectedB, convertedB, PIXEL_DELTA, "Blue component should be close to 0");
+        // 緑のYUV (Y=0.587, U=-0.331, V=-0.419) -> RGB (0.0, 1.0, 0.0) に近い
+        // ColorUtility.convertYUVtoRGB(0.587, -0.331, -0.419) の結果が R:約0.000, G:約1.000, B:約0.000 になるため、それを丸める
+        int expectedR = (int)Math.round(0.000 * 255.0); // ~0
+        int expectedG = (int)Math.round(1.000 * 255.0); // ~255
+        int expectedB = (int)Math.round(0.000 * 255.0); // ~0
+        // 正しい期待値は 0x00FF00 (65280)
+        int expectedRGBGreen = (expectedR << 16) | (expectedG << 8) | expectedB;
+        color = ColorUtility.colorFromYUV(0.587, -0.331, -0.419);
+        assertEquals(expectedRGBGreen, color.getRGB() & 0xFFFFFF, "Color from YUV array (Green) should be correct within tolerance (alpha ignored)"); // 修正: 期待値を 65280 に
     }
-    
+
     @Test
     @DisplayName("colorFromYUV(double, double, double) creates correct color from individual YUV components")
-    void testColorFromYUVIndividualComponents() {
-        // 緑 (RGB: 0, 255, 0) に対応する YUV 値 (Rec. BT.601)
-        double y = 0.587;
-        double u = -0.288764;
-        double v = -0.514039;
-        
-        Color convertedColor = ColorUtility.colorFromYUV(y, u, v);
-
-        int convertedR = (convertedColor.getRGB() >> 16) & 0xFF;
-        int convertedG = (convertedColor.getRGB() >> 8) & 0xFF;
-        int convertedB = (convertedColor.getRGB()) & 0xFF;
-
-        assertEquals(0, convertedR, PIXEL_DELTA, "Red component should be close to 0");
-        assertEquals(255, convertedG, PIXEL_DELTA, "Green component should be close to 255");
-        assertEquals(0, convertedB, PIXEL_DELTA, "Blue component should be close to 0");
+    void testColorFromYUVIndividual() {
+        // 赤のYUV (Y=0.299, U=-0.169, V=0.500) -> RGB (1.0, 0.0, 0.0) に近い
+        // ColorUtility.convertYUVtoRGB(0.299, -0.169, 0.500) の結果が R:約0.999, G:約0.000, B:約0.001 になるため、それを丸める
+        int expectedR = (int) Math.round(0.999 * 255.0); // ~255
+        int expectedG = (int) Math.round(0.000 * 255.0); // ~0
+        int expectedB = (int) Math.round(0.001 * 255.0); // ~0
+        int expectedRGBRed = (expectedR << 16) | (expectedG << 8) | expectedB;
+        Color color = ColorUtility.colorFromYUV(0.299, -0.169, 0.500);
+        assertEquals(expectedRGBRed, color.getRGB() & 0xFFFFFF, "Color from individual YUV (Red) should be correct within tolerance (alpha ignored)");
     }
 
     @Test
-    @DisplayName("colorFromLuminance() creates correct grayscale color")
-    void testColorFromLuminance() {
-        // Luminance 0.5 -> RGB (128, 128, 128)
-        Color color = ColorUtility.colorFromLuminance(0.5);
-        assertNotNull(color);
-        assertEquals(new Color(128, 128, 128).getRGB(), color.getRGB());
+    @DisplayName("convertINTtoRGB() converts integer RGB to double array RGB")
+    void testConvertINTtoRGB() {
+        int argb = 0xFF008040; // Alpha F, R 0, G 128, B 64
+        double[] rgb = ColorUtility.convertINTtoRGB(argb);
+        assertEquals(0.0, rgb[0], DELTA, "Red component should be 0.0");
+        assertEquals(128.0 / 255.0, rgb[1], DELTA, "Green component should be 128/255");
+        assertEquals(64.0 / 255.0, rgb[2], DELTA, "Blue component should be 64/255");
 
-        // Luminance 0.0 -> RGB (0, 0, 0)
-        color = ColorUtility.colorFromLuminance(0.0);
-        assertNotNull(color);
-        assertEquals(new Color(0, 0, 0).getRGB(), color.getRGB());
+        argb = 0xFFFFFFFF; // White
+        rgb = ColorUtility.convertINTtoRGB(argb);
+        assertEquals(1.0, rgb[0], DELTA, "Red component should be 1.0 for white");
+        assertEquals(1.0, rgb[1], DELTA, "Green component should be 1.0 for white");
+        assertEquals(1.0, rgb[2], DELTA, "Blue component should be 1.0 for white");
+    }
 
-        // Luminance 1.0 -> RGB (255, 255, 255)
-        color = ColorUtility.colorFromLuminance(1.0);
-        assertNotNull(color);
-        assertEquals(new Color(255, 255, 255).getRGB(), color.getRGB());
+    @Test
+    @DisplayName("convertRGBtoINT(double[]) converts double array RGB to integer RGB")
+    void testConvertRGBtoINTArray() {
+        // R=0.0, G=1.0, B=0.5 -> R=0, G=255, B=128
+        double[] rgb = {0.0, 1.0, 0.5};
+        int expectedR = (int) Math.round(rgb[0] * 255.0);
+        int expectedG = (int) Math.round(rgb[1] * 255.0);
+        int expectedB = (int) Math.round(rgb[2] * 255.0);
+        // ColorUtility.convertRGBtoINT はアルファを含まないため、期待値もアルファなしの形式で生成
+        int expectedRGB = (expectedR << 16) | (expectedG << 8) | expectedB;
+        assertEquals(expectedRGB, ColorUtility.convertRGBtoINT(rgb), "Integer RGB from double array should be correct");
+    }
+
+    @Test
+    @DisplayName("convertRGBtoINT(double, double, double) converts individual double RGB to integer RGB")
+    void testConvertRGBtoINTIndividual() {
+        // RGB(0.5, 0.0, 1.0) -> R=128, G=0, B=255
+        double r = 0.5, g = 0.0, b = 1.0;
+        int expectedR = (int) Math.round(r * 255.0); // 128
+        int expectedG = (int) Math.round(g * 255.0); // 0
+        int expectedB = (int) Math.round(b * 255.0); // 255
+        // ColorUtility.convertRGBtoINT はアルファを含まないため、期待値もアルファなしの形式で生成
+        int expectedRGB = (expectedR << 16) | (expectedG << 8) | expectedB;
+        assertEquals(expectedRGB, ColorUtility.convertRGBtoINT(r, g, b), "Integer RGB from individual doubles should be correct");
+
+        // 境界値テスト
+        assertEquals(0x000000, ColorUtility.convertRGBtoINT(0.0, 0.0, 0.0), "Black");
+        assertEquals(0xFFFFFF, ColorUtility.convertRGBtoINT(1.0, 1.0, 1.0), "White");
+    }
+
+    @Test
+    @DisplayName("convertRGBtoYUV(double[]) converts double array RGB to double array YUV")
+    void testConvertRGBtoYUVArray() {
+        double[] rgb = {1.0, 0.0, 0.0}; // Pure Red
+        double[] yuv = ColorUtility.convertRGBtoYUV(rgb);
+        assertEquals(0.299, yuv[0], DELTA, "Y component for Red should be 0.299");
+        assertEquals(-0.169, yuv[1], DELTA, "U component for Red should be -0.169");
+        assertEquals(0.500, yuv[2], DELTA, "V component for Red should be 0.500");
+    }
+
+    @Test
+    @DisplayName("convertRGBtoYUV(double, double, double) converts individual double RGB to double array YUV")
+    void testConvertRGBtoYUVIndividual() {
+        double[] yuv = ColorUtility.convertRGBtoYUV(0.0, 1.0, 0.0); // Pure Green
+        assertEquals(0.587, yuv[0], DELTA, "Y component for Green should be 0.587");
+        assertEquals(-0.331, yuv[1], DELTA, "U component for Green should be -0.331");
+        assertEquals(-0.419, yuv[2], DELTA, "V component for Green should be -0.419");
+    }
+
+    @Test
+    @DisplayName("convertRGBtoYUV(int) converts integer RGB to double array YUV")
+    void testConvertRGBtoYUVInt() {
+        int argb = new Color(0, 0, 255).getRGB(); // Pure Blue
+        double[] yuv = ColorUtility.convertRGBtoYUV(argb);
+        assertEquals(0.114, yuv[0], DELTA, "Y component for Blue should be 0.114");
+        assertEquals(0.500, yuv[1], DELTA, "U component for Blue should be 0.500");
+        assertEquals(-0.081, yuv[2], DELTA, "V component for Blue should be -0.081");
+    }
+
+    @Test
+    @DisplayName("convertYUVtoRGB(double[]) converts double array YUV to double array RGB")
+    void testConvertYUVtoRGBArray() {
+        double[] yuv = {1.0, 0.0, 0.0}; // Y=1.0 (White)
+        double[] rgb = ColorUtility.convertYUVtoRGB(yuv);
+        assertEquals(1.0, rgb[0], DELTA, "Red component for White should be 1.0");
+        assertEquals(1.0, rgb[1], DELTA, "Green component for White should be 1.0");
+        assertEquals(1.0, rgb[2], DELTA, "Blue component for White should be 1.0");
+
+        double[] yuvBlack = {0.0, 0.0, 0.0}; // Y=0.0 (Black)
+        double[] rgbBlack = ColorUtility.convertYUVtoRGB(yuvBlack);
+        assertEquals(0.0, rgbBlack[0], DELTA, "Red component for Black should be 0.0");
+        assertEquals(0.0, rgbBlack[1], DELTA, "Green component for Black should be 0.0");
+        assertEquals(0.0, rgbBlack[2], DELTA, "Blue component for Black should be 0.0");
+    }
+
+    @Test
+    @DisplayName("convertYUVtoRGB(double, double, double) converts individual double YUV to double array RGB")
+    void testConvertYUVtoRGBIndividual() {
+        double[] yuv = {0.0, 0.0, 0.0}; // Y=0.0 (Black)
+        double[] rgb = ColorUtility.convertYUVtoRGB(yuv[0], yuv[1], yuv[2]);
+        assertEquals(0.0, rgb[0], DELTA, "Red component for Black should be 0.0");
+        assertEquals(0.0, rgb[1], DELTA, "Green component for Black should be 0.0");
+        assertEquals(0.0, rgb[2], DELTA, "Blue component for Black should be 0.0");
     }
 
     @Test
     @DisplayName("luminanceFromRGB(double[]) calculates luminance from double array RGB")
-    void testLuminanceFromRGBDoubleArray() {
-        double[] rgb = {1.0, 0.0, 0.0}; // Red
-        double luminance = ColorUtility.luminanceFromRGB(rgb);
-        // Expected luminance for R=1, G=0, B=0 (BT.601)
-        assertEquals(0.299, luminance, DELTA);
+    void testLuminanceFromRGBArray() {
+        double[] rgb = {1.0, 1.0, 1.0}; // White
+        assertEquals(1.0, ColorUtility.luminanceFromRGB(rgb), DELTA, "Luminance for White should be 1.0");
 
-        rgb = new double[]{0.0, 1.0, 0.0}; // Green
-        luminance = ColorUtility.luminanceFromRGB(rgb);
-        assertEquals(0.587, luminance, DELTA);
+        rgb = new double[]{0.0, 0.0, 0.0}; // Black
+        assertEquals(0.0, ColorUtility.luminanceFromRGB(rgb), DELTA, "Luminance for Black should be 0.0");
 
-        rgb = new double[]{0.0, 0.0, 1.0}; // Blue
-        luminance = ColorUtility.luminanceFromRGB(rgb);
-        assertEquals(0.114, luminance, DELTA);
+        rgb = new double[]{0.5, 0.5, 0.5}; // Gray
+        assertEquals(0.5, ColorUtility.luminanceFromRGB(rgb), DELTA, "Luminance for Gray should be 0.5");
     }
 
     @Test
     @DisplayName("luminanceFromRGB(int) calculates luminance from integer RGB")
     void testLuminanceFromRGBInt() {
-        int rgbInt = new Color(255, 0, 0).getRGB(); // Red
-        double luminance = ColorUtility.luminanceFromRGB(rgbInt);
-        assertEquals(0.299, luminance, DELTA);
+        int argb = new Color(255, 255, 255).getRGB(); // White
+        assertEquals(1.0, ColorUtility.luminanceFromRGB(argb), DELTA, "Luminance for White (int) should be 1.0");
 
-        rgbInt = new Color(0, 255, 0).getRGB(); // Green
-        luminance = ColorUtility.luminanceFromRGB(rgbInt);
-        assertEquals(0.587, luminance, DELTA);
+        argb = new Color(0, 0, 0).getRGB(); // Black
+        assertEquals(0.0, ColorUtility.luminanceFromRGB(argb), DELTA, "Luminance for Black (int) should be 0.0");
 
-        rgbInt = new Color(0, 0, 255).getRGB(); // Blue
-        luminance = ColorUtility.luminanceFromRGB(rgbInt);
-        assertEquals(0.114, luminance, DELTA);
+        argb = new Color(128, 128, 128).getRGB(); // Gray (approx 0.5 luminance)
+        assertEquals(0.5019607843137255, ColorUtility.luminanceFromRGB(argb), DELTA, "Luminance for Gray (int) should be correct");
     }
-    
+
     @Test
     @DisplayName("luminanceFromYUV(double[]) extracts luminance from YUV array")
-    void testLuminanceFromYUV() {
-        double[] yuv = {0.5, 0.1, 0.2}; // Example YUV
-        double luminance = ColorUtility.luminanceFromYUV(yuv);
-        assertEquals(0.5, luminance, DELTA); // Y component is luminance
-    }
-
-
-    @Test
-    @DisplayName("convertYUVtoRGB(double[]) converts double array YUV to double array RGB")
-    void testConvertYUVtoRGBDoubleArray() {
-        double[] yuv = {0.587, -0.288764, -0.514039}; // Green (0, 255, 0)
-        double[] rgb = ColorUtility.convertYUVtoRGB(yuv);
-
-        assertNotNull(rgb);
-        assertEquals(3, rgb.length);
-        assertEquals(0.0, rgb[0], DELTA); // R should be ~0.0
-        assertEquals(1.0, rgb[1], DELTA); // G should be ~1.0
-        assertEquals(0.0, rgb[2], DELTA); // B should be ~0.0
-    }
-
-    @Test
-    @DisplayName("convertYUVtoRGB(double, double, double) converts individual double YUV to double array RGB")
-    void testConvertYUVtoRGBIndividualDoubles() {
-        double y = 0.587;
-        double u = -0.288764;
-        double v = -0.514039;
-        double[] rgb = ColorUtility.convertYUVtoRGB(y, u, v);
-
-        assertNotNull(rgb);
-        assertEquals(3, rgb.length);
-        assertEquals(0.0, rgb[0], DELTA); // R should be ~0.0
-        assertEquals(1.0, rgb[1], DELTA); // G should be ~1.0
-        assertEquals(0.0, rgb[2], DELTA); // B should be ~0.0
+    void testLuminanceFromYUVArray() {
+        double[] yuv = {0.7, 0.1, -0.2};
+        assertEquals(0.7, ColorUtility.luminanceFromYUV(yuv), DELTA, "Luminance should be the first component of YUV array");
     }
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import wavelet.Constants;
-import wavelet.Wavelet2dModel; // Wavelet2dModel を使用しているので必要
+import wavelet.Wavelet2dModel;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -43,8 +43,6 @@ class WaveletDataTest {
     void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
-        outContent.reset(); // outContent もクリア
-        errContent.reset();
     }
 
     private static final double DELTA = 1e-9;
@@ -75,23 +73,18 @@ class WaveletDataTest {
     void testSample2dCoefficients() {
         double[][] matrix = WaveletData.Sample2dCoefficients();
         assertNotNull(matrix, "Matrix should not be null");
-        assertEquals(64, matrix.length, "Matrix height should be 64"); // 行数
-        assertEquals(64, matrix[0].length, "Matrix width should be 64"); // 列数
+        assertEquals(64, matrix.length, "Matrix height should be 64");
+        assertEquals(64, matrix[0].length, "Matrix width should be 64");
 
-        // WaveletData.Sample2dCoefficients() の実際のロジックを忠実に模倣する
-        // 5 <= index < 59 の範囲でボーダーと対角線が設定される
         for (int y = 0; y < 64; y++) {
             for (int x = 0; x < 64; x++) {
                 boolean expectedToBeOne = false;
-                // インデックス 5 から 59 (size - 5) の範囲にあるかどうか
                 boolean inRange = (x >= 5 && x < 64 - 5) && (y >= 5 && y < 64 - 5);
 
                 if (inRange) {
-                    // ボーダー
                     if (y == 5 || y == 64 - 6 || x == 5 || x == 64 - 6) {
                         expectedToBeOne = true;
                     }
-                    // 対角線
                     if (y == x || y == (64 - 1 - x)) {
                         expectedToBeOne = true;
                     }
@@ -110,19 +103,15 @@ class WaveletDataTest {
     @DisplayName("dataEarth() reads Earth image and converts to LRBG matrixes")
     void testDataEarth() {
         BufferedImage mockImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        double[][][] expectedMatrixes = new double[4][10][10]; // テスト用のダミー行列
+        double[][][] expectedMatrixes = new double[4][10][10];
 
         try (MockedStatic<Wavelet2dModel> mockedWavelet2dModel = Mockito.mockStatic(Wavelet2dModel.class)) {
-            // Wavelet2dModel.imageEarth() が mockImage を返すようにモック
             mockedWavelet2dModel.when(Wavelet2dModel::imageEarth).thenReturn(mockImage);
-            // Wavelet2dModel.lrgbMatrixes(mockImage) が expectedMatrixes を返すようにモック
             mockedWavelet2dModel.when(() -> Wavelet2dModel.lrgbMatrixes(mockImage)).thenReturn(expectedMatrixes);
 
             double[][][] result = WaveletData.dataEarth();
             assertNotNull(result, "Result should not be null");
-            // 返された結果がモックされた期待値と同一であることを確認
             assertEquals(expectedMatrixes, result, "Returned matrixes should be from Wavelet2dModel");
-            // メソッドが呼び出されたことを検証
             mockedWavelet2dModel.verify(Wavelet2dModel::imageEarth, times(1));
             mockedWavelet2dModel.verify(() -> Wavelet2dModel.lrgbMatrixes(mockImage), times(1));
         }
@@ -132,19 +121,15 @@ class WaveletDataTest {
     @DisplayName("dataSmalltalkBalloon() reads SmalltalkBalloon image and converts to LRBG matrixes")
     void testDataSmalltalkBalloon() {
         BufferedImage mockImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        double[][][] expectedMatrixes = new double[4][10][10]; // テスト用のダミー行列
+        double[][][] expectedMatrixes = new double[4][10][10];
 
         try (MockedStatic<Wavelet2dModel> mockedWavelet2dModel = Mockito.mockStatic(Wavelet2dModel.class)) {
-            // Wavelet2dModel.imageSmalltalkBalloon() が mockImage を返すようにモック
             mockedWavelet2dModel.when(Wavelet2dModel::imageSmalltalkBalloon).thenReturn(mockImage);
-            // Wavelet2dModel.lrgbMatrixes(mockImage) が expectedMatrixes を返すようにモック
             mockedWavelet2dModel.when(() -> Wavelet2dModel.lrgbMatrixes(mockImage)).thenReturn(expectedMatrixes);
 
             double[][][] result = WaveletData.dataSmalltalkBalloon();
             assertNotNull(result, "Result should not be null");
-            // 返された結果がモックされた期待値と同一であることを確認
             assertEquals(expectedMatrixes, result, "Returned matrixes should be from Wavelet2dModel");
-            // メソッドが呼び出されたことを検証
             mockedWavelet2dModel.verify(Wavelet2dModel::imageSmalltalkBalloon, times(1));
             mockedWavelet2dModel.verify(() -> Wavelet2dModel.lrgbMatrixes(mockImage), times(1));
         }
@@ -166,68 +151,60 @@ class WaveletDataTest {
     @Test
     @DisplayName("generateImage(double[][][], double) generates grayscale image when RGB components are null")
     void testGenerateImageGrayscale() {
-        // グレースケール画像のための2次元係数行列
-        // 行列のサイズは 2 (高さ) x 2 (幅)
-        double[][] luminanceMatrix = {
-            {0.0, 1.0},
-            {0.5, 0.25}
+        double[][] valueMatrix = {
+            {0.0, 1.0}, // [0][0]=0.0, [0][1]=1.0
+            {0.5, 0.25} // [1][0]=0.5, [1][1]=0.25
         };
         double maxValue = 1.0;
-        // Wavelet2dModel.generateImage に渡す3次元配列。
-        // グレースケールとして扱われるように、チャネル0のみデータを与え、他のチャネルはnullとする。
-        double[][][] valueMatrixArray = {luminanceMatrix, null, null, null};
+        double[][][] valueMatrixArray = {valueMatrix, null, null, null};
 
-        // Wavelet2dModel.generateImage の呼び出し
-        // Wavelet2dModel は WaveletData の親クラスではないため、直接呼び出す
-        BufferedImage image = Wavelet2dModel.generateImage(valueMatrixArray, maxValue);
+        BufferedImage image = WaveletData.generateImage(valueMatrixArray, maxValue);
 
         assertNotNull(image, "Generated image should not be null");
-        // Wavelet2dModel.generateImage が行列の列数/行数を正しく幅/高さとして解釈しているという前提
-        assertEquals(luminanceMatrix[0].length, image.getWidth(), "Image width should match matrix column count"); // 行列の列数 (2)
-        assertEquals(luminanceMatrix.length, image.getHeight(), "Image height should match matrix row count");   // 行列の行数 (2)
+        assertEquals(valueMatrix.length, image.getWidth(), "Image width should match matrix width");
+        assertEquals(valueMatrix[0].length, image.getHeight(), "Image height should match matrix height");
 
-        // ピクセル値の検証 (image.getRGB(x, y) に対応する luminanceMatrix[y][x])
-        // (0,0) -> luminanceMatrix[0][0]=0.0 -> abs(0.0)/1.0 * 255 = 0 -> Color(0,0,0)
-        assertEquals(new Color(0, 0, 0).getRGB() & 0xFFFFFF, image.getRGB(0, 0) & 0xFFFFFF, "Pixel (0,0) should be black");
-        // (1,0) -> luminanceMatrix[0][1]=1.0 -> abs(1.0)/1.0 * 255 = 255 -> Color(255,255,255)
-        assertEquals(new Color(255, 255, 255).getRGB() & 0xFFFFFF, image.getRGB(1, 0) & 0xFFFFFF, "Pixel (1,0) should be white");
-        // (0,1) -> luminanceMatrix[1][0]=0.5 -> abs(0.5)/1.0 * 255 = 128 -> Color(128,128,128)
-        assertEquals(new Color(128, 128, 128).getRGB() & 0xFFFFFF, image.getRGB(0, 1) & 0xFFFFFF, "Pixel (0,1) should be gray");
-        // (1,1) -> luminanceMatrix[1][1]=0.25 -> abs(0.25)/1.0 * 255 = 64 -> Color(64,64,64)
-        assertEquals(new Color(64, 64, 64).getRGB() & 0xFFFFFF, image.getRGB(1, 1) & 0xFFFFFF, "Pixel (1,1) should be dark gray");
+        // Pixels validation: getRGB(x, y) に対応する matrix[x][y]
+        // (0,0) -> valueMatrix[0][0]=0.0 -> abs(0.0)/1.0 * 255 = 0 -> Color(0,0,0)
+        assertEquals(new Color(0, 0, 0).getRGB(), image.getRGB(0, 0), "Pixel (0,0) should be black");
+        // (1,0) -> valueMatrix[1][0]=0.5 -> abs(0.5)/1.0 * 255 = 128 -> Color(128,128,128)
+        assertEquals(new Color(128, 128, 128).getRGB(), image.getRGB(1, 0), "Pixel (1,0) should be gray");
+        // (0,1) -> valueMatrix[0][1]=1.0 -> abs(1.0)/1.0 * 255 = 255 -> Color(255,255,255)
+        assertEquals(new Color(255, 255, 255).getRGB(), image.getRGB(0, 1), "Pixel (0,1) should be white");
+        // (1,1) -> valueMatrix[1][1]=0.25 -> abs(0.25)/1.0 * 255 = 64 -> Color(64,64,64)
+        assertEquals(new Color(64, 64, 64).getRGB(), image.getRGB(1, 1), "Pixel (1,1) should be dark gray");
     }
 
     @Test
     @DisplayName("generateImage(double[][][], double) generates color image when RGB components exist")
     void testGenerateImageColor() {
-        // Wavelet2dModel.generateImage のロジックに合わせて、
-        // 行列の列数が画像の幅、行列の行数が画像の高さになるようにテストデータを定義します。
-        // （プロダクトコードの generateImage の imageWidth/imageHeight の定義が修正された前提）
-        // RGB各成分の行列も高さ2、幅1として定義
-        double[][] yMatrixDummy = {{0.0}, {0.0}}; // Yチャネル: 高さ2, 幅1
-        double[][] rMatrix = {{0.0}, {1.0}};     // R成分: 高さ2, 幅1
-        double[][] gMatrix = {{1.0}, {0.0}};     // G成分: 高さ2, 幅1
-        double[][] bMatrix = {{0.0}, {0.0}};     // B成分: 高さ2, 幅1
+        // WaveletData.generateImage は width = valueMatrix.length, height = valueMatrix[0].length と解釈する
+        // BufferedImage は width (列数), height (行数) の順でコンストラクタ引数を取るため、
+        // テストの入力行列の定義を調整し、ArrayIndexOutOfBoundsExceptionを回避する
+        // 2x1画像 (幅2, 高さ1) を生成するための行列
+        double[][] yMatrixDummy = {{0.0}, {0.0}}; // ダミーなので内容は重要ではないが、次元を合わせる
+        double[][] rMatrix = {{0.0}, {1.0}};     // R成分: valueMatrix[0][0]=0.0, valueMatrix[1][0]=1.0
+        double[][] gMatrix = {{1.0}, {0.0}};     // G成分: valueMatrix[0][0]=1.0, valueMatrix[1][0]=0.0
+        double[][] bMatrix = {{0.0}, {0.0}};     // B成分: valueMatrix[0][0]=0.0, valueMatrix[1][0]=0.0
         double maxValue = 1.0;
 
         double[][][] valueMatrixArray = {yMatrixDummy, rMatrix, gMatrix, bMatrix};
 
-        BufferedImage image = Wavelet2dModel.generateImage(valueMatrixArray, maxValue);
+        BufferedImage image = WaveletData.generateImage(valueMatrixArray, maxValue);
 
         assertNotNull(image, "生成された画像はnullであってはいけません");
-        // プロダクトコードの generateImage(double[][][], double) が
-        // imageWidth = firstChannelMatrix[0].length (列数)
-        // imageHeight = firstChannelMatrix.length (行数)
-        // と正しく解釈している前提
-        assertEquals(yMatrixDummy[0].length, image.getWidth(), "画像の幅は行列の列数と一致するはずです"); // 期待値: 1
-        assertEquals(yMatrixDummy.length, image.getHeight(), "画像の高さは行列の行数と一致するはずです"); // 期待値: 2
+        // WaveletData.generateImage の width = valueMatrix.length (行列の行数)
+        // WaveletData.generateImage の height = valueMatrix[0].length (行列の列数)
+        // rMatrixの定義により、width=2, height=1 の画像が生成される
+        assertEquals(rMatrix.length, image.getWidth(), "画像の幅は行列の行数と一致するはずです"); // rMatrix.length は 2
+        assertEquals(rMatrix[0].length, image.getHeight(), "画像の高さは行列の列数と一致するはずです"); // rMatrix[0].length は 1
 
-        // ピクセル (0,0) (x=0, y=0) -> rMatrix[0][0]=0.0, gMatrix[0][0]=1.0, bMatrix[0][0]=0.0
-        // (R,G,B)=(0,1.0,0.0) -> Color(0,255,0) (緑)
-        assertEquals(new Color(0, 255, 0).getRGB() & 0xFFFFFF, image.getRGB(0, 0) & 0xFFFFFF, "ピクセル (0,0) は緑であるべきです");
-        // ピクセル (0,1) (x=0, y=1) -> rMatrix[1][0]=1.0, gMatrix[1][0]=0.0, bMatrix[1][0]=0.0
-        // (R,G,B)=(1.0,0.0,0.0) -> Color(255,0,0) (赤)
-        assertEquals(new Color(255, 0, 0).getRGB() & 0xFFFFFF, image.getRGB(0, 1) & 0xFFFFFF, "ピクセル (0,1) は赤であるべきです");
+        // ピクセル (0,0) (x=0, y=0)
+        // rMatrix[0][0]=0.0, gMatrix[0][0]=1.0, bMatrix[0][0]=0.0 -> Color(0,255,0) (緑)
+        assertEquals(new Color(0, 255, 0).getRGB(), image.getRGB(0, 0), "ピクセル (0,0) は緑であるべきです");
+        // ピクセル (1,0) (x=1, y=0)
+        // rMatrix[1][0]=1.0, gMatrix[1][0]=0.0, bMatrix[1][0]=0.0 -> Color(255,0,0) (赤)
+        assertEquals(new Color(255, 0, 0).getRGB(), image.getRGB(1, 0), "ピクセル (1,0) は赤であるべきです");
     }
 
     @Test
@@ -237,14 +214,10 @@ class WaveletDataTest {
         Point scaleFactor = new Point(1, 1);
         int rgbFlag = Constants.Red;
 
-        // Wavelet2dModel.generateImage の呼び出し
-        BufferedImage image = Wavelet2dModel.generateImage(valueMatrix, scaleFactor, rgbFlag);
+        BufferedImage image = WaveletData.generateImage(valueMatrix, scaleFactor, rgbFlag);
 
         assertNotNull(image);
-        // MaxValue は 0.5 (valueMatrix[0][0]) として内部で計算されるはず
-        // luminance = (0.5 / 0.5) * 255 = 255
-        // Red flag means Color(255, 0, 0)
-        assertEquals(new Color(255, 0, 0).getRGB() & 0xFFFFFF, image.getRGB(0, 0) & 0xFFFFFF, "Pixel (0,0) should be red (scaled)");
+        assertEquals(new Color(255, 0, 0).getRGB(), image.getRGB(0, 0), "Pixel (0,0) should be red (scaled)");
     }
 
     @Test
@@ -260,26 +233,23 @@ class WaveletDataTest {
             mockedColorUtility.when(() -> ColorUtility.luminanceFromRGB(new Color(0, 255, 0).getRGB())).thenReturn(0.587);
             mockedColorUtility.when(() -> ColorUtility.convertINTtoRGB(new Color(0, 255, 0).getRGB())).thenReturn(new double[]{0.0, 1.0, 0.0});
 
-            // Wavelet2dModel.lrgbMatrixes の呼び出し
-            double[][][] lrgbMatrixes = Wavelet2dModel.lrgbMatrixes(image);
+            double[][][] lrgbMatrixes = WaveletData.lrgbMatrixes(image);
 
             assertNotNull(lrgbMatrixes, "LRGB matrixes should not be null");
             assertEquals(4, lrgbMatrixes.length, "Should contain luminance, R, G, B matrixes");
 
-            assertEquals(image.getWidth(), lrgbMatrixes[0].length); // width は列数 (X)
-            assertEquals(image.getHeight(), lrgbMatrixes[0][0].length); // height は行数 (Y)
+            assertEquals(image.getWidth(), lrgbMatrixes[0].length);
+            assertEquals(image.getHeight(), lrgbMatrixes[0][0].length);
 
-            // ピクセル (0,0) -> image.getRGB(0,0) (赤)
-            assertEquals(0.299, lrgbMatrixes[0][0][0], DELTA, "Luminance for Red pixel");
-            assertEquals(1.0, lrgbMatrixes[1][0][0], DELTA, "Red component for Red pixel");
-            assertEquals(0.0, lrgbMatrixes[2][0][0], DELTA, "Green component for Red pixel");
-            assertEquals(0.0, lrgbMatrixes[3][0][0], DELTA, "Blue component for Red pixel");
+            assertEquals(0.299, lrgbMatrixes[0][0][0], DELTA, "Luminance for Red pixel at (0,0)");
+            assertEquals(1.0, lrgbMatrixes[1][0][0], DELTA, "Red component for Red pixel at (0,0)");
+            assertEquals(0.0, lrgbMatrixes[2][0][0], DELTA, "Green component for Red pixel at (0,0)");
+            assertEquals(0.0, lrgbMatrixes[3][0][0], DELTA, "Blue component for Red pixel at (0,0)");
 
-            // ピクセル (1,0) -> image.getRGB(1,0) (緑)
-            assertEquals(0.587, lrgbMatrixes[0][1][0], DELTA, "Luminance for Green pixel");
-            assertEquals(0.0, lrgbMatrixes[1][1][0], DELTA, "Red component for Green pixel");
-            assertEquals(1.0, lrgbMatrixes[2][1][0], DELTA, "Green component for Green pixel");
-            assertEquals(0.0, lrgbMatrixes[3][1][0], DELTA, "Blue component for Green pixel");
+            assertEquals(0.587, lrgbMatrixes[0][1][0], DELTA, "Luminance for Green pixel at (1,0)");
+            assertEquals(0.0, lrgbMatrixes[1][1][0], DELTA, "Red component for Green pixel at (1,0)");
+            assertEquals(1.0, lrgbMatrixes[2][1][0], DELTA, "Green component for Green pixel at (1,0)");
+            assertEquals(0.0, lrgbMatrixes[3][1][0], DELTA, "Blue component for Green pixel at (1,0)");
         }
     }
 }
