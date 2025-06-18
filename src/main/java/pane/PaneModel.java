@@ -26,7 +26,7 @@ public class PaneModel extends Model {
     // ユーティリティクラスを使って画像を読み込む
     BufferedImage bufferedImage = ImageUtility.readImage(paramString);
     // 読み込んだ画像をモデルにセット
-    picture(bufferedImage);
+    this.picture(bufferedImage);
   }
 
   /**
@@ -34,7 +34,7 @@ public class PaneModel extends Model {
    * @param paramBufferedImage セットする画像
    */
   public PaneModel(BufferedImage paramBufferedImage) {
-    picture(paramBufferedImage);
+    this.picture(paramBufferedImage);
   }
 
   /**
