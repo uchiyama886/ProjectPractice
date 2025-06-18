@@ -543,7 +543,7 @@ public final class Wavelet2dModel extends WaveletModel {
      * @return 読み込まれたBufferedImage
      */
     public static BufferedImage imageEarth() {
-        String imagePath = "SampleImages/imageEarth512x256.jpg"; // 画像ファイルのパス
+        String imagePath = "SampleImages/imageEarth512x512.jpg"; // 画像ファイルのパス
         return FileUtility.readImageFromResource(imagePath); // FileUtilityを使用して画像を読み込む
     }
 

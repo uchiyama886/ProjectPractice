@@ -13,7 +13,7 @@ import java.util.Arrays;
  * @see DiscreteWaveletTransformation
  * @see ContinuosWaveletTransformation
  */
-public class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformation {
+public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformation {
 
     protected double[] sourceCoefficients;
 
@@ -28,7 +28,7 @@ public class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformati
     private boolean isPadded; //パディングされたかどうかを示すフラグ
 
     public DiscreteWavelet1dTransformation(double[] paramArrayOfdouble) {
-        initialize();
+        this.initialize();
         this.originalLength = paramArrayOfdouble.length;
         int nextPowerOfTwo = nextPowerOfTwo(this.originalLength);
 
@@ -47,7 +47,7 @@ public class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformati
         // ここでは簡略化のため、paramArrayOfdouble の長さを基準にしますが、
         // 実際には両方の配列の長さを確認し、揃える必要があります。
         // 簡単な例として、scalingCoefficients の長さに合わせて処理します。
-        initialize();
+        this.initialize();
         this.originalLength = paramArrayOfdouble.length * 2; // 再構成後の長さを仮定
         int nextPowerOfTwo = nextPowerOfTwo(this.originalLength);
 
@@ -64,6 +64,7 @@ public class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformati
         }
     }
 
+    @Override
     protected void initialize() {
         super.initialize();
         this.sourceCoefficients = null;

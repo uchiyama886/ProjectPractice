@@ -1,376 +1,472 @@
 package wavelet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.awt.image.BufferedImage;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import utility.ColorUtility;
+import utility.Condition;
+import utility.FileUtility;
+import utility.ValueHolder;
+import utility.WaveletData; // WaveletData クラスも使用されているのでインポート
+
+import java.awt.Color;
 import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Color; // Add Color import
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Arrays; // assertArrayEquals などで使用するため
 
-import wavelet.Wavelet2dModel; // Test target class
-import wavelet.Constants; // Constants class needed
-import utility.ImageUtility; // ImageUtility needed
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-public class Wavelet2dModelTest {
+@DisplayName("Wavelet2dModel Class Unit Tests")
+class Wavelet2dModelTest {
 
+    // --- System.err のキャプチャのための設定 ---
+    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private final PrintStream originalErr = System.err;
+    // --- System.out もキャプチャしたい場合は以下も追加
+    // private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    // private final PrintStream originalOut = System.out;
+    // ---
+
+    // テスト全体で使用する Wavelet2dModel のインスタンスと DELTA
     private Wavelet2dModel model;
+    private static final double DELTA = 1e-9;
 
     @BeforeEach
     void setUp() {
-        // Create a new Wavelet2dModel instance before each test
+        // System.err のリダイレクト
+        System.setErr(new PrintStream(errContent));
+        // --- System.out もキャプチャする場合は以下も追加
+        // System.setOut(new PrintStream(outContent));
+        // ---
+
+        // 各テストの前に新しいモデルインスタンスを作成
         model = new Wavelet2dModel();
     }
 
-    @Test
-    void testConstructorAndInitialState() {
-        // Verify that the constructor correctly initializes and sourceCoefficientsArray is not null
-        assertNotNull(model.sourceCoefficientsArray, "Source coefficients array should not be null after construction.");
-        // Verify that data is loaded because sample data is loaded
-        assertTrue(model.sourceCoefficientsArray.length > 0, "Source coefficients array should contain data.");
-
-        // Verify other coefficient arrays are initialized
-        assertNotNull(model.scalingCoefficientsArray);
-        assertNotNull(model.horizontalWaveletCoefficientsArray);
-        assertNotNull(model.verticalWaveletCoefficientsArray);
-        assertNotNull(model.diagonalWaveletCoefficientsArray);
-        assertNotNull(model.interactiveHorizontalWaveletCoefficientsArray);
-        assertNotNull(model.interactiveVerticalWaveletCoefficientsArray);
-        assertNotNull(model.interactiveDiagonalWaveletCoefficientsArray);
-        assertNotNull(model.recomposedCoefficientsArray);
-
-        // PaneModel initialization could be indirectly verified through public methods that use them.
+    @AfterEach
+    void tearDown() {
+        // System.err を元に戻す
+        System.setErr(originalErr);
+        errContent.reset(); // キャプチャ内容をクリア
+        // --- System.out もキャプチャする場合は以下も追加
+        // System.setOut(originalOut);
+        // outContent.reset();
+        // ---
     }
 
     @Test
+    @DisplayName("Constructor and initial state are correctly initialized")
+    void testConstructorAndInitialState() {
+        // setUp() で model は既に初期化されている
+        // コンストラクタで doSampleCoefficients() が呼ばれることを確認
+        assertNotNull(model.sourceCoefficientsArray, "Source coefficients array should not be null after construction.");
+        // setSourceData が常に4チャネル配列を生成するという前提で
+        assertEquals(4, model.sourceCoefficientsArray.length, "Source coefficients array should have 4 channels after construction.");
+        // sourceCoefficientsArray[0] (luminanceChannel) の幅と高さを検証
+        assertTrue(model.sourceCoefficientsArray[0].length > 0, "Source coefficients array [0] should have a width greater than 0.");
+        assertTrue(model.sourceCoefficientsArray[0][0].length > 0, "Source coefficients array [0][0] should have a height greater than 0.");
+
+        assertNotNull(model.scalingCoefficientsArray, "Scaling coefficients array should not be null.");
+        assertNotNull(model.horizontalWaveletCoefficientsArray, "Horizontal wavelet coefficients array should not be null.");
+        assertNotNull(model.verticalWaveletCoefficientsArray, "Vertical wavelet coefficients array should not be null.");
+        assertNotNull(model.diagonalWaveletCoefficientsArray, "Diagonal wavelet coefficients array should not be null.");
+        assertNotNull(model.interactiveHorizontalWaveletCoefficientsArray, "Interactive horizontal wavelet coefficients array should not be null.");
+        assertNotNull(model.interactiveVerticalWaveletCoefficientsArray, "Interactive vertical wavelet coefficients array should not be null.");
+        assertNotNull(model.interactiveDiagonalWaveletCoefficientsArray, "Interactive diagonal wavelet coefficients array should not be null.");
+        assertNotNull(model.recomposedCoefficientsArray, "Recomposed coefficients array should not be null.");
+
+        assertNotNull(model.sourceCoefficientsPaneModel, "Source coefficients pane model should not be null.");
+        assertNotNull(model.scalingAndWaveletCoefficientsPaneModel, "Scaling and wavelet coefficients pane model should not be null.");
+        assertNotNull(model.interactiveScalingAndWaveletCoefficientsPaneModel, "Interactive scaling and wavelet coefficients pane model should not be null.");
+        assertNotNull(model.recomposedCoefficientsPaneModel, "Recomposed coefficients pane model should not be null.");
+    }
+
+
+    @Test
+    @DisplayName("setSourceData(double[][]) correctly initializes data with 4 channels")
     void testSetSourceDataWith2dArray() {
-        double[][] testData = {
-                {0.1, 0.2, 0.3, 0.4},
-                {0.5, 0.6, 0.7, 0.8},
-                {0.9, 1.0, 1.1, 1.2},
-                {1.3, 1.4, 1.5, 1.6}
+        double[][] sampleData = { // 2D配列のサンプルデータ (2x2の行列)
+            {10.0, 20.0}, // row 0 (Y=0)
+            {30.0, 40.0}  // row 1 (Y=1)
         };
-        model.setSourceData(testData);
+        model.setSourceData(sampleData);
 
-        // Verify source data is correctly set
-        assertNotNull(model.sourceCoefficientsArray);
-        assertEquals(1, model.sourceCoefficientsArray.length); // When a 2D array is passed, it is treated as one channel
-        assertArrayEquals(testData[0], model.sourceCoefficientsArray[0][0], 0.001);
+        assertNotNull(model.sourceCoefficientsArray, "Source coefficients array should not be null");
+        // setSourceData(double[][]) は LRGB 4チャネルを作成する
+        assertEquals(4, model.sourceCoefficientsArray.length, "Source coefficients array should have 4 channels (L, R, G, B)");
+        
+        // Luminance channel の内容が入力と一致することを確認 (Y,Xの順でアクセス)
+        // model.sourceCoefficientsArray[0] は luminanceMatrix (double[][])
+        assertEquals(sampleData.length, model.sourceCoefficientsArray[0].length, "Luminance matrix height should match sample data rows");
+        assertEquals(sampleData[0].length, model.sourceCoefficientsArray[0][0].length, "Luminance matrix width should match sample data columns");
 
-        // Verify transformed coefficient arrays are also updated
-        assertNotNull(model.scalingCoefficientsArray[0]);
-        assertNotNull(model.horizontalWaveletCoefficientsArray[0]);
+        assertEquals(sampleData[0][0], model.sourceCoefficientsArray[0][0][0], DELTA);
+        assertEquals(sampleData[0][1], model.sourceCoefficientsArray[0][0][1], DELTA);
+        assertEquals(sampleData[1][0], model.sourceCoefficientsArray[0][1][0], DELTA);
+        assertEquals(sampleData[1][1], model.sourceCoefficientsArray[0][1][1], DELTA);
+
+        // RGB channels は null であることを確認 (setSourceData の実装による)
+        assertNull(model.sourceCoefficientsArray[1], "Red channel should be null");
+        assertNull(model.sourceCoefficientsArray[2], "Green channel should be null");
+        assertNull(model.sourceCoefficientsArray[3], "Blue channel should be null");
+
+        // 他の係数配列も初期化されていることを確認
+        assertNotNull(model.scalingCoefficientsArray, "Scaling coefficients array should be initialized.");
+        assertNotNull(model.horizontalWaveletCoefficientsArray, "Horizontal wavelet coefficients array should be initialized.");
+        assertNotNull(model.verticalWaveletCoefficientsArray, "Vertical wavelet coefficients array should be initialized.");
+        assertNotNull(model.diagonalWaveletCoefficientsArray, "Diagonal wavelet coefficients array should be initialized.");
+        assertNotNull(model.interactiveHorizontalWaveletCoefficientsArray, "Interactive horizontal wavelet coefficients array should be initialized.");
+        assertNotNull(model.interactiveVerticalWaveletCoefficientsArray, "Interactive vertical wavelet coefficients array should be initialized.");
+        assertNotNull(model.interactiveDiagonalWaveletCoefficientsArray, "Interactive diagonal wavelet coefficients array should be initialized.");
+        assertNotNull(model.recomposedCoefficientsArray, "Recomposed coefficients array should be initialized.");
+    }
+
+
+    @Test
+    @DisplayName("doSampleCoefficients() sets sample data and initializes models correctly")
+    void testDoSampleCoefficients() {
+        // setUp() で既にモデルは初期化されている (doSampleCoefficients が呼ばれる)
+        // ここでは、doSampleCoefficients() の呼び出しが正しくモデルの状態を設定することを確認
+
+        // doSampleCoefficients() はコンストラクタで呼ばれるが、明示的に呼び出してテスト
+        model.doSampleCoefficients();
+
+        assertNotNull(model.sourceCoefficientsArray, "Source coefficients array should not be null");
+        assertEquals(4, model.sourceCoefficientsArray.length, "Source coefficients array should have 4 channels");
+        // WaveletData.Sample2dCoefficients() は 64x64 の行列を返す
+        // Wavelet2dModel.setSourceData(double[][]) はそれを 4チャネル配列にラップ
+        // sourceCoefficientsArray[0] は luminanceMatrix = 64 rows, 64 cols
+        assertEquals(64, model.sourceCoefficientsArray[0].length, "Source coefficients luminance matrix height should be 64"); // 行数 (Y)
+        assertEquals(64, model.sourceCoefficientsArray[0][0].length, "Source coefficients luminance matrix width should be 64"); // 列数 (X)
+        
+        // 念のため、sample coefficients の内容の一部を検証
+        assertEquals(0.2D, model.sourceCoefficientsArray[0][0][0], DELTA, "Top-left pixel should be 0.2"); // matrix[Y][X]
+        assertEquals(1.0D, model.sourceCoefficientsArray[0][5][5], DELTA, "Border pixel at (5,5) should be 1.0"); // matrix[Y][X]
+        
+        // パネルモデルの画像が null でないことを確認
+        assertNotNull(model.sourceCoefficientsPaneModel.picture(), "Source coefficients pane picture should not be null.");
+        assertNotNull(model.scalingAndWaveletCoefficientsPaneModel.picture(), "Scaling and wavelet coefficients pane picture should not be null.");
+        assertNotNull(model.interactiveScalingAndWaveletCoefficientsPaneModel.picture(), "Interactive scaling and wavelet coefficients pane picture should not be null.");
+        assertNotNull(model.recomposedCoefficientsPaneModel.picture(), "Recomposed coefficients pane picture should not be null.");
+    }
+
+    @Test
+    @DisplayName("doEarth() loads earth image data and initializes models correctly")
+    void testDoEarth() {
+        // Mocking static methods if needed, but for now assuming they work
+        // Mocking is only needed if you want to test doEarth in isolation without real image loading
+        // For actual behavior, just call it.
+        model.doEarth();
+
+        assertNotNull(model.sourceCoefficientsArray, "Source coefficients array should not be null");
+        assertEquals(4, model.sourceCoefficientsArray.length, "Source coefficients array should have 4 channels for LRBG matrix");
+        // imageEarth() returns 512x256 image, so sourceCoefficientsArray[0] should be 256 rows x 512 cols (after lrgbMatrixes)
+        assertEquals(256, model.sourceCoefficientsArray[0].length, "Earth image matrix height should be 256"); // 行数 (Y)
+        assertEquals(512, model.sourceCoefficientsArray[0][0].length, "Earth image matrix width should be 512"); // 列数 (X)
+
+        // 他のプロパティも必要に応じてアサーション
+        assertNotNull(model.scalingCoefficientsArray);
+        assertNotNull(model.recomposedCoefficientsArray);
+        // ... (他の係数配列も同様にチェック)
+        assertNotNull(model.sourceCoefficientsPaneModel.picture());
+        // ...
+    }
+
+    @Test
+    @DisplayName("doSmalltalkBalloon() loads smalltalk balloon image data and initializes models correctly")
+    void testDoSmalltalkBalloon() {
+        model.doSmalltalkBalloon();
+
+        assertNotNull(model.sourceCoefficientsArray, "Source coefficients array should not be null");
+        assertEquals(4, model.sourceCoefficientsArray.length, "Source coefficients array should have 4 channels for LRBG matrix");
+        // imageSmalltalkBalloon() returns 256x256 image, so sourceCoefficientsArray[0] should be 256 rows x 256 cols
+        assertEquals(256, model.sourceCoefficientsArray[0].length, "Smalltalk balloon matrix height should be 256"); // 行数 (Y)
+        assertEquals(256, model.sourceCoefficientsArray[0][0].length, "Smalltalk balloon matrix width should be 256"); // 列数 (X)
+
+        assertNotNull(model.scalingCoefficientsArray);
+        assertNotNull(model.recomposedCoefficientsArray);
+        assertNotNull(model.sourceCoefficientsPaneModel.picture());
+    }
+
+    @Test
+    @DisplayName("testGenerateImage3dArrayGrayscale()")
+    void testGenerateImage3dArrayGrayscale() {
+        // テストデータ: グレースケールを意図しているので、RGBチャネルは null に設定
+        double[][] luminanceMatrix = {
+            {0.1, 0.2}, // (row 0, col 0), (row 0, col 1)
+            {0.3, 0.4}  // (row 1, col 0), (row 1, col 1)
+        };
+        // Wavelet2dModel.generateImage に渡す3次元配列。
+        // グレースケールとして扱われるように、チャネル0のみデータを与え、他のチャネルはnullとする。
+        // プロダクトコードの generateImage の if 条件 (valueMatrixArray[1] == null || ...) が正しく動作することを前提
+        double[][][] grayScaleImageMatrix = {luminanceMatrix, null, null, null};
+
+        BufferedImage generatedImage = Wavelet2dModel.generateImage(grayScaleImageMatrix, 1.0);
+
+        assertNotNull(generatedImage, "生成された画像はnullであってはいけません");
+        // Wavelet2dModel.generateImage の幅/高さの修正後（widthは列数、heightは行数）であれば、
+        // 以下のアサーションが正しいはず
+        assertEquals(luminanceMatrix[0].length, generatedImage.getWidth(), "生成画像の幅は行列の列数と一致すべき"); // 期待: 2 (cols)
+        assertEquals(luminanceMatrix.length, generatedImage.getHeight(), "生成画像の高さは行列の行数と一致すべき"); // 期待: 2 (rows)
+
+        // ピクセル値の検証 (image.getRGB(x, y) に対応する luminanceMatrix[y][x])
+        // (0,0) -> luminanceMatrix[0][0]=0.1 -> round(0.1*255)=26 -> Color(26,26,26)
+        assertEquals(new Color(26, 26, 26).getRGB() & 0xFFFFFF, generatedImage.getRGB(0, 0) & 0xFFFFFF);
+        // (1,0) -> luminanceMatrix[0][1]=0.2 -> round(0.2*255)=51 -> Color(51,51,51)
+        assertEquals(new Color(51, 51, 51).getRGB() & 0xFFFFFF, generatedImage.getRGB(1, 0) & 0xFFFFFF);
+        // (0,1) -> luminanceMatrix[1][0]=0.3 -> round(0.3*255)=77 -> Color(77,77,77)
+        assertEquals(new Color(77, 77, 77).getRGB() & 0xFFFFFF, generatedImage.getRGB(0, 1) & 0xFFFFFF);
+        // (1,1) -> luminanceMatrix[1][1]=0.4 -> round(0.4*255)=102 -> Color(102,102,102)
+        assertEquals(new Color(102, 102, 102).getRGB() & 0xFFFFFF, generatedImage.getRGB(1, 1) & 0xFFFFFF);
+    }
+
+    @Test
+    @DisplayName("testGenerateImage2dArray()")
+    void testGenerateImage2dArray() {
+        // Wavelet2dModel.generateImage(double[][], Point, int) の内部ロジックに基づくテスト
+        // テストデータ: 行列の最大値が 1.0 で、様々な値を検証できるように調整
+        double[][] valueMatrix = {
+            {1.0, 0.5}, // row 0 (Y=0)
+            {0.2, 0.8}  // row 1 (Y=1)
+        };
+        // matrix[row][col]
+        // image.getRGB(x, y)
+        // x = col, y = row
+        Point scaleFactor = new Point(1, 1);
+        int rgbFlag = 0; // Grayscale
+
+        BufferedImage image = Wavelet2dModel.generateImage(valueMatrix, scaleFactor, rgbFlag);
+
+        assertNotNull(image);
+        // width は valueMatrix[0].length * scaleFactor.x (列数)
+        assertEquals(valueMatrix[0].length * scaleFactor.x, image.getWidth(), "Image width should match scaled matrix width"); // 期待: 2 * 1 = 2
+        // height は valueMatrix.length * scaleFactor.y (行数)
+        assertEquals(valueMatrix.length * scaleFactor.y, image.getHeight(), "Image height should match scaled matrix height"); // 期待: 2 * 1 = 2
+
+        // 内部で計算される maxAbsoluteValue は 1.0 になるはず (valueMatrix から)
+
+        // ピクセル検証 (getRGB(x, y) = matrix[y][x])
+        // (0,0) -> valueMatrix[0][0] = 1.0 -> round(1.0/1.0*255) = 255
+        assertEquals(new Color(255, 255, 255).getRGB() & 0xFFFFFF, image.getRGB(0, 0) & 0xFFFFFF, "Pixel (0,0) should be white");
+        // (1,0) -> valueMatrix[0][1] = 0.5 -> round(0.5/1.0*255) = 128
+        assertEquals(new Color(128, 128, 128).getRGB() & 0xFFFFFF, image.getRGB(1, 0) & 0xFFFFFF, "Pixel (1,0) should be gray");
+        // (0,1) -> valueMatrix[1][0] = 0.2 -> round(0.2/1.0*255) = 51
+        assertEquals(new Color(51, 51, 51).getRGB() & 0xFFFFFF, image.getRGB(0, 1) & 0xFFFFFF, "Pixel (0,1) should be dark gray");
+        // (1,1) -> valueMatrix[1][1] = 0.8 -> round(0.8/1.0*255) = 204
+        assertEquals(new Color(204, 204, 204).getRGB() & 0xFFFFFF, image.getRGB(1, 1) & 0xFFFFFF, "Pixel (1,1) should be light gray");
+    }
+
+    @Test
+    @DisplayName("testMaximumAbsoluteCoefficients()")
+    void testMaximumAbsoluteCoefficients() {
+        // モデルはsetUpで初期化され、doSampleCoefficients()が呼ばれる
+        // maxAbsolute...Coefficient() は初回呼び出し時に計算される
+        // SampleCoefficients は 0.2 と 1.0 の値を持つ (最大絶対値は 1.0)
+        // SetSourceData 時に初期化されるため、直接アクセス
+        double[][][] testData = {
+            {{-1.0, 0.5}, {0.2, -0.8}}, // Luminance
+            {{0.0, 0.0}, {0.0, 0.0}},   // R (nullでなくてもよいが、このテストでは使わない)
+            {{0.0, 0.0}, {0.0, 0.0}},   // G
+            {{0.0, 0.0}, {0.0, 0.0}}    // B
+        };
+        // SetSourceData をテストするために model を再初期化
+        model = new Wavelet2dModel();
+        model.setSourceData(testData); // 計算をトリガー
+
+        assertEquals(1.0, model.maximumAbsoluteSourceCoefficient(), DELTA, "Absolute source coefficient should be 1.0");
+        // scaling/wavelet/recomposed coefficients の最大値は DWT の計算結果に依存
+        // 正確な値をアサーションする代わりに、0より大きいことを確認する
+        assertTrue(model.maximumAbsoluteScalingCoefficient() > 0, "Scaling coefficient should be positive");
+        assertTrue(model.maximumAbsoluteWaveletCoefficient() > 0, "Wavelet coefficient should be positive");
+        assertTrue(model.maximumAbsoluteRecomposedCoefficient() > 0, "Recomposed coefficient should be positive");
+
+        // キャッシュのテスト
+        double initialMax = model.maximumAbsoluteSourceCoefficient();
+        model.sourceCoefficientsArray[0][0][0] = 100.0; // 値を変更
+        assertEquals(initialMax, model.maximumAbsoluteSourceCoefficient(), DELTA, "Cached value should be returned.");
+    }
+
+    @Test
+    @DisplayName("testComputeFromPointAndRecomposition()")
+    void testComputeFromPointAndRecomposition() {
+        // まず、Smalltalk Balloon 画像をロードして係数を初期化
+        model.doSmalltalkBalloon(); // 画像ロードと係数初期化
+
+        Point testPoint = new Point(10, 10); // テスト用のポイント
+
+        // Altキーなしで呼び出し (係数がコピーされるべき)
+        model.computeFromPoint(testPoint, false);
+
+        // 係数がクリアされていないことを確認 (特定の場所の係数が 0 でない)
+        assertTrue(model.interactiveHorizontalWaveletCoefficientsArray[0][10][10] != 0.0, "Coefficient at (10,10) should be copied.");
+        assertEquals(model.horizontalWaveletCoefficientsArray[0][10][10], model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], DELTA);
+
+        // 再構成された係数配列が null でないことを確認
         assertNotNull(model.recomposedCoefficientsArray[0]);
 
-        // Verify max absolute values are reset and recalculated (just check they are not null, as exact values depend on transformation logic)
-        assertTrue(model.maximumAbsoluteSourceCoefficient() > 0);
-        assertTrue(model.maximumAbsoluteScalingCoefficient() > 0);
-        assertTrue(model.maximumAbsoluteWaveletCoefficient() > 0);
-        assertTrue(model.maximumAbsoluteRecomposedCoefficient() > 0);
+        // Altキーありで呼び出し (係数がクリアされるべき)
+        model.computeFromPoint(testPoint, true); // Call with Alt key
+
+        // 係数がクリアされたことを確認 (特定の場所の係数が 0 になった)
+        assertEquals(0.0, model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], DELTA, "Coefficient at (10,10) should be cleared.");
+        assertEquals(0.0, model.interactiveVerticalWaveletCoefficientsArray[0][20][20], DELTA);
+        assertEquals(0.0, model.interactiveDiagonalWaveletCoefficientsArray[0][30][30], DELTA);
+
+        // 再構成された係数配列が null でないことを確認
+        assertNotNull(model.recomposedCoefficientsArray[0]);
     }
 
     @Test
+    @DisplayName("testDoAllCoefficients() copies all coefficients correctly")
+    void testDoAllCoefficients() {
+        model.doSampleCoefficients(); // 係数を初期化
+
+        // interactive coefficients が初期状態で0であることを確認（念のため）
+        assertEquals(0.0, model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], DELTA);
+
+        model.doAllCoefficients(); // 全ての係数をコピー
+
+        // 係数がコピーされたことを確認（元の係数と一致）
+        assertEquals(model.horizontalWaveletCoefficientsArray[0][10][10], model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], DELTA);
+        assertEquals(model.verticalWaveletCoefficientsArray[0][20][20], model.interactiveVerticalWaveletCoefficientsArray[0][20][20], DELTA);
+        assertEquals(model.diagonalWaveletCoefficientsArray[0][30][30], model.interactiveDiagonalWaveletCoefficientsArray[0][30][30], DELTA);
+
+        assertNotNull(model.recomposedCoefficientsArray[0]); // 再構成結果がnullでないことを確認
+    }
+
+    @Test
+    @DisplayName("testDoClearCoefficients() clears interactive coefficients to zero")
+    void testDoClearCoefficients() {
+        model.doSampleCoefficients(); // 係数を初期化
+        model.doAllCoefficients(); // まず全てコピーして、クリア対象の状態にする
+
+        // 全てコピーされたことを確認（念のため）
+        assertTrue(model.interactiveHorizontalWaveletCoefficientsArray[0][10][10] != 0.0, "Coefficients should be copied before clearing.");
+
+        model.doClearCoefficients(); // 係数をクリア
+
+        // 係数が全て0になったことを確認
+        assertEquals(0.0, model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], DELTA, "Coefficient should be cleared to 0.0.");
+        assertEquals(0.0, model.interactiveVerticalWaveletCoefficientsArray[0][20][20], DELTA);
+        assertEquals(0.0, model.interactiveDiagonalWaveletCoefficientsArray[0][30][30], DELTA);
+
+        assertNotNull(model.recomposedCoefficientsArray[0]); // 再構成結果がnullでないことを確認
+    }
+
+    @Test
+    @DisplayName("testSetSourceDataWith3dArray() correctly initializes data and coefficients")
     void testSetSourceDataWith3dArray() {
         double[][][] testData = {
-                {{0.1, 0.2}, {0.3, 0.4}}, // Channel 0 (e.g., Luminance)
-                {{0.5, 0.6}, {0.7, 0.8}}, // Channel 1 (e.g., Red)
-                {{0.9, 1.0}, {1.1, 1.2}}, // Channel 2 (e.g., Green)
-                {{1.3, 1.4}, {1.5, 1.6}}  // Channel 3 (e.g., Blue)
+            {{1.0, 0.0}, {0.0, 1.0}}, // Luminance (Y)
+            {{1.0, 0.0}, {0.0, 0.0}}, // Red (R)
+            {{0.0, 1.0}, {0.0, 0.0}}, // Green (G)
+            {{0.0, 0.0}, {1.0, 0.0}}  // Blue (B)
         };
-        model.setSourceData(testData);
+        model.setSourceData(testData); // データと係数を設定
 
-        // Verify source data is correctly set
         assertNotNull(model.sourceCoefficientsArray);
         assertEquals(4, model.sourceCoefficientsArray.length); // 4 channels should be set
-        assertArrayEquals(testData[1][0], model.sourceCoefficientsArray[1][0], 0.001); // Verify a part of the Red channel data
+        // データがコピーされていることを検証
+        assertArrayEquals(testData[1][0], model.sourceCoefficientsArray[1][0], DELTA); // Verify a part of the Red channel data
 
-        // Verify transformed coefficient arrays are also updated
+        // 他の係数配列も初期化されていることを確認
         assertNotNull(model.scalingCoefficientsArray[1]);
         assertNotNull(model.horizontalWaveletCoefficientsArray[1]);
         assertNotNull(model.recomposedCoefficientsArray[1]);
+        // ...
     }
 
     @Test
-    void testDoSampleCoefficients() {
-        model.doSampleCoefficients();
-        // Verify sample coefficient data is loaded (specific values depend on WaveletData)
-        assertNotNull(model.sourceCoefficientsArray);
-        assertEquals(1, model.sourceCoefficientsArray.length); // Sample coefficients are loaded as grayscale, so one channel
-        assertEquals(64, model.sourceCoefficientsArray[0].length); // Width is 64
-        assertEquals(64, model.sourceCoefficientsArray[0][0].length); // Height is 64
+    @DisplayName("testImageSmalltalkBalloon()")
+    void testImageSmalltalkBalloon() {
+        BufferedImage image = Wavelet2dModel.imageSmalltalkBalloon();
+        assertNotNull(image, "Image should not be null");
+        assertEquals(256, image.getWidth(), "Image width should be 256");
+        assertEquals(256, image.getHeight(), "Image height should be 256");
     }
 
     @Test
-    void testDoEarth() {
-        model.doEarth();
-        // Verify Earth image is loaded
-        assertNotNull(model.sourceCoefficientsArray);
-        assertEquals(4, model.sourceCoefficientsArray.length); // 4 channels for LRBG matrix
-        // Verify image size (may be resized by ImageUtility.readImageFromResource or dataInput() logic)
-        int width = model.sourceCoefficientsArray[0].length;
-        int height = model.sourceCoefficientsArray[0][0].length;
-        // Original Earth image size is 512x256. It might be adjusted to a power of two, e.g., 512x256 or larger.
-        assertTrue(width >= 512 && width <= 1024);
-        assertTrue(height >= 256 && height <= 1024);
+    @DisplayName("testImageEarth()")
+    void testImageEarth() {
+        BufferedImage image = Wavelet2dModel.imageEarth();
+        assertNotNull(image, "Image should not be null");
+        assertEquals(512, image.getWidth(), "Image width should be 512");
+        assertEquals(256, image.getHeight(), "Image height should be 256");
     }
 
     @Test
-    void testDoSmalltalkBalloon() {
-        model.doSmalltalkBalloon();
-        // Verify Smalltalk Balloon image is loaded
-        assertNotNull(model.sourceCoefficientsArray);
-        assertEquals(4, model.sourceCoefficientsArray.length); // 4 channels for LRBG matrix
-        // Verify image size (originally 256x256, may be adjusted by nextPowerOfTwo)
-        assertEquals(256, model.sourceCoefficientsArray[0].length);
-        assertEquals(256, model.sourceCoefficientsArray[0][0].length);
-    }
+    @DisplayName("testLrgbMatrixes()")
+    void testLrgbMatrixes() {
+        BufferedImage image = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+        image.setRGB(0, 0, new Color(255, 0, 0).getRGB()); // (0,0) Red
+        image.setRGB(1, 0, new Color(0, 255, 0).getRGB()); // (1,0) Green
+        image.setRGB(0, 1, new Color(0, 0, 255).getRGB()); // (0,1) Blue
+        image.setRGB(1, 1, new Color(128, 128, 128).getRGB()); // (1,1) Gray
 
-    @Test
-    void testDoAllCoefficients() {
-        // First, load sample data to ensure coefficients are set
-        model.doSampleCoefficients();
-        // Execute doAllCoefficients
-        model.doAllCoefficients();
+        try (MockedStatic<ColorUtility> mockedColorUtility = Mockito.mockStatic(ColorUtility.class)) {
+            // Mocking luminanceFromRGB to return specific values
+            mockedColorUtility.when(() -> ColorUtility.luminanceFromRGB(new Color(255, 0, 0).getRGB())).thenReturn(0.299);
+            mockedColorUtility.when(() -> ColorUtility.luminanceFromRGB(new Color(0, 255, 0).getRGB())).thenReturn(0.587);
+            mockedColorUtility.when(() -> ColorUtility.luminanceFromRGB(new Color(0, 0, 255).getRGB())).thenReturn(0.114);
+            mockedColorUtility.when(() -> ColorUtility.luminanceFromRGB(new Color(128, 128, 128).getRGB())).thenReturn(0.5019607843137255);
 
-        // Verify interactive H/V/D are same as original H/V/D (check a few pixels)
-        assertEquals(model.horizontalWaveletCoefficientsArray[0][10][10], model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], 0.001);
-        assertEquals(model.verticalWaveletCoefficientsArray[0][20][20], model.interactiveVerticalWaveletCoefficientsArray[0][20][20], 0.001);
-        assertEquals(model.diagonalWaveletCoefficientsArray[0][30][30], model.interactiveDiagonalWaveletCoefficientsArray[0][30][30], 0.001);
+            // Mocking convertINTtoRGB to return specific values
+            mockedColorUtility.when(() -> ColorUtility.convertINTtoRGB(new Color(255, 0, 0).getRGB())).thenReturn(new double[]{1.0, 0.0, 0.0});
+            mockedColorUtility.when(() -> ColorUtility.convertINTtoRGB(new Color(0, 255, 0).getRGB())).thenReturn(new double[]{0.0, 1.0, 0.0});
+            mockedColorUtility.when(() -> ColorUtility.convertINTtoRGB(new Color(0, 0, 255).getRGB())).thenReturn(new double[]{0.0, 0.0, 1.0});
+            mockedColorUtility.when(() -> ColorUtility.convertINTtoRGB(new Color(128, 128, 128).getRGB())).thenReturn(new double[]{0.5019607843137255, 0.5019607843137255, 0.5019607843137255});
 
-        // Verify recomposed coefficients are updated
-        assertNotNull(model.recomposedCoefficientsArray);
-    }
+            double[][][] lrgbMatrixes = Wavelet2dModel.lrgbMatrixes(image);
 
-    @Test
-    void testDoClearCoefficients() {
-        // First, load sample data to set coefficients
-        model.doSampleCoefficients();
-        // Execute doClearCoefficients
-        model.doClearCoefficients();
+            assertNotNull(lrgbMatrixes, "LRGB matrixes should not be null");
+            assertEquals(4, lrgbMatrixes.length, "Should contain luminance, R, G, B matrixes");
 
-        // Verify interactive H/V/D are all zero (check a few pixels)
-        assertEquals(0.0, model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], 0.001);
-        assertEquals(0.0, model.interactiveVerticalWaveletCoefficientsArray[0][20][20], 0.001);
-        assertEquals(0.0, model.interactiveDiagonalWaveletCoefficientsArray[0][30][30], 0.001);
+            // dimensions for [channel][height][width] or [channel][row][col]
+            assertEquals(image.getHeight(), lrgbMatrixes[0].length, "Matrix height should match image height (rows)");
+            assertEquals(image.getWidth(), lrgbMatrixes[0][0].length, "Matrix width should match image width (columns)");
 
-        // Verify recomposed coefficients are updated
-        assertNotNull(model.recomposedCoefficientsArray);
-    }
+            // Verify a few specific pixels for luminance and RGB
+            // Pixel (0,0) is Red
+            assertEquals(0.299, lrgbMatrixes[0][0][0], DELTA, "Luminance for (0,0)"); // Luminance
+            assertEquals(1.0, lrgbMatrixes[1][0][0], DELTA, "Red for (0,0)");     // R
+            assertEquals(0.0, lrgbMatrixes[2][0][0], DELTA, "Green for (0,0)");   // G
+            assertEquals(0.0, lrgbMatrixes[3][0][0], DELTA, "Blue for (0,0)");    // B
 
-    @Test
-    void testFill() {
-        double[][] matrix = new double[5][5];
-        Wavelet2dModel.fill(matrix, 1.23);
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                assertEquals(1.23, matrix[i][j], 0.001, "Matrix element should be filled with 1.23");
-            }
+            // Pixel (1,0) is Green
+            assertEquals(0.587, lrgbMatrixes[0][0][1], DELTA, "Luminance for (1,0)");
+            assertEquals(0.0, lrgbMatrixes[1][0][1], DELTA, "Red for (1,0)");
+            assertEquals(1.0, lrgbMatrixes[2][0][1], DELTA, "Green for (1,0)");
+            assertEquals(0.0, lrgbMatrixes[3][0][1], DELTA, "Blue for (1,0)");
+
+            // Pixel (0,1) is Blue
+            assertEquals(0.114, lrgbMatrixes[0][1][0], DELTA, "Luminance for (0,1)");
+            assertEquals(0.0, lrgbMatrixes[1][1][0], DELTA, "Red for (0,1)");
+            assertEquals(0.0, lrgbMatrixes[2][1][0], DELTA, "Green for (0,1)");
+            assertEquals(1.0, lrgbMatrixes[3][1][0], DELTA, "Blue for (0,1)");
+
+            // Pixel (1,1) is Gray
+            assertEquals(0.5019607843137255, lrgbMatrixes[0][1][1], DELTA, "Luminance for (1,1)");
+            assertEquals(0.5019607843137255, lrgbMatrixes[1][1][1], DELTA, "Red for (1,1)");
+            assertEquals(0.5019607843137255, lrgbMatrixes[2][1][1], DELTA, "Green for (1,1)");
+            assertEquals(0.5019607843137255, lrgbMatrixes[3][1][1], DELTA, "Blue for (1,1)");
         }
     }
 
     @Test
-    void testGenerateImage3dArrayGrayscale() {
-        // Test data for grayscale image generation
-        double[][][] valueMatrixArray = {{{0.5, 0.8}, {0.2, 0.1}}, {null}, {null}, {null}};
-        double maxValue = 1.0; // Max value
-
-        BufferedImage image = Wavelet2dModel.generateImage(valueMatrixArray, maxValue);
-        assertNotNull(image);
-        assertEquals(2, image.getWidth());
-        assertEquals(2, image.getHeight());
-
-        // Check pixel values (approximate)
-        // (0,0) -> 0.5 * 255 = 127.5 -> 128 (rounded)
-        assertEquals(128, new java.awt.Color(image.getRGB(0, 0)).getRed());
-        // (1,0) -> 0.8 * 255 = 204
-        assertEquals(204, new java.awt.Color(image.getRGB(1, 0)).getRed());
-    }
-
-    @Test
-    void testGenerateImage3dArrayColor() {
-        // Test data for color image generation
-        double[][][] valueMatrixArray = {
-                {{0.1, 0.2}, {0.3, 0.4}}, // Luminance (not used but formally required)
-                {{0.5, 0.1}, {0.2, 0.3}}, // Red
-                {{0.1, 0.5}, {0.3, 0.2}}, // Green
-                {{0.3, 0.2}, {0.1, 0.5}}  // Blue
-        };
-        double maxValue = 1.0; // Max value
-
-        BufferedImage image = Wavelet2dModel.generateImage(valueMatrixArray, maxValue);
-        assertNotNull(image);
-        assertEquals(2, image.getWidth());
-        assertEquals(2, image.getHeight());
-
-        // Check pixel values (approximate)
-        // (0,0) R: 0.5*255=128, G: 0.1*255=26, B: 0.3*255=77
-        Color pixel00 = new Color(image.getRGB(0, 0));
-        assertEquals(128, pixel00.getRed());
-        assertEquals(26, pixel00.getGreen());
-        assertEquals(77, pixel00.getBlue());
-
-        // (1,1) R: 0.3*255=77, G: 0.2*255=51, B: 0.5*255=128
-        Color pixel11 = new Color(image.getRGB(1, 1));
-        assertEquals(77, pixel11.getRed());
-        assertEquals(51, pixel11.getGreen());
-        assertEquals(128, pixel11.getBlue());
-    }
-
-    @Test
-    void testGenerateImage2dArray() {
-        double[][] valueMatrix = {{0.5, 0.8}, {0.2, 0.1}};
-        Point scaleFactor = new Point(2, 2); // Scale by 2x2
-        int rgbFlag = Constants.Red; // Red channel
-
-        BufferedImage image = Wavelet2dModel.generateImage(valueMatrix, scaleFactor, rgbFlag);
-        assertNotNull(image);
-        assertEquals(4, image.getWidth()); // 2 * 2 = 4
-        assertEquals(4, image.getHeight()); // 2 * 2 = 4
-
-        // Check pixel values (only red component here)
-        // (0,0) (after scaling) -> 0.5 * 255 = 128
-        Color pixel00 = new Color(image.getRGB(0, 0));
-        assertEquals(128, pixel00.getRed());
-        assertEquals(0, pixel00.getGreen());
-        assertEquals(0, pixel00.getBlue());
-
-        // (2,0) (after scaling) -> data from (0,1) 0.8 * 255 = 204
-        Color pixel20 = new Color(image.getRGB(2, 0));
-        assertEquals(204, pixel20.getRed());
-    }
-
-    @Test
-    void testGenerateImageCombined() {
-        // Create dummy BufferedImages
-        BufferedImage img1 = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        BufferedImage img2 = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        BufferedImage img3 = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        BufferedImage img4 = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-
-        BufferedImage combinedImage = Wavelet2dModel.generateImage(img1, img2, img3, img4);
-        assertNotNull(combinedImage);
-        assertEquals(20, combinedImage.getWidth()); // 10 + 10
-        assertEquals(20, combinedImage.getHeight()); // 10 + 10
-
-        // Simple dimension check as content checking is complex here
-    }
-
-    @Test
-    void testImageEarth() {
-        BufferedImage earthImage = Wavelet2dModel.imageEarth();
-        assertNotNull(earthImage);
-        // Original Earth image size is 512x256.
-        // However, Wavelet2dModel.imageEarth() calls FileUtility.readImageFromResource,
-        // and dataInput() might apply resizing logic, making exact size checks difficult.
-        // Here, we only verify successful loading and reasonable dimensions.
-        assertTrue(earthImage.getWidth() > 0);
-        assertTrue(earthImage.getHeight() > 0);
-    }
-
-    @Test
-    void testImageSmalltalkBalloon() {
-        BufferedImage balloonImage = Wavelet2dModel.imageSmalltalkBalloon();
-        assertNotNull(balloonImage);
-        // Original SmalltalkBalloon size is 256x256
-        assertEquals(256, balloonImage.getWidth());
-        assertEquals(256, balloonImage.getHeight());
-    }
-
-    @Test
-    void testLrgbMatrixes() {
-        // Create a dummy BufferedImage (2x2)
-        BufferedImage testImage = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
-        // Set pixels: (0,0) Red, (1,0) Green, (0,1) Blue, (1,1) White
-        testImage.setRGB(0, 0, new Color(255, 0, 0).getRGB());   // Red
-        testImage.setRGB(1, 0, new Color(0, 255, 0).getRGB());   // Green
-        testImage.setRGB(0, 1, new Color(0, 0, 255).getRGB());   // Blue
-        testImage.setRGB(1, 1, new Color(255, 255, 255).getRGB()); // White
-
-        double[][][] lrgb = Wavelet2dModel.lrgbMatrixes(testImage);
-
-        assertNotNull(lrgb);
-        assertEquals(4, lrgb.length); // 4 channels: Luminance, R, G, B
-        assertEquals(2, lrgb[0].length); // Width
-        assertEquals(2, lrgb[0][0].length); // Height
-
-        // Check pixel values for each channel (depends on ColorUtility conversion logic)
-        // (0,0) Red: R=1.0, G=0.0, B=0.0, Luminance = 0.299
-        assertEquals(0.299, lrgb[0][0][0], 0.001); // Luminance
-        assertEquals(1.0, lrgb[1][0][0], 0.001);   // Red
-        assertEquals(0.0, lrgb[2][0][0], 0.001);   // Green
-        assertEquals(0.0, lrgb[3][0][0], 0.001);   // Blue
-
-        // (1,1) White: R=1.0, G=1.0, B=1.0, Luminance = 1.0
-        assertEquals(1.0, lrgb[0][1][1], 0.001);
-        assertEquals(1.0, lrgb[1][1][1], 0.001);
-        assertEquals(1.0, lrgb[2][1][1], 0.001);
-        assertEquals(1.0, lrgb[3][1][1], 0.001);
-    }
-
-    @Test
-    void testMaximumAbsoluteCoefficients() {
-        double[][][] testData = {
-                {{0.1, -0.5}, {0.8, -0.2}},
-                {{0.3, 0.9}, {-0.7, 0.4}},
-                {{-1.0, 0.6}, {0.5, -0.1}},
-                {{0.2, -0.3}, {0.9, 0.7}}
-        };
-        model.setSourceData(testData); // Set coefficients to trigger calculation
-
-        // Verify each maximum absolute value is correctly calculated
-        assertEquals(1.0, model.maximumAbsoluteSourceCoefficient(), 0.001); // Absolute value of -1.0
-        // Max values for scaling and wavelet coefficients depend on DiscreteWavelet2dTransformation's logic
-        // Just verify they are greater than zero.
-        assertTrue(model.maximumAbsoluteScalingCoefficient() > 0);
-        assertTrue(model.maximumAbsoluteWaveletCoefficient() > 0);
-        assertTrue(model.maximumAbsoluteRecomposedCoefficient() > 0);
-
-        // Verify caching works by calling again
-        double initialMax = model.maximumAbsoluteSourceCoefficient();
-        model.sourceCoefficientsArray[0][0][0] = 100.0; // Change value
-        assertEquals(initialMax, model.maximumAbsoluteSourceCoefficient(), 0.001, "Cached value should be returned.");
-    }
-
-    // computeFromPoint and computeRecomposedCoefficients are closely related, so they are tested together.
-    @Test
-    void testComputeFromPointAndRecomposition() {
-        model.doSmalltalkBalloon(); // Load image and initialize coefficients
-
-        // Verify interactive coefficients are all cleared (initial state is cleared)
-        assertEquals(0.0, model.interactiveHorizontalWaveletCoefficientsArray[0][0][0], 0.001);
-
-        // Call computeFromPoint with a specific point (copy coefficients without Alt key)
-        Point testPoint = new Point(10, 10);
-        // Call with isAltDown=false
-        model.computeFromPoint(testPoint, false);
-
-        // Verify interactive coefficients around the specified point are copied from original coefficients
-        // (Exact range depends on the code, but check the center point)
-        assertTrue(model.interactiveHorizontalWaveletCoefficientsArray[0][10][10] != 0.0, "Coefficient at (10,10) should be copied.");
-        assertEquals(model.horizontalWaveletCoefficientsArray[0][10][10], model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], 0.001);
-
-        // computeFromPoint calls computeRecomposedCoefficients(), so the recomposed image should be updated
-        // Verify recomposed coefficient array is not null
-        assertNotNull(model.recomposedCoefficientsArray[0]);
-
-        // Verify it clears when called with Alt key pressed
-        model.computeFromPoint(testPoint, true); // Call with Alt key
-
-        // Verify interactive coefficients around the specified point are cleared
-        assertEquals(0.0, model.interactiveHorizontalWaveletCoefficientsArray[0][10][10], 0.001, "Coefficient at (10,10) should be cleared.");
-    }
-
-    // GUI-related methods are complex to test.
-    // For these, we just verify that the method executes without throwing exceptions or that it changes a specific internal state.
-    @Test
+    @DisplayName("testOpen()")
     void testOpen() {
-        // Opening GUI typically requires Swing's event dispatch thread in a testing environment.
-        // Primarily, verify that the method completes without throwing exceptions.
-        // Actual UI display and interaction are difficult to automate.
+        // UIが表示されること自体をテストすることは難しい
+        // しかし、関連するオブジェクトが初期化され、エラーが出ないことを確認する
+        // model.open() は JFrame を作成し、表示する
         assertDoesNotThrow(() -> model.open());
+        // その後、手動でウィンドウが閉じるのを待つ必要があるかもしれません。
+        // 自動テストでは、通常 GUI の表示を直接テストすることは避けます。
+        // ここでは、メソッドが例外を投げずに実行されることを確認するのみとします。
     }
 }

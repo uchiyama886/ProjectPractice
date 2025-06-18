@@ -34,7 +34,7 @@ public class PaneView extends mvc.View
 	public PaneView(PaneModel aModel, PaneController aController)
 	{
 		super(aModel, aController);
-		intialize();
+		this.intialize();
 	}
 
 	/**

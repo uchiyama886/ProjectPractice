@@ -2,7 +2,7 @@ package utility;
 
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
-import java.io.File; // BufferedImage を追加
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
@@ -74,8 +74,6 @@ public class FileUtility extends Object {
      * @return リソースへの InputStream。リソースが見つからない場合は null。
      */
     public static InputStream getResourceAsStream(String resourcePath) {
-        // 現在のクラスのClassLoaderを使ってリソースストリームを取得します。
-        // これにより、JARファイル内部のリソースも適切にロードできます。
         ValueHolder<InputStream> is = new ValueHolder<>(FileUtility.class.getClassLoader().getResourceAsStream(resourcePath));
         new Condition(() -> is.get() == null).ifTrue(() -> {
             System.err.println("警告: リソースが見つかりません: " + resourcePath);
@@ -106,7 +104,8 @@ public class FileUtility extends Object {
                         }
                     );
                 } catch (IOException e) {
-                    throw new RuntimeException("Error reading image: " + e.getMessage(), e);
+                    System.err.println("エラー: 画像 '" + resourcePath + "' の読み込み中にIO例外が発生しました: " + e.getMessage()); //
+                    e.printStackTrace(); 
                 }
             },() -> {});
             return imageHolder.get();
