@@ -95,7 +95,8 @@
 	</target>
 
 	<target name="compile-test" depends="compile" description="Compile test sources">
-		<javac srcdir="${testdir}"
+		<javac 
+			srcdir="${testdir}"
 			destdir="${test.classes.dir}"
 			classpathref="test.classpath"
 			includeantruntime="false"
