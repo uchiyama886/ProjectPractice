@@ -41,9 +41,16 @@
 		</fileset>
 	</path>
 
+	<path id="external.lib.classpath">
+		<fileset dir="${libdir}">
+            <include name="commons-math3-*.jar" />
+		</fileset>
+	</path>
+
 	<path id="application.classpath">
 		<pathelement location="${destdir}" />
 		<pathelement location="src/main/resources" />
+		<pathelement location="external.lib.classpath" />
 	</path>
 
 	<path id="test.classpath">
@@ -88,7 +95,8 @@
 	</target>
 
 	<target name="compile-test" depends="compile" description="Compile test sources">
-		<javac srcdir="${testdir}"
+		<javac 
+			srcdir="${testdir}"
 			destdir="${test.classes.dir}"
 			classpathref="test.classpath"
 			includeantruntime="false"
@@ -179,6 +187,9 @@
 	<target name="assert" depends="all" description="assert">
 		<exec executable="java" spawn="false">
 			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -ea -jar ${destdir}/${ant.project.name}.jar" />
+			<classpath>
+				<path refid="application.classpath"/>
+			</classpath>
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -226,5 +237,5 @@
 		</zip>
 		<exec executable="date" spawn="false" />
 	</target>
-
+	
 </project>

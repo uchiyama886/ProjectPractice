@@ -166,8 +166,14 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     return paramArrayOfdouble[paramInt];
   }
   
+  // private void atRowPut(double[][] paramArrayOfdouble, int paramInt, double[] paramArrayOfdouble1) {
+  //   for (Integer b = 0; b < (paramArrayOfdouble[paramInt]).length; b++)
+  //     paramArrayOfdouble[paramInt][b] = paramArrayOfdouble1[b]; 
+  // }
   private void atRowPut(double[][] paramArrayOfdouble, int paramInt, double[] paramArrayOfdouble1) {
-    for (Integer b = 0; b < (paramArrayOfdouble[paramInt]).length; b++)
+    // paramArrayOfdouble[paramInt] の実際の長さと、paramArrayOfdouble1 の実際の長さの、短い方をループの上限にする
+    int copyLength = Math.min((paramArrayOfdouble[paramInt]).length, paramArrayOfdouble1.length);
+    for (Integer b = 0; b < copyLength; b++)
       paramArrayOfdouble[paramInt][b] = paramArrayOfdouble1[b]; 
   }
   
