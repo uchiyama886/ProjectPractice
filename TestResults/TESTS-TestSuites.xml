@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="uchiyamanoMacBook-Air.local" id="0" name="JUnit Jupiter" package="" skipped="0" tests="240" time="7.605" timestamp="2025-06-19T10:44:08">
+  <testsuite errors="0" failures="0" hostname="uchiyamanoMacBook-Air.local" id="0" name="JUnit Jupiter" package="" skipped="0" tests="242" time="8.236" timestamp="2025-06-19T11:09:56">
     <properties>
       <property name="apple.awt.application.name" value="ConsoleLauncher" />
 
@@ -142,7 +142,7 @@ display-name: generateImage(double[][], Point, int) generates red component imag
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testConvertViewPointToModelPoint()" time="0.007">
+    <testcase classname="pane.PaneViewTest" name="testConvertViewPointToModelPoint()" time="0.008">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testConvertViewPointToModelPoint()]
 display-name: convertViewPointToModelPoint() converts view coordinates to model coordinates
@@ -158,7 +158,7 @@ display-name: actionPerformed() delegates to listener if interactive
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testScrollByOnlyCurrentView()" time="0.002">
+    <testcase classname="mvc.ControllerTest" name="testScrollByOnlyCurrentView()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testScrollByOnlyCurrentView()]
 display-name: scrollBy scrolls current view relatively and repaints when no shift key
@@ -198,7 +198,7 @@ display-name: forEach() terminates when loopCondition becomes false
 
     </testcase>
 
-    <testcase classname="pane.PaneControllerTest" name="testMouseClickedNullPoint()" time="0.059">
+    <testcase classname="pane.PaneControllerTest" name="testMouseClickedNullPoint()" time="0.211">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneControllerTest]/[method:testMouseClickedNullPoint()]
 display-name: mouseClicked() does nothing if convertViewPointToPicturePoint returns null
@@ -206,7 +206,7 @@ display-name: mouseClicked() does nothing if convertViewPointToPicturePoint retu
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromURLString()" time="0.013">
+    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromURLString()" time="0.017">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testReadImageFromURLString()]
 display-name: readImageFromURL(String) converts string to URL and reads image
@@ -222,7 +222,7 @@ display-name: ifThenElse executes elsePassage when condition is false
 
     </testcase>
 
-    <testcase classname="pane.PaneControllerTest" name="testGetView()" time="0.002">
+    <testcase classname="pane.PaneControllerTest" name="testGetView()" time="0.019">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneControllerTest]/[method:testGetView()]
 display-name: getView() returns the associated PaneView
@@ -230,7 +230,7 @@ display-name: getView() returns the associated PaneView
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testConvertYUVMatrixesToImage()" time="0.005">
+    <testcase classname="utility.ImageUtilityTest" name="testConvertYUVMatrixesToImage()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testConvertYUVMatrixesToImage()]
 display-name: convertYUVMatrixesToImage() converts YUV matrixes to image
@@ -238,7 +238,7 @@ display-name: convertYUVMatrixesToImage() converts YUV matrixes to image
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testMouseWheelMovedVerticalScroll()" time="0.003">
+    <testcase classname="mvc.ControllerTest" name="testMouseWheelMovedVerticalScroll()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testMouseWheelMovedVerticalScroll()]
 display-name: mouseWheelMoved scrolls vertically and repaints view
@@ -254,7 +254,7 @@ display-name: readImageFromResource() returns null and logs error if image is nu
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testComputeFromPointAndRecomposition()" time="0.294">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testComputeFromPointAndRecomposition()" time="0.242">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testComputeFromPointAndRecomposition()]
 display-name: testComputeFromPointAndRecomposition()
@@ -262,7 +262,7 @@ display-name: testComputeFromPointAndRecomposition()
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testUpdate()" time="0.003">
+    <testcase classname="mvc.ViewTest" name="testUpdate()" time="0.007">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testUpdate()]
 display-name: update() calls repaint on the full view area
@@ -270,7 +270,7 @@ display-name: update() calls repaint on the full view area
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoRecompose()" time="0.062">
+    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoRecompose()" time="0.057">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet1dModelTest]/[method:testDoRecompose()]
 display-name: doRecompose() computes recomposed coefficients
@@ -278,7 +278,7 @@ display-name: doRecompose() computes recomposed coefficients
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testReadImageString()" time="0.002">
+    <testcase classname="utility.ImageUtilityTest" name="testReadImageString()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testReadImageString()]
 display-name: readImage(String) reads image from file string
@@ -302,7 +302,7 @@ display-name: convertModelPointToPicturePoint() returns null if converted coordi
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testConstructorAndInitialState()" time="0.008">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testConstructorAndInitialState()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testConstructorAndInitialState()]
 display-name: testConstructorAndInitialState()
@@ -318,7 +318,7 @@ display-name: scrollTo() does nothing
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeRecomposedCoefficientsBasic()" time="0.001">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeRecomposedCoefficientsBasic()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testComputeRecomposedCoefficientsBasic()]
 display-name: testComputeRecomposedCoefficientsBasic()
@@ -326,7 +326,7 @@ display-name: testComputeRecomposedCoefficientsBasic()
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletPaneModelTest" name="testMouseDragged_notInteractive()" time="0.005">
+    <testcase classname="wavelet.WaveletPaneModelTest" name="testMouseDragged_notInteractive()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneModelTest]/[method:testMouseDragged_notInteractive()]
 display-name: mouseDragged() does nothing if not interactive
@@ -342,7 +342,7 @@ display-name: Constructor creates an instance and inherits from mvc.Model
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromURLStringInvalid()" time="0.005">
+    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromURLStringInvalid()" time="0.017">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testReadImageFromURLStringInvalid()]
 display-name: readImageFromURL(String) returns null on invalid URL string
@@ -350,7 +350,7 @@ display-name: readImageFromURL(String) returns null on invalid URL string
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoClearCoefficients()" time="0.002">
+    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoClearCoefficients()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet1dModelTest]/[method:testDoClearCoefficients()]
 display-name: doClearCoefficients() resets all coefficients to null
@@ -398,7 +398,7 @@ display-name: ifThen does not execute thenPassage when condition is false
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeScalingAndWaveletCoefficientsWithNullSource()" time="0.002">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeScalingAndWaveletCoefficientsWithNullSource()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testComputeScalingAndWaveletCoefficientsWithNullSource()]
 display-name: testComputeScalingAndWaveletCoefficientsWithNullSource()
@@ -414,7 +414,7 @@ display-name: generateImage(double[][][], double) generates grayscale image when
 
     </testcase>
 
-    <testcase classname="utility.IntervalTest" name="testForEachWithNullStartValue()" time="0.001">
+    <testcase classname="utility.IntervalTest" name="testForEachWithNullStartValue()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.IntervalTest]/[method:testForEachWithNullStartValue()]
 display-name: forEach() handles null startValue if condition and next can handle it
@@ -422,7 +422,7 @@ display-name: forEach() handles null startValue if condition and next can handle
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testConstructorWithNonPowerOfTwoLengthPadsSourceCoefficients()" time="0.003">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testConstructorWithNonPowerOfTwoLengthPadsSourceCoefficients()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testConstructorWithNonPowerOfTwoLengthPadsSourceCoefficients()]
 display-name: testConstructorWithNonPowerOfTwoLengthPadsSourceCoefficients()
@@ -438,7 +438,7 @@ display-name: testApplyToWithInvalidObjectThrowsIllegalArgumentException()
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoClearCoefficients()" time="0.022">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoClearCoefficients()" time="0.011">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testDoClearCoefficients()]
 display-name: testDoClearCoefficients()
@@ -454,7 +454,7 @@ display-name: Constructor with BufferedImage and String initializes label and nu
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testSetSourceDataWith2dArray()" time="0.007">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testSetSourceDataWith2dArray()" time="0.008">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testSetSourceDataWith2dArray()]
 display-name: testSetSourceDataWith2dArray()
@@ -462,7 +462,7 @@ display-name: testSetSourceDataWith2dArray()
 
     </testcase>
 
-    <testcase classname="utility.ConditionTest$SwitchTest" name="testEvaluate_FirstMatch()" time="0.001">
+    <testcase classname="utility.ConditionTest$SwitchTest" name="testEvaluate_FirstMatch()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ConditionTest]/[nested-class:SwitchTest]/[method:testEvaluate_FirstMatch()]
 display-name: evaluate executes the first matching case
@@ -494,7 +494,7 @@ display-name: label() returns the stored label
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testApplyToWithValidDoubleArray()" time="0.002">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testApplyToWithValidDoubleArray()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testApplyToWithValidDoubleArray()]
 display-name: testApplyToWithValidDoubleArray()
@@ -510,7 +510,7 @@ display-name: convertRGBtoYUV(int) converts integer RGB to double array YUV
 
     </testcase>
 
-    <testcase classname="utility.ConditionTest$StaticMethods" name="testStaticAnd_FirstFalse()" time="0.002">
+    <testcase classname="utility.ConditionTest$StaticMethods" name="testStaticAnd_FirstFalse()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ConditionTest]/[nested-class:StaticMethods]/[method:testStaticAnd_FirstFalse()]
 display-name: static and returns false if first condition is false
@@ -542,7 +542,7 @@ display-name: computeFromPoint() does not throw exceptions and performs no expli
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testWriteImageIOException()" time="0.021">
+    <testcase classname="utility.ImageUtilityTest" name="testWriteImageIOException()" time="0.013">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testWriteImageIOException()]
 display-name: writeImage() handles IOException during write
@@ -574,7 +574,7 @@ display-name: static ifThenElse executes thenPassage when condition is true
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testOpen()" time="0.001">
+    <testcase classname="wavelet.WaveletModelTest" name="testOpen()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testOpen()]
 display-name: open() does not throw exceptions and performs no explicit action
@@ -590,7 +590,7 @@ display-name: or returns false if both conditions are false
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet2dTransformationTest" name="testTransformThrowsIllegalArgumentExceptionForNull()" time="0.002">
+    <testcase classname="wavelet.DiscreteWavelet2dTransformationTest" name="testTransformThrowsIllegalArgumentExceptionForNull()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet2dTransformationTest]/[method:testTransformThrowsIllegalArgumentExceptionForNull()]
 display-name: transform() throws IllegalArgumentException for null argument
@@ -598,7 +598,7 @@ display-name: transform() throws IllegalArgumentException for null argument
 
     </testcase>
 
-    <testcase classname="utility.WaveletDataTest" name="testLrgbMatrixes()" time="0.017">
+    <testcase classname="utility.WaveletDataTest" name="testLrgbMatrixes()" time="0.016">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.WaveletDataTest]/[method:testLrgbMatrixes()]
 display-name: lrgbMatrixes() extracts luminance and RGB matrixes from image
@@ -606,7 +606,7 @@ display-name: lrgbMatrixes() extracts luminance and RGB matrixes from image
 
     </testcase>
 
-    <testcase classname="utility.ColorUtilityTest" name="testConvertRGBtoYUVArray()" time="0.001">
+    <testcase classname="utility.ColorUtilityTest" name="testConvertRGBtoYUVArray()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ColorUtilityTest]/[method:testConvertRGBtoYUVArray()]
 display-name: convertRGBtoYUV(double[]) converts double array RGB to double array YUV
@@ -622,7 +622,7 @@ display-name: ifThenElse executes thenPassage when condition is true
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testConvertImageToYUVMatrixes()" time="0.005">
+    <testcase classname="utility.ImageUtilityTest" name="testConvertImageToYUVMatrixes()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testConvertImageToYUVMatrixes()]
 display-name: convertImageToYUVMatrixes() converts image to YUV matrixes
@@ -654,7 +654,7 @@ display-name: forEach() works with custom types and functions
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testToString()" time="0.001">
+    <testcase classname="mvc.ControllerTest" name="testToString()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testToString()]
 display-name: toString() returns a correct string representation
@@ -710,7 +710,7 @@ display-name: dataEarth() reads Earth image and converts to LRBG matrixes
 
     </testcase>
 
-    <testcase classname="utility.WaveletDataTest" name="testSample2dCoefficients()" time="0.018">
+    <testcase classname="utility.WaveletDataTest" name="testSample2dCoefficients()" time="0.021">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.WaveletDataTest]/[method:testSample2dCoefficients()]
 display-name: Sample2dCoefficients() generates correct 2D sample data
@@ -726,7 +726,7 @@ display-name: static ifFalse executes action when condition is false
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testOpen()" time="0.286">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testOpen()" time="0.29">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testOpen()]
 display-name: testOpen()
@@ -734,7 +734,7 @@ display-name: testOpen()
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testGenerateImageCombined()" time="0.006">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testGenerateImageCombined()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testGenerateImageCombined()]
 display-name: testGenerateImageCombined()
@@ -742,7 +742,7 @@ display-name: testGenerateImageCombined()
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testComputeRecomposedCoefficients()" time="0">
+    <testcase classname="wavelet.WaveletModelTest" name="testComputeRecomposedCoefficients()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testComputeRecomposedCoefficients()]
 display-name: computeRecomposedCoefficients() does not throw exceptions and performs no explicit action
@@ -750,7 +750,7 @@ display-name: computeRecomposedCoefficients() does not throw exceptions and perf
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testGenerateImage3dArrayGrayscale()" time="0.008">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testGenerateImage3dArrayGrayscale()" time="0.009">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testGenerateImage3dArrayGrayscale()]
 display-name: testGenerateImage3dArrayGrayscale()
@@ -758,7 +758,7 @@ display-name: testGenerateImage3dArrayGrayscale()
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testPaintComponentAdjustsImageScale()" time="0.008">
+    <testcase classname="pane.PaneViewTest" name="testPaintComponentAdjustsImageScale()" time="0.007">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testPaintComponentAdjustsImageScale()]
 display-name: paintComponent() adjusts image scale to fit the view
@@ -798,7 +798,7 @@ display-name: static ifThenElse executes elsePassage when condition is false
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletPaneModelTest" name="testIsInteractive_true()" time="0.002">
+    <testcase classname="wavelet.WaveletPaneModelTest" name="testIsInteractive_true()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneModelTest]/[method:testIsInteractive_true()]
 display-name: isInteractive() returns true when listener is set
@@ -830,7 +830,7 @@ display-name: ifTrue executes action when condition is true
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testGetModel()" time="3.671">
+    <testcase classname="pane.PaneViewTest" name="testGetModel()" time="3.991">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testGetModel()]
 display-name: getModel() returns the associated PaneModel
@@ -854,7 +854,7 @@ display-name: applyTo() throws IllegalArgumentException for non-double[][] objec
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletPaneModelTest" name="testMouseClicked_notInteractive()" time="0.233">
+    <testcase classname="wavelet.WaveletPaneModelTest" name="testMouseClicked_notInteractive()" time="0.208">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneModelTest]/[method:testMouseClicked_notInteractive()]
 display-name: mouseClicked() does nothing if not interactive
@@ -870,7 +870,7 @@ display-name: verticalWaveletCoefficients() returns correct array
 
     </testcase>
 
-    <testcase classname="utility.WaveletDataTest" name="testDataSmalltalkBalloon()" time="0.05">
+    <testcase classname="utility.WaveletDataTest" name="testDataSmalltalkBalloon()" time="0.049">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.WaveletDataTest]/[method:testDataSmalltalkBalloon()]
 display-name: dataSmalltalkBalloon() reads SmalltalkBalloon image and converts to LRBG matrixes
@@ -878,7 +878,7 @@ display-name: dataSmalltalkBalloon() reads SmalltalkBalloon image and converts t
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testConstructorWithModel()" time="0.003">
+    <testcase classname="mvc.ViewTest" name="testConstructorWithModel()" time="0.005">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testConstructorWithModel()]
 display-name: Constructor with Model initializes correctly and creates Controller
@@ -894,7 +894,15 @@ display-name: Constructor with BufferedImage, String, and WaveletModel initializ
 
     </testcase>
 
-    <testcase classname="utility.ConditionTest$InstanceMethods" name="testIfElse_FalseCondition()" time="0">
+    <testcase classname="wavelet.WaveletPaneViewTest" name="testConstructor()" time="0.024">
+      <system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneViewTest]/[method:testConstructor()]
+display-name: Constructor sets model and controller and calls super constructor
+]]></system-out>
+
+    </testcase>
+
+    <testcase classname="utility.ConditionTest$InstanceMethods" name="testIfElse_FalseCondition()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ConditionTest]/[nested-class:InstanceMethods]/[method:testIfElse_FalseCondition()]
 display-name: ifElse executes elsePassage when condition is false
@@ -950,7 +958,7 @@ display-name: ifFalse executes action when condition is false
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeRecomposedCoefficientsWithNullScalingOrWavelet()" time="0.005">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeRecomposedCoefficientsWithNullScalingOrWavelet()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testComputeRecomposedCoefficientsWithNullScalingOrWavelet()]
 display-name: testComputeRecomposedCoefficientsWithNullScalingOrWavelet()
@@ -958,7 +966,7 @@ display-name: testComputeRecomposedCoefficientsWithNullScalingOrWavelet()
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testMouseClicked()" time="0.006">
+    <testcase classname="wavelet.WaveletModelTest" name="testMouseClicked()" time="0.008">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testMouseClicked()]
 display-name: mouseClicked() does not throw exceptions and performs no explicit action
@@ -974,7 +982,7 @@ display-name: static or returns false if both conditions are false
 
     </testcase>
 
-    <testcase classname="utility.FileUtilityTest" name="testOpenString()" time="0.028">
+    <testcase classname="utility.FileUtilityTest" name="testOpenString()" time="0.026">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.FileUtilityTest]/[method:testOpenString()]
 display-name: open(String) converts string to file and calls Desktop.open
@@ -990,7 +998,7 @@ display-name: Constructor creates an instance
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testGrayscaleImage()" time="0.02">
+    <testcase classname="utility.ImageUtilityTest" name="testGrayscaleImage()" time="0.014">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testGrayscaleImage()]
 display-name: grayscaleImage() converts image to grayscale
@@ -998,7 +1006,7 @@ display-name: grayscaleImage() converts image to grayscale
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testConstructorWithModelAndController()" time="0.028">
+    <testcase classname="mvc.ViewTest" name="testConstructorWithModelAndController()" time="0.03">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testConstructorWithModelAndController()]
 display-name: Constructor with Model and Controller initializes correctly
@@ -1006,7 +1014,7 @@ display-name: Constructor with Model and Controller initializes correctly
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletPaneModelTest" name="testActionPerformed_notInteractive()" time="0.02">
+    <testcase classname="wavelet.WaveletPaneModelTest" name="testActionPerformed_notInteractive()" time="0.017">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneModelTest]/[method:testActionPerformed_notInteractive()]
 display-name: actionPerformed() does nothing if not interactive
@@ -1022,7 +1030,7 @@ display-name: static and returns true if both conditions are true
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testSetSourceDataWith3dArray()" time="0.034">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testSetSourceDataWith3dArray()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testSetSourceDataWith3dArray()]
 display-name: testSetSourceDataWith3dArray()
@@ -1030,7 +1038,7 @@ display-name: testSetSourceDataWith3dArray()
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testMouseReleased()" time="0.068">
+    <testcase classname="mvc.ControllerTest" name="testMouseReleased()" time="0.133">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testMouseReleased()]
 display-name: mouseReleased resets default cursor and updates points
@@ -1038,7 +1046,7 @@ display-name: mouseReleased resets default cursor and updates points
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testScrollBy()" time="0.004">
+    <testcase classname="pane.PaneViewTest" name="testScrollBy()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testScrollBy()]
 display-name: scrollBy() does nothing
@@ -1046,7 +1054,7 @@ display-name: scrollBy() does nothing
 
     </testcase>
 
-    <testcase classname="utility.FileUtilityTest" name="testReadImageFromResourceReadFailure()" time="0.01">
+    <testcase classname="utility.FileUtilityTest" name="testReadImageFromResourceReadFailure()" time="0.013">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.FileUtilityTest]/[method:testReadImageFromResourceReadFailure()]
 display-name: readImageFromResource() returns null and logs error if ImageIO.read throws IOException
@@ -1054,7 +1062,7 @@ display-name: readImageFromResource() returns null and logs error if ImageIO.rea
 
     </testcase>
 
-    <testcase classname="utility.FileUtilityTest" name="testOpenFileIOException()" time="0.077">
+    <testcase classname="utility.FileUtilityTest" name="testOpenFileIOException()" time="0.075">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.FileUtilityTest]/[method:testOpenFileIOException()]
 display-name: open(File) prints error if IOException occurs
@@ -1070,7 +1078,7 @@ display-name: Constructor with String argument initializes label and null listen
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testConvertViewPointToPicturePoint()" time="0.007">
+    <testcase classname="pane.PaneViewTest" name="testConvertViewPointToPicturePoint()" time="0.005">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testConvertViewPointToPicturePoint()]
 display-name: convertViewPointToPicturePoint() converts view coordinates to picture coordinates
@@ -1078,7 +1086,7 @@ display-name: convertViewPointToPicturePoint() converts view coordinates to pict
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testImageSmalltalkBalloon()" time="0.038">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testImageSmalltalkBalloon()" time="0.033">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testImageSmalltalkBalloon()]
 display-name: testImageSmalltalkBalloon()
@@ -1102,7 +1110,7 @@ display-name: mouseDragged() prints the dragged point to System.out
 
     </testcase>
 
-    <testcase classname="pane.PaneControllerTest" name="testMouseClicked()" time="0.006">
+    <testcase classname="pane.PaneControllerTest" name="testMouseClicked()" time="0.009">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneControllerTest]/[method:testMouseClicked()]
 display-name: mouseClicked() calls convertViewPointToPicturePoint and then mouseClicked on model
@@ -1134,7 +1142,7 @@ display-name: testDoSampleCoefficients()
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoAllCoefficients()" time="0.028">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoAllCoefficients()" time="0.024">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testDoAllCoefficients()]
 display-name: testDoAllCoefficients()
@@ -1158,7 +1166,7 @@ display-name: testGenerateImage2dArray()
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testShowPopupMenu()" time="0">
+    <testcase classname="wavelet.WaveletModelTest" name="testShowPopupMenu()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testShowPopupMenu()]
 display-name: showPopupMenu() does not throw exceptions and performs no explicit action
@@ -1182,7 +1190,7 @@ display-name: whileTrue executes loop body while condition is true
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testAccuracyConstant()" time="0.001">
+    <testcase classname="wavelet.WaveletModelTest" name="testAccuracyConstant()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testAccuracyConstant()]
 display-name: accuracy constant has the correct value
@@ -1238,7 +1246,7 @@ display-name: evaluate executes no action if no case matches and no default is s
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testScrollByDependentViewsRelativeWithShift()" time="0.005">
+    <testcase classname="mvc.ControllerTest" name="testScrollByDependentViewsRelativeWithShift()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testScrollByDependentViewsRelativeWithShift()]
 display-name: scrollBy scrolls all dependent views relatively with Shift key
@@ -1262,7 +1270,7 @@ display-name: set() updates the value and returns the previous value
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testConstructorWithNullInputThrowsNullPointerException()" time="0.032">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testConstructorWithNullInputThrowsNullPointerException()" time="0.03">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testConstructorWithNullInputThrowsNullPointerException()]
 display-name: testConstructorWithNullInputThrowsNullPointerException()
@@ -1270,7 +1278,7 @@ display-name: testConstructorWithNullInputThrowsNullPointerException()
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testScrollTo()" time="0.004">
+    <testcase classname="mvc.ViewTest" name="testScrollTo()" time="0.005">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testScrollTo()]
 display-name: scrollTo() sets offset to the absolute given point
@@ -1302,7 +1310,7 @@ display-name: static ifTrue does not execute action when condition is false
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testMousePressed()" time="0.004">
+    <testcase classname="mvc.ControllerTest" name="testMousePressed()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testMousePressed()]
 display-name: mousePressed sets crosshair cursor and updates points
@@ -1318,7 +1326,7 @@ display-name: mouseClicked() prints the clicked point to System.out
 
     </testcase>
 
-    <testcase classname="utility.FileUtilityTest" name="testGetResourceAsStreamNonExisting()" time="0.044">
+    <testcase classname="utility.FileUtilityTest" name="testGetResourceAsStreamNonExisting()" time="0.041">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.FileUtilityTest]/[method:testGetResourceAsStreamNonExisting()]
 display-name: getResourceAsStream() returns null for non-existing resource and prints warning
@@ -1326,7 +1334,7 @@ display-name: getResourceAsStream() returns null for non-existing resource and p
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testConvertModelPointToPicturePoint()" time="0.025">
+    <testcase classname="pane.PaneViewTest" name="testConvertModelPointToPicturePoint()" time="0.026">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testConvertModelPointToPicturePoint()]
 display-name: convertModelPointToPicturePoint() converts model coordinates to picture coordinates correctly
@@ -1334,7 +1342,7 @@ display-name: convertModelPointToPicturePoint() converts model coordinates to pi
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet2dTransformationTest" name="testWaveletCoefficientsGetterAndSetter()" time="0.001">
+    <testcase classname="wavelet.DiscreteWavelet2dTransformationTest" name="testWaveletCoefficientsGetterAndSetter()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet2dTransformationTest]/[method:testWaveletCoefficientsGetterAndSetter()]
 display-name: waveletCoefficients() and waveletCoefficients(double[][][]) work correctly
@@ -1350,7 +1358,7 @@ display-name: setDo() updates the value using a provided function
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet2dTransformationTest" name="testApplyToWithValidDoubleArray()" time="0.002">
+    <testcase classname="wavelet.DiscreteWavelet2dTransformationTest" name="testApplyToWithValidDoubleArray()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet2dTransformationTest]/[method:testApplyToWithValidDoubleArray()]
 display-name: applyTo() with valid double[][] argument returns itself and sets sourceCoefficients
@@ -1358,7 +1366,7 @@ display-name: applyTo() with valid double[][] argument returns itself and sets s
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testConvertLuminanceMatrixToImage()" time="0.016">
+    <testcase classname="utility.ImageUtilityTest" name="testConvertLuminanceMatrixToImage()" time="0.012">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testConvertLuminanceMatrixToImage()]
 display-name: convertLuminanceMatrixToImage() converts luminance matrix to image
@@ -1366,7 +1374,7 @@ display-name: convertLuminanceMatrixToImage() converts luminance matrix to image
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testScrollByDependentViewsAbsoluteWithShiftAndModifier()" time="0.003">
+    <testcase classname="mvc.ControllerTest" name="testScrollByDependentViewsAbsoluteWithShiftAndModifier()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testScrollByDependentViewsAbsoluteWithShiftAndModifier()]
 display-name: scrollBy scrolls all dependent views absolutely with Shift and Alt/Ctrl/Meta key
@@ -1398,7 +1406,7 @@ display-name: fill() initializes all elements of a 2D array with a value
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testFill()" time="0.003">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testFill()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testFill()]
 display-name: testFill()
@@ -1406,7 +1414,7 @@ display-name: testFill()
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testInitialize()" time="0.003">
+    <testcase classname="pane.PaneViewTest" name="testInitialize()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testInitialize()]
 display-name: initialize() resets originPoint and scaleFactor
@@ -1430,7 +1438,7 @@ display-name: mouseWheelMoved scrolls horizontally with modifiers and repaints v
 
     </testcase>
 
-    <testcase classname="utility.WaveletDataTest" name="testGenerateImageColor()" time="0.001">
+    <testcase classname="utility.WaveletDataTest" name="testGenerateImageColor()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.WaveletDataTest]/[method:testGenerateImageColor()]
 display-name: generateImage(double[][][], double) generates color image when RGB components exist
@@ -1454,7 +1462,7 @@ display-name: and returns false if first condition is false
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testMouseClicked()" time="0.002">
+    <testcase classname="mvc.ControllerTest" name="testMouseClicked()" time="0.01">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testMouseClicked()]
 display-name: mouseClicked calculates and uses view's scrollAmount
@@ -1462,7 +1470,7 @@ display-name: mouseClicked calculates and uses view's scrollAmount
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletPaneModelTest" name="testMouseClicked_interactive()" time="0.003">
+    <testcase classname="wavelet.WaveletPaneModelTest" name="testMouseClicked_interactive()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneModelTest]/[method:testMouseClicked_interactive()]
 display-name: mouseClicked() delegates to listener if interactive
@@ -1494,7 +1502,7 @@ display-name: luminanceFromRGB(double[]) calculates luminance from double array 
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testMouseDragged()" time="0.001">
+    <testcase classname="wavelet.WaveletModelTest" name="testMouseDragged()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testMouseDragged()]
 display-name: mouseDragged() does not throw exceptions and performs no explicit action
@@ -1502,7 +1510,7 @@ display-name: mouseDragged() does not throw exceptions and performs no explicit 
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testPaintComponentNullImage()" time="0.031">
+    <testcase classname="mvc.ViewTest" name="testPaintComponentNullImage()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testPaintComponentNullImage()]
 display-name: paintComponent handles null image in model gracefully (background painted, no image drawn)
@@ -1510,7 +1518,7 @@ display-name: paintComponent handles null image in model gracefully (background 
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testSetModel()" time="0">
+    <testcase classname="mvc.ControllerTest" name="testSetModel()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testSetModel()]
 display-name: setModel sets the model
@@ -1526,7 +1534,7 @@ display-name: execute runs the associated action
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet1dModelTest" name="testDefaultConstructor()" time="0.02">
+    <testcase classname="wavelet.Wavelet1dModelTest" name="testDefaultConstructor()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet1dModelTest]/[method:testDefaultConstructor()]
 display-name: Default constructor initializes coefficients with sample data
@@ -1542,7 +1550,7 @@ display-name: currentDirectory() returns current directory with separator
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeScalingAndWaveletCoefficientsWithDb4Example()" time="0.001">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testComputeScalingAndWaveletCoefficientsWithDb4Example()" time="0.003">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testComputeScalingAndWaveletCoefficientsWithDb4Example()]
 display-name: testComputeScalingAndWaveletCoefficientsWithDb4Example()
@@ -1550,7 +1558,7 @@ display-name: testComputeScalingAndWaveletCoefficientsWithDb4Example()
 
     </testcase>
 
-    <testcase classname="utility.ColorUtilityTest" name="testColorFromRGBIndividual()" time="0.001">
+    <testcase classname="utility.ColorUtilityTest" name="testColorFromRGBIndividual()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ColorUtilityTest]/[method:testColorFromRGBIndividual()]
 display-name: colorFromRGB(double, double, double) creates correct color from individual components
@@ -1558,7 +1566,7 @@ display-name: colorFromRGB(double, double, double) creates correct color from in
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testCopyImage()" time="0.009">
+    <testcase classname="utility.ImageUtilityTest" name="testCopyImage()" time="0.014">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testCopyImage()]
 display-name: copyImage() creates a deep copy of the image
@@ -1574,7 +1582,7 @@ display-name: scalingCoefficients() and scalingCoefficients(double[][]) work cor
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoSmalltalkBalloon()" time="0.313">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoSmalltalkBalloon()" time="0.335">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testDoSmalltalkBalloon()]
 display-name: testDoSmalltalkBalloon()
@@ -1582,7 +1590,7 @@ display-name: testDoSmalltalkBalloon()
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testPaintComponentDrawImage()" time="0.013">
+    <testcase classname="mvc.ViewTest" name="testPaintComponentDrawImage()" time="0.043">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testPaintComponentDrawImage()]
 display-name: paintComponent draws image with offset when model and image exist
@@ -1590,7 +1598,7 @@ display-name: paintComponent draws image with offset when model and image exist
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testToString()" time="0.179">
+    <testcase classname="mvc.ViewTest" name="testToString()" time="0.038">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testToString()]
 display-name: toString() returns a correct string representation
@@ -1598,7 +1606,7 @@ display-name: toString() returns a correct string representation
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testSetView()" time="0.002">
+    <testcase classname="mvc.ControllerTest" name="testSetView()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testSetView()]
 display-name: setView sets the view and registers listeners
@@ -1622,7 +1630,7 @@ display-name: evaluate only executes the first matching case and stops
 
     </testcase>
 
-    <testcase classname="mvc.ControllerTest" name="testMouseWheelMovedNoScroll()" time="0">
+    <testcase classname="mvc.ControllerTest" name="testMouseWheelMovedNoScroll()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ControllerTest]/[method:testMouseWheelMovedNoScroll()]
 display-name: mouseWheelMoved does nothing if scrollAmount is 0 (wheelRotation is 0)
@@ -1630,7 +1638,7 @@ display-name: mouseWheelMoved does nothing if scrollAmount is 0 (wheelRotation i
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoAllCoefficients()" time="0.002">
+    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoAllCoefficients()" time="0.019">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet1dModelTest]/[method:testDoAllCoefficients()]
 display-name: doAllCoefficients() computes scaling and wavelet coefficients
@@ -1638,7 +1646,7 @@ display-name: doAllCoefficients() computes scaling and wavelet coefficients
 
     </testcase>
 
-    <testcase classname="mvc.ModelTest" name="testToString()" time="0.01">
+    <testcase classname="mvc.ModelTest" name="testToString()" time="0.007">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ModelTest]/[method:testToString()]
 display-name: toString() returns a correct string representation
@@ -1654,7 +1662,7 @@ display-name: convertRGBtoYUV(double, double, double) converts individual double
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoEarth()" time="0.294">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testDoEarth()" time="0.287">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testDoEarth()]
 display-name: testDoEarth()
@@ -1694,7 +1702,7 @@ display-name: static or returns true if first condition is true
 
     </testcase>
 
-    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testTransformWithInvalidWaveletTransformationTypeThrowsIllegalArgumentException()" time="0">
+    <testcase classname="wavelet.DiscreteWavelet1dTransformationTest" name="testTransformWithInvalidWaveletTransformationTypeThrowsIllegalArgumentException()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.DiscreteWavelet1dTransformationTest]/[method:testTransformWithInvalidWaveletTransformationTypeThrowsIllegalArgumentException()]
 display-name: testTransformWithInvalidWaveletTransformationTypeThrowsIllegalArgumentException()
@@ -1718,10 +1726,18 @@ display-name: luminanceFromYUV(double[]) extracts luminance from YUV array
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromURLIOException()" time="0.207">
+    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromURLIOException()" time="0.225">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testReadImageFromURLIOException()]
 display-name: readImageFromURL(URL) reads image from URL and handles IOException
+]]></system-out>
+
+    </testcase>
+
+    <testcase classname="wavelet.WaveletPaneViewTest" name="testPaintComponent()" time="0.327">
+      <system-out><![CDATA[
+unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneViewTest]/[method:testPaintComponent()]
+display-name: paintComponent() draws background and image from model, and draws label
 ]]></system-out>
 
     </testcase>
@@ -1758,7 +1774,7 @@ display-name: ifFalse does not execute action when condition is true
 
     </testcase>
 
-    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromFileIOException()" time="0.007">
+    <testcase classname="utility.ImageUtilityTest" name="testReadImageFromFileIOException()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ImageUtilityTest]/[method:testReadImageFromFileIOException()]
 display-name: readImageFromFile(File) reads image from file and handles IOException
@@ -1766,7 +1782,7 @@ display-name: readImageFromFile(File) reads image from file and handles IOExcept
 
     </testcase>
 
-    <testcase classname="utility.ConditionTest$SwitchTest" name="testDefaultCasePlacement()" time="0.001">
+    <testcase classname="utility.ConditionTest$SwitchTest" name="testDefaultCasePlacement()" time="0">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ConditionTest]/[nested-class:SwitchTest]/[method:testDefaultCasePlacement()]
 display-name: defaultCase can be added at any point
@@ -1790,7 +1806,7 @@ display-name: colorFromLuminance() creates correct grayscale color
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletPaneModelTest" name="testShowPopupMenu_notInteractive()" time="0.027">
+    <testcase classname="wavelet.WaveletPaneModelTest" name="testShowPopupMenu_notInteractive()" time="0.018">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletPaneModelTest]/[method:testShowPopupMenu_notInteractive()]
 display-name: showPopupMenu() does nothing if not interactive
@@ -1806,7 +1822,7 @@ display-name: and returns true if both conditions are true
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testMaximumAbsoluteCoefficients()" time="0.03">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testMaximumAbsoluteCoefficients()" time="0.031">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testMaximumAbsoluteCoefficients()]
 display-name: testMaximumAbsoluteCoefficients()
@@ -1822,7 +1838,7 @@ display-name: Default constructor initializes with nulls
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet2dModelTest" name="testImageEarth()" time="0.071">
+    <testcase classname="wavelet.Wavelet2dModelTest" name="testImageEarth()" time="0.015">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet2dModelTest]/[method:testImageEarth()]
 display-name: testImageEarth()
@@ -1830,7 +1846,7 @@ display-name: testImageEarth()
 
     </testcase>
 
-    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoSampleCoefficients()" time="0.006">
+    <testcase classname="wavelet.Wavelet1dModelTest" name="testDoSampleCoefficients()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.Wavelet1dModelTest]/[method:testDoSampleCoefficients()]
 display-name: doSampleCoefficients() sets sample coefficients and triggers transform
@@ -1838,7 +1854,7 @@ display-name: doSampleCoefficients() sets sample coefficients and triggers trans
 
     </testcase>
 
-    <testcase classname="utility.FileUtilityTest" name="testReadImageFromResourceExisting()" time="0.074">
+    <testcase classname="utility.FileUtilityTest" name="testReadImageFromResourceExisting()" time="0.051">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.FileUtilityTest]/[method:testReadImageFromResourceExisting()]
 display-name: readImageFromResource() returns BufferedImage for existing image resource
@@ -1870,7 +1886,7 @@ display-name: addDependent adds a View to the dependents list
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testPaintComponent()" time="0.173">
+    <testcase classname="pane.PaneViewTest" name="testPaintComponent()" time="0.193">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testPaintComponent()]
 display-name: paintComponent() draws background, scales and draws image
@@ -1886,7 +1902,7 @@ display-name: applyTo() returns itself regardless of the argument
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testConvertModelPointToPicturePointWithNullImage()" time="0.004">
+    <testcase classname="pane.PaneViewTest" name="testConvertModelPointToPicturePointWithNullImage()" time="0.005">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testConvertModelPointToPicturePointWithNullImage()]
 display-name: convertModelPointToPicturePoint() returns null if model's picture is null
@@ -1910,7 +1926,7 @@ display-name: Sample1dCoefficients() generates correct 1D sample data
 
     </testcase>
 
-    <testcase classname="wavelet.WaveletModelTest" name="testActionPerformed()" time="0.054">
+    <testcase classname="wavelet.WaveletModelTest" name="testActionPerformed()" time="0.032">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:wavelet.WaveletModelTest]/[method:testActionPerformed()]
 display-name: actionPerformed() does not throw exceptions and performs no explicit action
@@ -1934,7 +1950,7 @@ display-name: evaluate returns true if condition is true
 
     </testcase>
 
-    <testcase classname="utility.ConditionTest$InstanceMethods" name="testIfThen_TrueCondition()" time="0">
+    <testcase classname="utility.ConditionTest$InstanceMethods" name="testIfThen_TrueCondition()" time="0.001">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.ConditionTest]/[nested-class:InstanceMethods]/[method:testIfThen_TrueCondition()]
 display-name: ifThen executes thenPassage when condition is true
@@ -1942,7 +1958,7 @@ display-name: ifThen executes thenPassage when condition is true
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testScrollBy()" time="0.007">
+    <testcase classname="mvc.ViewTest" name="testScrollBy()" time="0.014">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testScrollBy()]
 display-name: scrollBy() adjusts offset relative to current offset
@@ -1958,7 +1974,7 @@ display-name: writeImage(BufferedImage, String) writes image to file string
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testScrollAmount()" time="0.005">
+    <testcase classname="pane.PaneViewTest" name="testScrollAmount()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testScrollAmount()]
 display-name: scrollAmount() always returns (0, 0)
@@ -1974,7 +1990,7 @@ display-name: get() returns the held value
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testScrollAmount()" time="0.004">
+    <testcase classname="mvc.ViewTest" name="testScrollAmount()" time="0.005">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testScrollAmount()]
 display-name: scrollAmount() returns the inverse of internal offset
@@ -1982,7 +1998,7 @@ display-name: scrollAmount() returns the inverse of internal offset
 
     </testcase>
 
-    <testcase classname="utility.IntervalTest" name="testForEachLargeRange()" time="0.007">
+    <testcase classname="utility.IntervalTest" name="testForEachLargeRange()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:utility.IntervalTest]/[method:testForEachLargeRange()]
 display-name: forEach() handles large ranges efficiently (without exhausting memory)
@@ -1990,7 +2006,7 @@ display-name: forEach() handles large ranges efficiently (without exhausting mem
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testPaintComponentNullModel()" time="0.008">
+    <testcase classname="pane.PaneViewTest" name="testPaintComponentNullModel()" time="0.011">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testPaintComponentNullModel()]
 display-name: paintComponent() handles null model gracefully
@@ -1998,7 +2014,7 @@ display-name: paintComponent() handles null model gracefully
 
     </testcase>
 
-    <testcase classname="mvc.ViewTest" name="testPaintComponentNullModel()" time="0.005">
+    <testcase classname="mvc.ViewTest" name="testPaintComponentNullModel()" time="0.002">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:mvc.ViewTest]/[method:testPaintComponentNullModel()]
 display-name: paintComponent handles null model gracefully (background painted, no image drawn)
@@ -2006,7 +2022,7 @@ display-name: paintComponent handles null model gracefully (background painted, 
 
     </testcase>
 
-    <testcase classname="pane.PaneViewTest" name="testConvertModelPointToPicturePointWithOutOfRangeCoordinatesPositive()" time="0.005">
+    <testcase classname="pane.PaneViewTest" name="testConvertModelPointToPicturePointWithOutOfRangeCoordinatesPositive()" time="0.004">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneViewTest]/[method:testConvertModelPointToPicturePointWithOutOfRangeCoordinatesPositive()]
 display-name: convertModelPointToPicturePoint() returns null if converted coordinates are out of bounds (exceeds image dimensions)
@@ -2014,7 +2030,7 @@ display-name: convertModelPointToPicturePoint() returns null if converted coordi
 
     </testcase>
 
-    <testcase classname="pane.PaneControllerTest" name="testMouseDragged()" time="0.004">
+    <testcase classname="pane.PaneControllerTest" name="testMouseDragged()" time="0.006">
       <system-out><![CDATA[
 unique-id: [engine:junit-jupiter]/[class:pane.PaneControllerTest]/[method:testMouseDragged()]
 display-name: mouseDragged() calls convertViewPointToPicturePoint and then mouseDragged on model
