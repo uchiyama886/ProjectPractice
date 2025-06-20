@@ -141,6 +141,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
   }
   
   /**
+   * ウェーブレット係数を設定する。
    * @return 斜め成分のウェーブレット係数
    */
   public double[][] diagonalWaveletCoefficients() 
@@ -149,6 +150,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
   }
   
   /**
+   * ウェーブレット係数を設定する。
    * @return 水平成分のウェーブレット係数
    */
   public double[][] horizontalWaveletCoefficients() 
@@ -157,6 +159,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
   }
   
   /**
+   * ウェーブレット係数を設定する。
    * @return 垂直方向のウェーブレット係数
    */
   public double[][] verticalWaveletCoefficients() 
