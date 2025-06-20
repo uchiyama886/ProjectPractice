@@ -5,13 +5,26 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 /**
- * 形式型{@code <T>}を使用して、指定された開始値から条件に基づいて繰り返し処理を行うためのクラス。
+ * 形式型 T を使用して、指定された開始値から条件に基づいて繰り返し処理を行うためのクラス。
  * 各クラスで次の値を計算、アクションを行う。
+ * @param <T> 任意のオブジェクト型を指定
  */
 public class Interval<T>
 {
+    /**
+     * ループ処理を開始する際の初期値を保持します。
+     * この値から反復処理が開始されます。
+     */
     private T startValue;
+    /**
+     * ループを継続するための条件を定義する{@code Predicate}関数型インターフェースを保持します。
+     * この条件が{@code true}を返す限り、ループは継続されます。
+     */
     private Predicate<T> loopCondition;
+    /**
+     * 現在の値から次の値を計算するための{@code UnaryOperator}関数型インターフェースを保持します。
+     * 各反復ステップの終わりに、この関数が呼び出されて次のループで使用する値が決定されます。
+     */
     private UnaryOperator<T> nextValueFunction;
 
     /**

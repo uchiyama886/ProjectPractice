@@ -21,6 +21,15 @@ import javax.imageio.ImageIO;
 public class ImageUtility extends Object
 {
 	/**
+     * 新しいImageUtilityクラスのインスタンスを構築する。
+     * このクラスは静的定数のみを提供するため、通常はインスタンス化されない。
+     */
+	public ImageUtility()
+	{
+		// このクラスは静的フィールドのみを持つため、
+        // デフォルトコンストラクタ内で特別な初期化処理は不要である。
+	}
+	/**
 	 * 画像(anImage)を指定された幅(width)と高さ(height)に変形した複製を応答する。
 	 * @param anImage 画像
 	 * @param width 幅(横)
