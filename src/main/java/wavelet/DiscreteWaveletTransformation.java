@@ -26,25 +26,25 @@ public abstract class DiscreteWaveletTransformation extends WaveletTransformatio
   
   /**
    * この変換オブジェクトの内部状態を初期化します。
-   * デフォルトのDaubechiesウェーブレットの次数（N=2、つまり4タップフィルター）を用いてフィルター係数を設定します。
+   * デフォルトのDaubechiesウェーブレットの次数（N=2、つまり4タップフィルター）を用いてフィルター係数を設定する。
    */
   protected void initialize() {
     initialize(2); // デフォルトで次数N=2のDaubechiesウェーブレットを初期化します
   }
   
   /**
-   * 指定された次数に基づいて、Daubechiesウェーブレットのフィルター係数を初期化します。
+   * 指定された次数に基づいて、Daubechiesウェーブレットのフィルター係数を初期化する。
    *
-   * <p>サポートされる次数は以下の通りです。
+   * <p>サポートされる次数は以下の通りである。
    * <ul>
    * <li>{@code paramInt == 2}: 4タップフィルター係数（デフォルト）</li>
    * <li>{@code paramInt == 3}: 6タップフィルター係数</li>
    * <li>{@code paramInt == 4}: 8タップフィルター係数</li>
    * </ul>
-   * 指定された次数に応じて、{@link #daubechiesScalingSequence} と {@link #daubechiesWaveletSequence} を設定します。
-   * ウェーブレット係数はスケーリング係数から導出されます。</p>
+   * 指定された次数に応じて、{@link #daubechiesScalingSequence} と {@link #daubechiesWaveletSequence} を設定する。
+   * ウェーブレット係数はスケーリング係数から導出される。
    *
-   * @param paramInt 初期化するDaubechiesウェーブレットの次数（通常、Nです）
+   * @param paramInt 初期化するDaubechiesウェーブレットの次数（通常、N）
    */
   protected void initialize(int paramInt) {
     super.initialize(); // 親クラスの初期化メソッドを呼び出します

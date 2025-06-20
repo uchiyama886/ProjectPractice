@@ -13,55 +13,415 @@
 <div class="source-container">
 <pre><span class="source-line-no">001</span><span id="line-1">package wavelet;</span>
 <span class="source-line-no">002</span><span id="line-2"></span>
-<span class="source-line-no">003</span><span id="line-3">import java.awt.Point;</span>
-<span class="source-line-no">004</span><span id="line-4">import javax.swing.JPanel;</span>
-<span class="source-line-no">005</span><span id="line-5">import java.awt.image.BufferedImage;</span>
-<span class="source-line-no">006</span><span id="line-6"></span>
-<span class="source-line-no">007</span><span id="line-7">public class Example2d extends Object {</span>
-<span class="source-line-no">008</span><span id="line-8"></span>
-<span class="source-line-no">009</span><span id="line-9">        private static int fileNo = 100;</span>
-<span class="source-line-no">010</span><span id="line-10"></span>
-<span class="source-line-no">011</span><span id="line-11">        private static Point displayPoint = new Point(130, 50);</span>
-<span class="source-line-no">012</span><span id="line-12"></span>
-<span class="source-line-no">013</span><span id="line-13">        private static Point offsetPoint = new Point(25, 25);</span>
-<span class="source-line-no">014</span><span id="line-14"></span>
-<span class="source-line-no">015</span><span id="line-15">        public static void main(String[] arguments) {</span>
-<span class="source-line-no">016</span><span id="line-16"></span>
-<span class="source-line-no">017</span><span id="line-17">        }</span>
-<span class="source-line-no">018</span><span id="line-18"></span>
-<span class="source-line-no">019</span><span id="line-19">        protected static void example1() {</span>
-<span class="source-line-no">020</span><span id="line-20"></span>
-<span class="source-line-no">021</span><span id="line-21">        }</span>
-<span class="source-line-no">022</span><span id="line-22"></span>
-<span class="source-line-no">023</span><span id="line-23">        protected static void example2() {</span>
-<span class="source-line-no">024</span><span id="line-24"></span>
-<span class="source-line-no">025</span><span id="line-25">        }</span>
-<span class="source-line-no">026</span><span id="line-26"></span>
-<span class="source-line-no">027</span><span id="line-27">        protected static void example3() {</span>
-<span class="source-line-no">028</span><span id="line-28"></span>
-<span class="source-line-no">029</span><span id="line-29">        }</span>
-<span class="source-line-no">030</span><span id="line-30"></span>
-<span class="source-line-no">031</span><span id="line-31">        private static void open(JPanel aPanel) {</span>
-<span class="source-line-no">032</span><span id="line-32"></span>
-<span class="source-line-no">033</span><span id="line-33">        }</span>
-<span class="source-line-no">034</span><span id="line-34"></span>
-<span class="source-line-no">035</span><span id="line-35">        protected static void open(JPanel aPanel, int width, int height) {</span>
-<span class="source-line-no">036</span><span id="line-36"></span>
-<span class="source-line-no">037</span><span id="line-37">        }</span>
-<span class="source-line-no">038</span><span id="line-38"></span>
-<span class="source-line-no">039</span><span id="line-39">        protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) {</span>
-<span class="source-line-no">040</span><span id="line-40">                return null;</span>
-<span class="source-line-no">041</span><span id="line-41">        }</span>
-<span class="source-line-no">042</span><span id="line-42"></span>
-<span class="source-line-no">043</span><span id="line-43">        protected static void perform(double[][][] IrgbSourceCoefficients, String labelString) {</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">        }</span>
-<span class="source-line-no">046</span><span id="line-46"></span>
-<span class="source-line-no">047</span><span id="line-47">        protected static void write(BufferedImage anlmage) {</span>
+<span class="source-line-no">003</span><span id="line-3">import java.awt.Component;</span>
+<span class="source-line-no">004</span><span id="line-4">import java.awt.Dimension;</span>
+<span class="source-line-no">005</span><span id="line-5">import java.awt.GridBagConstraints;</span>
+<span class="source-line-no">006</span><span id="line-6">import java.awt.GridBagLayout;</span>
+<span class="source-line-no">007</span><span id="line-7">import java.awt.Point;</span>
+<span class="source-line-no">008</span><span id="line-8">import java.awt.image.BufferedImage;</span>
+<span class="source-line-no">009</span><span id="line-9">import java.io.File;</span>
+<span class="source-line-no">010</span><span id="line-10">import javax.swing.JFrame;</span>
+<span class="source-line-no">011</span><span id="line-11">import javax.swing.JPanel;</span>
+<span class="source-line-no">012</span><span id="line-12">import utility.ColorUtility;</span>
+<span class="source-line-no">013</span><span id="line-13">import utility.ImageUtility;</span>
+<span class="source-line-no">014</span><span id="line-14">import utility.Condition;</span>
+<span class="source-line-no">015</span><span id="line-15">import java.nio.file.Path;</span>
+<span class="source-line-no">016</span><span id="line-16">import java.nio.file.Paths;</span>
+<span class="source-line-no">017</span><span id="line-17"></span>
+<span class="source-line-no">018</span><span id="line-18">/**</span>
+<span class="source-line-no">019</span><span id="line-19"> * ウィンドウ表示やユーザ操作の処理、画像変換への指示など、UIと処理をつなぐメイン機能全般(二次元)</span>
+<span class="source-line-no">020</span><span id="line-20"> */</span>
+<span class="source-line-no">021</span><span id="line-21">public class Example2d {</span>
+<span class="source-line-no">022</span><span id="line-22">  /**</span>
+<span class="source-line-no">023</span><span id="line-23">   * 保存する画像ファイルの連番カウンター</span>
+<span class="source-line-no">024</span><span id="line-24">   */</span>
+<span class="source-line-no">025</span><span id="line-25">  private static int fileNo = 100;</span>
+<span class="source-line-no">026</span><span id="line-26">  </span>
+<span class="source-line-no">027</span><span id="line-27">  /**</span>
+<span class="source-line-no">028</span><span id="line-28">   * ウィンドウの初期表示座標</span>
+<span class="source-line-no">029</span><span id="line-29">   */</span>
+<span class="source-line-no">030</span><span id="line-30">  private static Point displayPoint = new Point(130, 50);</span>
+<span class="source-line-no">031</span><span id="line-31">  </span>
+<span class="source-line-no">032</span><span id="line-32">  /**</span>
+<span class="source-line-no">033</span><span id="line-33">   * ウィンドウを開いていく際に少しずつずらしていくオフセット</span>
+<span class="source-line-no">034</span><span id="line-34">   */</span>
+<span class="source-line-no">035</span><span id="line-35">  private static Point offsetPoint = new Point(25, 25);</span>
+<span class="source-line-no">036</span><span id="line-36">  </span>
+<span class="source-line-no">037</span><span id="line-37">  /**</span>
+<span class="source-line-no">038</span><span id="line-38">   * 1：データのサンプル係数を取得</span>
+<span class="source-line-no">039</span><span id="line-39">   * 2：RGBデータを取得(SmalltalkBalloon)</span>
+<span class="source-line-no">040</span><span id="line-40">   * 3：RGBデータを取得(Earth)</span>
+<span class="source-line-no">041</span><span id="line-41">   */</span>
+<span class="source-line-no">042</span><span id="line-42">  public static void main(String[] arguments) {</span>
+<span class="source-line-no">043</span><span id="line-43">    // グレースケールデータの処理</span>
+<span class="source-line-no">044</span><span id="line-44">    example1();</span>
+<span class="source-line-no">045</span><span id="line-45"></span>
+<span class="source-line-no">046</span><span id="line-46">    // カラー画像（Smalltalk Balloon）の処理</span>
+<span class="source-line-no">047</span><span id="line-47">    example2();</span>
 <span class="source-line-no">048</span><span id="line-48"></span>
-<span class="source-line-no">049</span><span id="line-49">        }</span>
-<span class="source-line-no">050</span><span id="line-50"></span>
-<span class="source-line-no">051</span><span id="line-51">}</span>
+<span class="source-line-no">049</span><span id="line-49">    // カラー画像（Earth）の処理</span>
+<span class="source-line-no">050</span><span id="line-50">    example3();</span>
+<span class="source-line-no">051</span><span id="line-51">  }</span>
+<span class="source-line-no">052</span><span id="line-52">  </span>
+<span class="source-line-no">053</span><span id="line-53">  /**</span>
+<span class="source-line-no">054</span><span id="line-54">   * サンプル係数を取得し、変換処理を実行（グレースケール）</span>
+<span class="source-line-no">055</span><span id="line-55">   * @param coefficientsOfSampledata：データのサンプル係数</span>
+<span class="source-line-no">056</span><span id="line-56">   */</span>
+<span class="source-line-no">057</span><span id="line-57">  protected static void example1() {</span>
+<span class="source-line-no">058</span><span id="line-58">    // 連番</span>
+<span class="source-line-no">059</span><span id="line-59">    fileNo = 100;</span>
+<span class="source-line-no">060</span><span id="line-60"></span>
+<span class="source-line-no">061</span><span id="line-61">    // サンプル係数を取得</span>
+<span class="source-line-no">062</span><span id="line-62">    double[][] coefficientsOfSampledata = Wavelet2dModel.dataSampleCoefficients();</span>
+<span class="source-line-no">063</span><span id="line-63"></span>
+<span class="source-line-no">064</span><span id="line-64">    // 変換処理を実行（4×4ピクセル単位）</span>
+<span class="source-line-no">065</span><span id="line-65">    perform(coefficientsOfSampledata, new Point(4, 4), 0);</span>
+<span class="source-line-no">066</span><span id="line-66">  }</span>
+<span class="source-line-no">067</span><span id="line-67">  </span>
+<span class="source-line-no">068</span><span id="line-68">  /**</span>
+<span class="source-line-no">069</span><span id="line-69">   * SmalltalkBalloonの画像に対する変換処理（カラー）</span>
+<span class="source-line-no">070</span><span id="line-70">   * @param rgbData：SmalltalkBalloonのRGBデータ</span>
+<span class="source-line-no">071</span><span id="line-71">   */</span>
+<span class="source-line-no">072</span><span id="line-72">  protected static void example2() {</span>
+<span class="source-line-no">073</span><span id="line-73">    // 連番</span>
+<span class="source-line-no">074</span><span id="line-74">    fileNo = 200;</span>
+<span class="source-line-no">075</span><span id="line-75"></span>
+<span class="source-line-no">076</span><span id="line-76">    // SmalltalkBalloonのRGBデータを取得</span>
+<span class="source-line-no">077</span><span id="line-77">    double[][][] rgbData = Wavelet2dModel.dataSmalltalkBalloon();</span>
+<span class="source-line-no">078</span><span id="line-78"></span>
+<span class="source-line-no">079</span><span id="line-79">    // カラー変換処理</span>
+<span class="source-line-no">080</span><span id="line-80">    perform(rgbData, "Smalltalk Balloon");</span>
+<span class="source-line-no">081</span><span id="line-81">  }</span>
+<span class="source-line-no">082</span><span id="line-82">  </span>
+<span class="source-line-no">083</span><span id="line-83">  /**</span>
+<span class="source-line-no">084</span><span id="line-84">   * Earthの画像に対する変換処理（カラー）</span>
+<span class="source-line-no">085</span><span id="line-85">   * @param rgbData：EarthのRGBデータ</span>
+<span class="source-line-no">086</span><span id="line-86">   */</span>
+<span class="source-line-no">087</span><span id="line-87">  protected static void example3() {</span>
+<span class="source-line-no">088</span><span id="line-88">    // 連番</span>
+<span class="source-line-no">089</span><span id="line-89">    fileNo = 300;</span>
+<span class="source-line-no">090</span><span id="line-90"></span>
+<span class="source-line-no">091</span><span id="line-91">    // EarthのRGBデータを取得</span>
+<span class="source-line-no">092</span><span id="line-92">    double[][][] rgbData = Wavelet2dModel.dataEarth();</span>
+<span class="source-line-no">093</span><span id="line-93"></span>
+<span class="source-line-no">094</span><span id="line-94">    // カラー変換処理</span>
+<span class="source-line-no">095</span><span id="line-95">    perform(rgbData, "Earth");</span>
+<span class="source-line-no">096</span><span id="line-96">  }</span>
+<span class="source-line-no">097</span><span id="line-97">  </span>
+<span class="source-line-no">098</span><span id="line-98">  /**</span>
+<span class="source-line-no">099</span><span id="line-99">   * デフォルトサイズでのパネルの表示</span>
+<span class="source-line-no">100</span><span id="line-100">   */</span>
+<span class="source-line-no">101</span><span id="line-101">  private static void open(JPanel aPanel) {</span>
+<span class="source-line-no">102</span><span id="line-102">    open(aPanel, 512, 512);</span>
+<span class="source-line-no">103</span><span id="line-103">  }</span>
+<span class="source-line-no">104</span><span id="line-104">  </span>
+<span class="source-line-no">105</span><span id="line-105">  /**</span>
+<span class="source-line-no">106</span><span id="line-106">   * 指定サイズでのパネル表示</span>
+<span class="source-line-no">107</span><span id="line-107">   * @param width         幅</span>
+<span class="source-line-no">108</span><span id="line-108">   * @param height        高さ</span>
+<span class="source-line-no">109</span><span id="line-109">   * @param spaceOfTitle  タイトルバーの余白</span>
+<span class="source-line-no">110</span><span id="line-110">   */</span>
+<span class="source-line-no">111</span><span id="line-111">  protected static void open(JPanel aPanel, int width, int height) {</span>
+<span class="source-line-no">112</span><span id="line-112">    // タイトルをWavelet Example（2D）にしてフレームを用意</span>
+<span class="source-line-no">113</span><span id="line-113">    JFrame jFrame = new JFrame("Wavelet Example (2D)");</span>
+<span class="source-line-no">114</span><span id="line-114"></span>
+<span class="source-line-no">115</span><span id="line-115">    // paramJPanelをJFrameの表示エリアに追加する</span>
+<span class="source-line-no">116</span><span id="line-116">    jFrame.getContentPane().add(aPanel);</span>
+<span class="source-line-no">117</span><span id="line-117"></span>
+<span class="source-line-no">118</span><span id="line-118">    // ×ボタンを押すとそのウィンドウを閉じて破棄（他のウィンドウが開いていればそのウィンドウは継続）</span>
+<span class="source-line-no">119</span><span id="line-119">    jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="source-line-no">120</span><span id="line-120"></span>
+<span class="source-line-no">121</span><span id="line-121">    // jFrame.addNotify();</span>
+<span class="source-line-no">122</span><span id="line-122"></span>
+<span class="source-line-no">123</span><span id="line-123">    // タイトルバーの上部オフセットを束縛</span>
+<span class="source-line-no">124</span><span id="line-124">    int spaceOfTitle = (jFrame.getInsets()).top;</span>
+<span class="source-line-no">125</span><span id="line-125"></span>
+<span class="source-line-no">126</span><span id="line-126">    // ウィンドウの最小サイズを設定</span>
+<span class="source-line-no">127</span><span id="line-127">    jFrame.setMinimumSize(new Dimension(width / 2, height / 2 + spaceOfTitle));</span>
+<span class="source-line-no">128</span><span id="line-128"></span>
+<span class="source-line-no">129</span><span id="line-129">    // ウィンドウのリサイズを可能にする</span>
+<span class="source-line-no">130</span><span id="line-130">    jFrame.setResizable(true);</span>
+<span class="source-line-no">131</span><span id="line-131"></span>
+<span class="source-line-no">132</span><span id="line-132">    // 初期サイズを設定</span>
+<span class="source-line-no">133</span><span id="line-133">    jFrame.setSize(width, height + spaceOfTitle);</span>
+<span class="source-line-no">134</span><span id="line-134"></span>
+<span class="source-line-no">135</span><span id="line-135">    // 表示させる初期位置を設定</span>
+<span class="source-line-no">136</span><span id="line-136">    jFrame.setLocation(displayPoint.x, displayPoint.y);</span>
+<span class="source-line-no">137</span><span id="line-137"></span>
+<span class="source-line-no">138</span><span id="line-138">    // 可視化</span>
+<span class="source-line-no">139</span><span id="line-139">    jFrame.setVisible(true);</span>
+<span class="source-line-no">140</span><span id="line-140"></span>
+<span class="source-line-no">141</span><span id="line-141">    // 前に持ってくる</span>
+<span class="source-line-no">142</span><span id="line-142">    jFrame.toFront();</span>
+<span class="source-line-no">143</span><span id="line-143"></span>
+<span class="source-line-no">144</span><span id="line-144">    // 少しずつ配置する位置をずらす</span>
+<span class="source-line-no">145</span><span id="line-145">    displayPoint = new Point(displayPoint.x + offsetPoint.x, displayPoint.y + offsetPoint.y);</span>
+<span class="source-line-no">146</span><span id="line-146">  }</span>
+<span class="source-line-no">147</span><span id="line-147"></span>
+<span class="source-line-no">148</span><span id="line-148">  /**</span>
+<span class="source-line-no">149</span><span id="line-149">   * 各種変数を取得し、画像の生成、表示、保存する</span>
+<span class="source-line-no">150</span><span id="line-150">   * @param coefficientsOfSampledata           データのサンプル係数</span>
+<span class="source-line-no">151</span><span id="line-151">   * @param coefficientsOfScaling              離散ウェーブレットのスケーリング係数</span>
+<span class="source-line-no">152</span><span id="line-152">   * @param coefficientsOfHorizontalWavelet    水平方向の離散ウェーブレットのウェーブレット係数</span>
+<span class="source-line-no">153</span><span id="line-153">   * @param coefficientsOfVerticalWavelet      垂直方向の離散ウェーブレットのウェーブレット係数</span>
+<span class="source-line-no">154</span><span id="line-154">   * @param coefficientsOfDiagonalWavelet      対角方向の離散ウェーブレットのウェーブレット係数</span>
+<span class="source-line-no">155</span><span id="line-155">   * @param waveletCoefficientsInAllDirections 水平・垂直・対角方向のウェーブレット係数をまとめたもの</span>
+<span class="source-line-no">156</span><span id="line-156">   * @param coefficientsOfDisWavelet           逆ウェーブレット変換で得た係数</span>
+<span class="source-line-no">157</span><span id="line-157">   * @param imageOfSampledata                  サンプル係数を元にした画像</span>
+<span class="source-line-no">158</span><span id="line-158">   * @param imageOfScaling                     スケーリング係数を元にした画像</span>
+<span class="source-line-no">159</span><span id="line-159">   * @param imageOfHorizontalWavelet           水平方向のウェーブレット係数を元にした画像</span>
+<span class="source-line-no">160</span><span id="line-160">   * @param imageOfVerticalWavelet             垂直方向のウェーブレット係数を元にした画像</span>
+<span class="source-line-no">161</span><span id="line-161">   * @param imageOfDiagonalWavelet             対角方向のウェーブレット係数を元にした画像</span>
+<span class="source-line-no">162</span><span id="line-162">   * @param compositesImage                    bufferedImage2~6の4枚の画像を合成した画像</span>
+<span class="source-line-no">163</span><span id="line-163">   * @param compositesDisImage1                一回目に復元した画像</span>
+<span class="source-line-no">164</span><span id="line-164">   * @param compositesDisImage2                二回目に復元した画像</span>
+<span class="source-line-no">165</span><span id="line-165">   */</span>
+<span class="source-line-no">166</span><span id="line-166">  protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) {</span>
+<span class="source-line-no">167</span><span id="line-167">    // 元画像の係数を束縛</span>
+<span class="source-line-no">168</span><span id="line-168">    double[][] coefficientsOfSampledata = sourceDataMatrix;</span>
+<span class="source-line-no">169</span><span id="line-169"></span>
+<span class="source-line-no">170</span><span id="line-170">    // 離散ウェーブレット変換を実行</span>
+<span class="source-line-no">171</span><span id="line-171">    DiscreteWavelet2dTransformation discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(coefficientsOfSampledata);</span>
+<span class="source-line-no">172</span><span id="line-172"></span>
+<span class="source-line-no">173</span><span id="line-173">    // 各種係数を束縛</span>
+<span class="source-line-no">174</span><span id="line-174">    double[][] coefficientsOfScaling1 = discreteWavelet2dTransformation.scalingCoefficients();</span>
+<span class="source-line-no">175</span><span id="line-175">    double[][] coefficientsOfHorizontalWavelet1 = discreteWavelet2dTransformation.horizontalWaveletCoefficients();</span>
+<span class="source-line-no">176</span><span id="line-176">    double[][] coefficientsOfVerticalWavelet1 = discreteWavelet2dTransformation.verticalWaveletCoefficients();</span>
+<span class="source-line-no">177</span><span id="line-177">    double[][] coefficientsOfDiagonalWavelet1 = discreteWavelet2dTransformation.diagonalWaveletCoefficients();</span>
+<span class="source-line-no">178</span><span id="line-178"></span>
+<span class="source-line-no">179</span><span id="line-179">    // 各係数をもとに画像を生成</span>
+<span class="source-line-no">180</span><span id="line-180">    BufferedImage imageOfSampledata1 = Wavelet2dModel.generateImage(coefficientsOfSampledata, scaleFactor, rgbFlag);</span>
+<span class="source-line-no">181</span><span id="line-181">    BufferedImage imageOfScaling1 = Wavelet2dModel.generateImage(coefficientsOfScaling1, scaleFactor, rgbFlag);</span>
+<span class="source-line-no">182</span><span id="line-182">    BufferedImage imageOfHorizontalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfHorizontalWavelet1, scaleFactor, 0);</span>
+<span class="source-line-no">183</span><span id="line-183">    BufferedImage imageOfVerticalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfVerticalWavelet1, scaleFactor, 0);</span>
+<span class="source-line-no">184</span><span id="line-184">    BufferedImage imageOfDiagonalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfDiagonalWavelet1, scaleFactor, 0);</span>
+<span class="source-line-no">185</span><span id="line-185"></span>
+<span class="source-line-no">186</span><span id="line-186">    // 画像の書き出し</span>
+<span class="source-line-no">187</span><span id="line-187">    write(imageOfSampledata1);</span>
+<span class="source-line-no">188</span><span id="line-188">    write(imageOfScaling1);</span>
+<span class="source-line-no">189</span><span id="line-189">    write(imageOfHorizontalWavelet1);</span>
+<span class="source-line-no">190</span><span id="line-190">    write(imageOfVerticalWavelet1);</span>
+<span class="source-line-no">191</span><span id="line-191">    write(imageOfDiagonalWavelet1);</span>
+<span class="source-line-no">192</span><span id="line-192"></span>
+<span class="source-line-no">193</span><span id="line-193">    // スケーリング係数、水平・垂直・対角方向のウェーブレット係数の画像をもとに画像を生成（元画像を生成）し、束縛</span>
+<span class="source-line-no">194</span><span id="line-194">    BufferedImage compositesImage1 = Wavelet2dModel.generateImage(imageOfScaling1, imageOfHorizontalWavelet1, imageOfVerticalWavelet1, imageOfDiagonalWavelet1);</span>
+<span class="source-line-no">195</span><span id="line-195"></span>
+<span class="source-line-no">196</span><span id="line-196">    // 元画像の書き出し</span>
+<span class="source-line-no">197</span><span id="line-197">    write(compositesImage1);</span>
+<span class="source-line-no">198</span><span id="line-198"></span>
+<span class="source-line-no">199</span><span id="line-199">    // もう一度スケーリング係数に対して離散ウェーブレット変換を実行</span>
+<span class="source-line-no">200</span><span id="line-200">    discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(coefficientsOfScaling1);</span>
+<span class="source-line-no">201</span><span id="line-201"></span>
+<span class="source-line-no">202</span><span id="line-202">    // もう一度スケーリング係数、水平・垂直・対角方向のウェーブレット係数を束縛</span>
+<span class="source-line-no">203</span><span id="line-203">    double[][] coefficientsOfScaling2 = discreteWavelet2dTransformation.scalingCoefficients();</span>
+<span class="source-line-no">204</span><span id="line-204">    double[][] coefficientsOfHorizontalWavelet2 = discreteWavelet2dTransformation.horizontalWaveletCoefficients();</span>
+<span class="source-line-no">205</span><span id="line-205">    double[][] coefficientsOfVerticalWavelet2 = discreteWavelet2dTransformation.verticalWaveletCoefficients();</span>
+<span class="source-line-no">206</span><span id="line-206">    double[][] coefficientsOfDiagonalWavelet2 = discreteWavelet2dTransformation.diagonalWaveletCoefficients();</span>
+<span class="source-line-no">207</span><span id="line-207"></span>
+<span class="source-line-no">208</span><span id="line-208">    // 二回目の各係数をもとに画像を生成し、束縛</span>
+<span class="source-line-no">209</span><span id="line-209">    BufferedImage imageOfScaling2 = Wavelet2dModel.generateImage(coefficientsOfScaling2, scaleFactor, rgbFlag);</span>
+<span class="source-line-no">210</span><span id="line-210">    BufferedImage imageOfHorizontalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfHorizontalWavelet2, scaleFactor, 0);</span>
+<span class="source-line-no">211</span><span id="line-211">    BufferedImage imageOfVerticalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfVerticalWavelet2, scaleFactor, 0);</span>
+<span class="source-line-no">212</span><span id="line-212">    BufferedImage imageOfDiagonalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfDiagonalWavelet2, scaleFactor, 0);</span>
+<span class="source-line-no">213</span><span id="line-213"></span>
+<span class="source-line-no">214</span><span id="line-214">    // 二回目の画像の書き出し</span>
+<span class="source-line-no">215</span><span id="line-215">    write(imageOfScaling2);</span>
+<span class="source-line-no">216</span><span id="line-216">    write(imageOfHorizontalWavelet2);</span>
+<span class="source-line-no">217</span><span id="line-217">    write(imageOfVerticalWavelet2);</span>
+<span class="source-line-no">218</span><span id="line-218">    write(imageOfDiagonalWavelet2);</span>
+<span class="source-line-no">219</span><span id="line-219"></span>
+<span class="source-line-no">220</span><span id="line-220">    // 二回目のスケーリング係数、水平・垂直・対角方向のウェーブレット係数の画像をもとに画像を生成（元画像を生成）し、束縛</span>
+<span class="source-line-no">221</span><span id="line-221">    BufferedImage compositesImage2 = Wavelet2dModel.generateImage(imageOfScaling2, imageOfHorizontalWavelet2, imageOfVerticalWavelet2, imageOfDiagonalWavelet2);</span>
+<span class="source-line-no">222</span><span id="line-222"></span>
+<span class="source-line-no">223</span><span id="line-223">    // 二回目の元画像を書き出し</span>
+<span class="source-line-no">224</span><span id="line-224">    write(compositesImage2);</span>
+<span class="source-line-no">225</span><span id="line-225"></span>
+<span class="source-line-no">226</span><span id="line-226">    // 二度目に生成した元画像と、一回目の水平・垂直・対角方向のウェーブレット係数の画像をもとに画像を生成し、束縛</span>
+<span class="source-line-no">227</span><span id="line-227">    compositesImage2 = Wavelet2dModel.generateImage(compositesImage2, imageOfHorizontalWavelet1, imageOfVerticalWavelet1, imageOfDiagonalWavelet1);</span>
+<span class="source-line-no">228</span><span id="line-228"></span>
+<span class="source-line-no">229</span><span id="line-229">    // 画像の書き出し</span>
+<span class="source-line-no">230</span><span id="line-230">    write(compositesImage2);</span>
+<span class="source-line-no">231</span><span id="line-231"></span>
+<span class="source-line-no">232</span><span id="line-232">    // 二回目の水平・垂直・対角のウェーブレット係数を束縛</span>
+<span class="source-line-no">233</span><span id="line-233">    double[][][] waveletCoefficientsInAllDirections2 = { coefficientsOfHorizontalWavelet2, coefficientsOfVerticalWavelet2, coefficientsOfDiagonalWavelet2 };</span>
+<span class="source-line-no">234</span><span id="line-234"></span>
+<span class="source-line-no">235</span><span id="line-235">    // 二回目のスケーリング係数、水平・垂直・対角方向のウェーブレット係数を用いて逆ウェーブレット変換を実行</span>
+<span class="source-line-no">236</span><span id="line-236">    discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(coefficientsOfScaling2, waveletCoefficientsInAllDirections2);</span>
+<span class="source-line-no">237</span><span id="line-237"></span>
+<span class="source-line-no">238</span><span id="line-238">    // 逆ウェーブレット変換を実行して得られた（元画像に相当する）係数を束縛</span>
+<span class="source-line-no">239</span><span id="line-239">    double[][] coefficientsOfDisWavelet2 = discreteWavelet2dTransformation.recomposedCoefficients();</span>
+<span class="source-line-no">240</span><span id="line-240"></span>
+<span class="source-line-no">241</span><span id="line-241">    // 元画像に相当する係数をもとに画像を生成し、束縛</span>
+<span class="source-line-no">242</span><span id="line-242">    BufferedImage compositesDisImage1 = Wavelet2dModel.generateImage(coefficientsOfDisWavelet2, scaleFactor, rgbFlag);</span>
+<span class="source-line-no">243</span><span id="line-243"></span>
+<span class="source-line-no">244</span><span id="line-244">    // 画像の書き出し</span>
+<span class="source-line-no">245</span><span id="line-245">    write(compositesDisImage1);</span>
+<span class="source-line-no">246</span><span id="line-246"></span>
+<span class="source-line-no">247</span><span id="line-247">    // 一回目の水平・垂直・対角方向のウェーブレット係数を束縛</span>
+<span class="source-line-no">248</span><span id="line-248">    double[][][] waveletCoefficientsInAllDirections1 = { coefficientsOfHorizontalWavelet1, coefficientsOfVerticalWavelet1, coefficientsOfDiagonalWavelet1 };</span>
+<span class="source-line-no">249</span><span id="line-249"></span>
+<span class="source-line-no">250</span><span id="line-250">    // 元画像に相当する係数と水平・垂直・対角方向のウェーブレット係数をもとに逆ウェーブレット変換を実行</span>
+<span class="source-line-no">251</span><span id="line-251">    discreteWavelet2dTransformation = new DiscreteWavelet2dTransformation(coefficientsOfDisWavelet2, waveletCoefficientsInAllDirections1);</span>
+<span class="source-line-no">252</span><span id="line-252"></span>
+<span class="source-line-no">253</span><span id="line-253">    // 逆ウェーブレット変換を実行して得られた（元画像に相当する）係数を束縛</span>
+<span class="source-line-no">254</span><span id="line-254">    double[][] coefficientsOfDisWavelet1 = discreteWavelet2dTransformation.recomposedCoefficients();</span>
+<span class="source-line-no">255</span><span id="line-255"></span>
+<span class="source-line-no">256</span><span id="line-256">    // 逆ウェーブレット変換を実行して得られた（元画像に相当する）係数をもとに画像を生成</span>
+<span class="source-line-no">257</span><span id="line-257">    BufferedImage compositesDisImage2 = Wavelet2dModel.generateImage(coefficientsOfDisWavelet1, scaleFactor, rgbFlag);</span>
+<span class="source-line-no">258</span><span id="line-258"></span>
+<span class="source-line-no">259</span><span id="line-259">    // 画像の書き出し</span>
+<span class="source-line-no">260</span><span id="line-260">    write(compositesDisImage2);</span>
+<span class="source-line-no">261</span><span id="line-261"></span>
+<span class="source-line-no">262</span><span id="line-262">    // GUIで4つの画像を表示するための設定</span>
+<span class="source-line-no">263</span><span id="line-263">    GridBagLayout gridBagLayout = new GridBagLayout();</span>
+<span class="source-line-no">264</span><span id="line-264">    JPanel jPanel = new JPanel(gridBagLayout);</span>
+<span class="source-line-no">265</span><span id="line-265">    GridBagConstraints gridBagConstraints = new GridBagConstraints();</span>
+<span class="source-line-no">266</span><span id="line-266"></span>
+<span class="source-line-no">267</span><span id="line-267">    // 空白は全て埋める</span>
+<span class="source-line-no">268</span><span id="line-268">    gridBagConstraints.fill = 1;</span>
+<span class="source-line-no">269</span><span id="line-269"></span>
+<span class="source-line-no">270</span><span id="line-270">    // 元画像のパネルのレイアウト構成</span>
+<span class="source-line-no">271</span><span id="line-271">    WaveletPaneModel waveletPaneModel = new WaveletPaneModel(imageOfSampledata1, "Source Coefficients");</span>
+<span class="source-line-no">272</span><span id="line-272">    WaveletPaneView waveletPaneView = new WaveletPaneView(waveletPaneModel);</span>
+<span class="source-line-no">273</span><span id="line-273">    gridBagConstraints.gridx = 0;</span>
+<span class="source-line-no">274</span><span id="line-274">    gridBagConstraints.gridy = 0;</span>
+<span class="source-line-no">275</span><span id="line-275">    gridBagConstraints.gridwidth = 1;</span>
+<span class="source-line-no">276</span><span id="line-276">    gridBagConstraints.gridheight = 1;</span>
+<span class="source-line-no">277</span><span id="line-277">    gridBagConstraints.weightx = 0.5D;</span>
+<span class="source-line-no">278</span><span id="line-278">    gridBagConstraints.weighty = 0.5D;</span>
+<span class="source-line-no">279</span><span id="line-279">    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);</span>
+<span class="source-line-no">280</span><span id="line-280">    jPanel.add((Component)waveletPaneView);</span>
+<span class="source-line-no">281</span><span id="line-281"></span>
+<span class="source-line-no">282</span><span id="line-282">    // スケーリング係数と一回目のウェーブレット係数(水平・垂直・対角)の画像のパネルのレイアウト構成</span>
+<span class="source-line-no">283</span><span id="line-283">    waveletPaneModel = new WaveletPaneModel(compositesImage1, "Scaling &amp; Wavelet Coefficients");</span>
+<span class="source-line-no">284</span><span id="line-284">    waveletPaneView = new WaveletPaneView(waveletPaneModel);</span>
+<span class="source-line-no">285</span><span id="line-285">    gridBagConstraints.gridx = 1;</span>
+<span class="source-line-no">286</span><span id="line-286">    gridBagConstraints.gridy = 0;</span>
+<span class="source-line-no">287</span><span id="line-287">    gridBagConstraints.gridwidth = 1;</span>
+<span class="source-line-no">288</span><span id="line-288">    gridBagConstraints.gridheight = 1;</span>
+<span class="source-line-no">289</span><span id="line-289">    gridBagConstraints.weightx = 0.5D;</span>
+<span class="source-line-no">290</span><span id="line-290">    gridBagConstraints.weighty = 0.5D;</span>
+<span class="source-line-no">291</span><span id="line-291">    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);</span>
+<span class="source-line-no">292</span><span id="line-292">    jPanel.add((Component)waveletPaneView);</span>
+<span class="source-line-no">293</span><span id="line-293"></span>
+<span class="source-line-no">294</span><span id="line-294">    // 再構成した画像のパネルのレイアウト構成</span>
+<span class="source-line-no">295</span><span id="line-295">    waveletPaneModel = new WaveletPaneModel(compositesDisImage2, "Recomposed Coefficients");</span>
+<span class="source-line-no">296</span><span id="line-296">    waveletPaneView = new WaveletPaneView(waveletPaneModel);</span>
+<span class="source-line-no">297</span><span id="line-297">    gridBagConstraints.gridx = 0;</span>
+<span class="source-line-no">298</span><span id="line-298">    gridBagConstraints.gridy = 1;</span>
+<span class="source-line-no">299</span><span id="line-299">    gridBagConstraints.gridwidth = 1;</span>
+<span class="source-line-no">300</span><span id="line-300">    gridBagConstraints.gridheight = 1;</span>
+<span class="source-line-no">301</span><span id="line-301">    gridBagConstraints.weightx = 0.5D;</span>
+<span class="source-line-no">302</span><span id="line-302">    gridBagConstraints.weighty = 0.5D;</span>
+<span class="source-line-no">303</span><span id="line-303">    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);</span>
+<span class="source-line-no">304</span><span id="line-304">    jPanel.add((Component)waveletPaneView);</span>
+<span class="source-line-no">305</span><span id="line-305"></span>
+<span class="source-line-no">306</span><span id="line-306">    // スケーリング係数と二回目のウェーブレット係数（水平・垂直・対角）の画像のパネルのレイアウト構成</span>
+<span class="source-line-no">307</span><span id="line-307">    waveletPaneModel = new WaveletPaneModel(compositesImage2, "Scaling &amp; Wavelet Coefficients");</span>
+<span class="source-line-no">308</span><span id="line-308">    waveletPaneView = new WaveletPaneView(waveletPaneModel);</span>
+<span class="source-line-no">309</span><span id="line-309">    gridBagConstraints.gridx = 1;</span>
+<span class="source-line-no">310</span><span id="line-310">    gridBagConstraints.gridy = 1;</span>
+<span class="source-line-no">311</span><span id="line-311">    gridBagConstraints.gridwidth = 1;</span>
+<span class="source-line-no">312</span><span id="line-312">    gridBagConstraints.gridheight = 1;</span>
+<span class="source-line-no">313</span><span id="line-313">    gridBagConstraints.weightx = 0.5D;</span>
+<span class="source-line-no">314</span><span id="line-314">    gridBagConstraints.weighty = 0.5D;</span>
+<span class="source-line-no">315</span><span id="line-315">    gridBagLayout.setConstraints((Component)waveletPaneView, gridBagConstraints);</span>
+<span class="source-line-no">316</span><span id="line-316">    jPanel.add((Component)waveletPaneView);</span>
+<span class="source-line-no">317</span><span id="line-317"></span>
+<span class="source-line-no">318</span><span id="line-318">    //  グレースケール画像の行列サイズとスケーリング係数から、パネルの幅と高さを計算して表示する</span>
+<span class="source-line-no">319</span><span id="line-319">    open(jPanel, sourceDataMatrix.length * scaleFactor.x, (sourceDataMatrix[0]).length * scaleFactor.y);</span>
+<span class="source-line-no">320</span><span id="line-320"></span>
+<span class="source-line-no">321</span><span id="line-321">    // 再構成した画像を返す</span>
+<span class="source-line-no">322</span><span id="line-322">    return coefficientsOfDisWavelet1;</span>
+<span class="source-line-no">323</span><span id="line-323">  }</span>
+<span class="source-line-no">324</span><span id="line-324">  </span>
+<span class="source-line-no">325</span><span id="line-325">  /**</span>
+<span class="source-line-no">326</span><span id="line-326">   * 4つの2次元配列を入力として画像処理を行い、結果を表示・保存する</span>
+<span class="source-line-no">327</span><span id="line-327">   * @param lrgbSourceCoefficients 入力データ</span>
+<span class="source-line-no">328</span><span id="line-328">   * @param labelString            画像・ファイル名</span>
+<span class="source-line-no">329</span><span id="line-329">   * @param originalDataMatrix     元画像のデータの行列</span>
+<span class="source-line-no">330</span><span id="line-330">   * @param redDataMatrix          赤要素のデータの行列</span>
+<span class="source-line-no">331</span><span id="line-331">   * @param greenDataMatrix        緑要素のデータの行列</span>
+<span class="source-line-no">332</span><span id="line-332">   * @param blueDataMatrix         青要素のデータの行列</span>
+<span class="source-line-no">333</span><span id="line-333">   * @param disOriginalDataMatrix  逆変換に用いる元画像のデータの行列</span>
+<span class="source-line-no">334</span><span id="line-334">   * @param disRedDataMatrix       逆変換に用いる赤要素のデータの行列</span>
+<span class="source-line-no">335</span><span id="line-335">   * @param disGreenDataMatrix     逆変換に用いる緑要素のデータの行列</span>
+<span class="source-line-no">336</span><span id="line-336">   * @param disBlueDataMatrix      逆変換に用いる青要素のデータの行列</span>
+<span class="source-line-no">337</span><span id="line-337">   */</span>
+<span class="source-line-no">338</span><span id="line-338">  protected static void perform(double[][][] lrgbSourceCoefficients, String labelString) {</span>
+<span class="source-line-no">339</span><span id="line-339">    // 元画像と赤と青と緑（上から順に）の要素を束縛</span>
+<span class="source-line-no">340</span><span id="line-340">    double[][] originalDataMatrix = lrgbSourceCoefficients[0];</span>
+<span class="source-line-no">341</span><span id="line-341">    double[][] redDataMatrix = lrgbSourceCoefficients[1];</span>
+<span class="source-line-no">342</span><span id="line-342">    double[][] greenDataMatrix = lrgbSourceCoefficients[2];</span>
+<span class="source-line-no">343</span><span id="line-343">    double[][] blueDataMatrix = lrgbSourceCoefficients[3];</span>
+<span class="source-line-no">344</span><span id="line-344"></span>
+<span class="source-line-no">345</span><span id="line-345">    // スケーリング係数として（1, 1）を使用</span>
+<span class="source-line-no">346</span><span id="line-346">    Point point = new Point(1, 1);</span>
+<span class="source-line-no">347</span><span id="line-347"></span>
+<span class="source-line-no">348</span><span id="line-348">    // 各成分ごとの逆変換の準備処理</span>
+<span class="source-line-no">349</span><span id="line-349">    double[][] disOriginalDataMatrix = perform(originalDataMatrix, point, 0);</span>
+<span class="source-line-no">350</span><span id="line-350">    double[][] disRedDataMatrix = perform(redDataMatrix, point, 1);</span>
+<span class="source-line-no">351</span><span id="line-351">    double[][] disGreenDataMatrix = perform(greenDataMatrix, point, 2);</span>
+<span class="source-line-no">352</span><span id="line-352">    double[][] disBlueDataMatrix = perform(blueDataMatrix, point, 3);</span>
+<span class="source-line-no">353</span><span id="line-353"></span>
+<span class="source-line-no">354</span><span id="line-354">    // 画像の出力サイズを取得</span>
+<span class="source-line-no">355</span><span id="line-355">    int height = disOriginalDataMatrix.length;</span>
+<span class="source-line-no">356</span><span id="line-356">    int width = (disOriginalDataMatrix[0]).length;</span>
+<span class="source-line-no">357</span><span id="line-357"></span>
+<span class="source-line-no">358</span><span id="line-358">    // RGB画像を束縛するBufferedImageを生成</span>
+<span class="source-line-no">359</span><span id="line-359">    BufferedImage colorImage = new BufferedImage(height, width, 1);</span>
+<span class="source-line-no">360</span><span id="line-360"></span>
+<span class="source-line-no">361</span><span id="line-361">    // 各ピクセルにRGB値を設定</span>
+<span class="source-line-no">362</span><span id="line-362">    for (Integer b = 0; b &lt; width; b++) {</span>
+<span class="source-line-no">363</span><span id="line-363">      for (Integer b1 = 0; b1 &lt; height; b1++) {</span>
+<span class="source-line-no">364</span><span id="line-364">        double red = disRedDataMatrix[b1][b];     // R成分</span>
+<span class="source-line-no">365</span><span id="line-365">        double green = disGreenDataMatrix[b1][b]; // G成分</span>
+<span class="source-line-no">366</span><span id="line-366">        double blue = disBlueDataMatrix[b1][b];   // B成分</span>
+<span class="source-line-no">367</span><span id="line-367"></span>
+<span class="source-line-no">368</span><span id="line-368">        // RGBを整数値に変換</span>
+<span class="source-line-no">369</span><span id="line-369">        int rgb = ColorUtility.convertRGBtoINT(red, green, blue);</span>
+<span class="source-line-no">370</span><span id="line-370"></span>
+<span class="source-line-no">371</span><span id="line-371">        // 画像にビクセル値を設定</span>
+<span class="source-line-no">372</span><span id="line-372">        colorImage.setRGB(b1, b, rgb);</span>
+<span class="source-line-no">373</span><span id="line-373">      } </span>
+<span class="source-line-no">374</span><span id="line-374">    } </span>
+<span class="source-line-no">375</span><span id="line-375"></span>
+<span class="source-line-no">376</span><span id="line-376">    // 画像の書き出し</span>
+<span class="source-line-no">377</span><span id="line-377">    write(colorImage);</span>
+<span class="source-line-no">378</span><span id="line-378"></span>
+<span class="source-line-no">379</span><span id="line-379">    // モデルとビューを作成して画像を表示</span>
+<span class="source-line-no">380</span><span id="line-380">    WaveletPaneModel waveletPaneModel = new WaveletPaneModel(colorImage, labelString);</span>
+<span class="source-line-no">381</span><span id="line-381">    WaveletPaneView waveletPaneView = new WaveletPaneView(waveletPaneModel);</span>
+<span class="source-line-no">382</span><span id="line-382"></span>
+<span class="source-line-no">383</span><span id="line-383">    // 画像サイズに基づいて表示パネルを開く</span>
+<span class="source-line-no">384</span><span id="line-384">    open((JPanel)waveletPaneView, originalDataMatrix.length, (originalDataMatrix[0]).length);</span>
+<span class="source-line-no">385</span><span id="line-385">  }</span>
+<span class="source-line-no">386</span><span id="line-386">  </span>
+<span class="source-line-no">387</span><span id="line-387">  /**</span>
+<span class="source-line-no">388</span><span id="line-388">  * 画像ファイルを保存</span>
+<span class="source-line-no">389</span><span id="line-389">  * @param fileNumber ファイル名の連番（001, 002, 003,,）</span>
+<span class="source-line-no">390</span><span id="line-390">  * @param file 書き出す用のファイル</span>
+<span class="source-line-no">391</span><span id="line-391">  */</span>
+<span class="source-line-no">392</span><span id="line-392">  protected static void write(BufferedImage anImage) {</span>
+<span class="source-line-no">393</span><span id="line-393">    // 処理する画像を束縛</span>
+<span class="source-line-no">394</span><span id="line-394">    File file = new File("ResultImages");</span>
+<span class="source-line-no">395</span><span id="line-395"></span>
+<span class="source-line-no">396</span><span id="line-396">    // ファイルが存在するか</span>
+<span class="source-line-no">397</span><span id="line-397">    new Condition(() -&gt; file == null).ifTrue(() -&gt; file.mkdir());</span>
+<span class="source-line-no">398</span><span id="line-398"></span>
+<span class="source-line-no">399</span><span id="line-399">    // ファイル名をパスオブジェクトに束縛</span>
+<span class="source-line-no">400</span><span id="line-400">    Path path = Paths.get(file.getName());</span>
+<span class="source-line-no">401</span><span id="line-401"></span>
+<span class="source-line-no">402</span><span id="line-402">    // ファイル名の作成（連番）</span>
+<span class="source-line-no">403</span><span id="line-403">    String fileNumber = String.format("%03d", fileNo++);</span>
+<span class="source-line-no">404</span><span id="line-404"></span>
+<span class="source-line-no">405</span><span id="line-405">    // ファイル名をパスで連結</span>
+<span class="source-line-no">406</span><span id="line-406">    Path filePath = path.resolve(path).resolve("Wavelet" + fileNumber + ".jpg");</span>
+<span class="source-line-no">407</span><span id="line-407"></span>
+<span class="source-line-no">408</span><span id="line-408">    // 画像ファイルを書き出す</span>
+<span class="source-line-no">409</span><span id="line-409">    ImageUtility.writeImage(anImage, filePath.toString());</span>
+<span class="source-line-no">410</span><span id="line-410">  }</span>
+<span class="source-line-no">411</span><span id="line-411">}</span>
 
 
 

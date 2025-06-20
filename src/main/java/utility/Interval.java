@@ -5,8 +5,10 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 /**
- * 形式型<T>を使用して、指定された開始値から条件に基づいて繰り返し処理を行うためのクラス
- * 各クラスで次の値を計算、アクションを行う
+ * 形式型 T を使用して、指定された開始値から条件に基づいて繰り返し処理を行うためのクラス
+ * 各クラスで次の値を計算、アクションを行う。
+ * @param <T> ループ処理で扱う要素の型。数値型（Integer, Doubleなど）、文字列型（String）、
+ * または比較や次の値の計算が可能な任意のカスタムオブジェクト型を指定できる。
  */
 public class Interval<T>
 {

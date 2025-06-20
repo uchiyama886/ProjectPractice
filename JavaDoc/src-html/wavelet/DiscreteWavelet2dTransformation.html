@@ -123,7 +123,7 @@
 <span class="source-line-no">110</span><span id="line-110">    double[][] arrayOfDouble4 = transpose(diagonalWaveletCoefficients());</span>
 <span class="source-line-no">111</span><span id="line-111">    double[][] arrayOfDouble5 = new double[k][j];</span>
 <span class="source-line-no">112</span><span id="line-112">    double[][] arrayOfDouble6 = new double[k][j];</span>
-<span class="source-line-no">113</span><span id="line-113">    for (byte b1 = 0; b1 &lt; k; b1++) {</span>
+<span class="source-line-no">113</span><span id="line-113">    for (Integer b1 = 0; b1 &lt; k; b1++) {</span>
 <span class="source-line-no">114</span><span id="line-114">      DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble1, b1), atRow(arrayOfDouble2, b1));</span>
 <span class="source-line-no">115</span><span id="line-115">      atRowPut(arrayOfDouble5, b1, discreteWavelet1dTransformation.recomposedCoefficients());</span>
 <span class="source-line-no">116</span><span id="line-116">      discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble3, b1), atRow(arrayOfDouble4, b1));</span>
@@ -132,7 +132,7 @@
 <span class="source-line-no">119</span><span id="line-119">    arrayOfDouble5 = transpose(arrayOfDouble5);</span>
 <span class="source-line-no">120</span><span id="line-120">    arrayOfDouble6 = transpose(arrayOfDouble6);</span>
 <span class="source-line-no">121</span><span id="line-121">    double[][] arrayOfDouble7 = new double[j][m];</span>
-<span class="source-line-no">122</span><span id="line-122">    for (byte b2 = 0; b2 &lt; j; b2++) {</span>
+<span class="source-line-no">122</span><span id="line-122">    for (Integer b2 = 0; b2 &lt; j; b2++) {</span>
 <span class="source-line-no">123</span><span id="line-123">      DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble5, b2), atRow(arrayOfDouble6, b2));</span>
 <span class="source-line-no">124</span><span id="line-124">      atRowPut(arrayOfDouble7, b2, discreteWavelet1dTransformation.recomposedCoefficients());</span>
 <span class="source-line-no">125</span><span id="line-125">    } </span>
@@ -148,7 +148,7 @@
 <span class="source-line-no">135</span><span id="line-135">    int m = k / 2;</span>
 <span class="source-line-no">136</span><span id="line-136">    double[][] arrayOfDouble1 = new double[i][m];</span>
 <span class="source-line-no">137</span><span id="line-137">    double[][] arrayOfDouble2 = new double[i][m];</span>
-<span class="source-line-no">138</span><span id="line-138">    for (byte b1 = 0; b1 &lt; i; b1++) {</span>
+<span class="source-line-no">138</span><span id="line-138">    for (Integer b1 = 0; b1 &lt; i; b1++) {</span>
 <span class="source-line-no">139</span><span id="line-139">      DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(this.sourceCoefficients, b1));</span>
 <span class="source-line-no">140</span><span id="line-140">      atRowPut(arrayOfDouble1, b1, discreteWavelet1dTransformation.scalingCoefficients());</span>
 <span class="source-line-no">141</span><span id="line-141">      atRowPut(arrayOfDouble2, b1, discreteWavelet1dTransformation.waveletCoefficients());</span>
@@ -159,7 +159,7 @@
 <span class="source-line-no">146</span><span id="line-146">    double[][] arrayOfDouble4 = new double[m][j];</span>
 <span class="source-line-no">147</span><span id="line-147">    double[][] arrayOfDouble5 = new double[m][j];</span>
 <span class="source-line-no">148</span><span id="line-148">    double[][] arrayOfDouble6 = new double[m][j];</span>
-<span class="source-line-no">149</span><span id="line-149">    for (byte b2 = 0; b2 &lt; m; b2++) {</span>
+<span class="source-line-no">149</span><span id="line-149">    for (Integer b2 = 0; b2 &lt; m; b2++) {</span>
 <span class="source-line-no">150</span><span id="line-150">      DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble1, b2));</span>
 <span class="source-line-no">151</span><span id="line-151">      atRowPut(arrayOfDouble3, b2, discreteWavelet1dTransformation.scalingCoefficients());</span>
 <span class="source-line-no">152</span><span id="line-152">      atRowPut(arrayOfDouble4, b2, discreteWavelet1dTransformation.waveletCoefficients());</span>
@@ -180,7 +180,7 @@
 <span class="source-line-no">167</span><span id="line-167">  }</span>
 <span class="source-line-no">168</span><span id="line-168">  </span>
 <span class="source-line-no">169</span><span id="line-169">  private void atRowPut(double[][] paramArrayOfdouble, int paramInt, double[] paramArrayOfdouble1) {</span>
-<span class="source-line-no">170</span><span id="line-170">    for (byte b = 0; b &lt; (paramArrayOfdouble[paramInt]).length; b++)</span>
+<span class="source-line-no">170</span><span id="line-170">    for (Integer b = 0; b &lt; (paramArrayOfdouble[paramInt]).length; b++)</span>
 <span class="source-line-no">171</span><span id="line-171">      paramArrayOfdouble[paramInt][b] = paramArrayOfdouble1[b]; </span>
 <span class="source-line-no">172</span><span id="line-172">  }</span>
 <span class="source-line-no">173</span><span id="line-173">  </span>
@@ -196,8 +196,8 @@
 <span class="source-line-no">183</span><span id="line-183">    int i = rowSize(paramArrayOfdouble);</span>
 <span class="source-line-no">184</span><span id="line-184">    int j = columnSize(paramArrayOfdouble);</span>
 <span class="source-line-no">185</span><span id="line-185">    double[][] arrayOfDouble = new double[j][i];</span>
-<span class="source-line-no">186</span><span id="line-186">    for (byte b = 0; b &lt; paramArrayOfdouble.length; b++) {</span>
-<span class="source-line-no">187</span><span id="line-187">      for (byte b1 = 0; b1 &lt; (paramArrayOfdouble[b]).length; b1++)</span>
+<span class="source-line-no">186</span><span id="line-186">    for (Integer b = 0; b &lt; paramArrayOfdouble.length; b++) {</span>
+<span class="source-line-no">187</span><span id="line-187">      for (Integer b1 = 0; b1 &lt; (paramArrayOfdouble[b]).length; b1++)</span>
 <span class="source-line-no">188</span><span id="line-188">        arrayOfDouble[b1][b] = paramArrayOfdouble[b][b1]; </span>
 <span class="source-line-no">189</span><span id="line-189">    } </span>
 <span class="source-line-no">190</span><span id="line-190">    return arrayOfDouble;</span>
