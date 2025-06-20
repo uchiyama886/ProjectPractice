@@ -385,8 +385,11 @@ public final class Wavelet2dModel extends WaveletModel {
         setSourceData(dataSmalltalkBalloon());
     }
 
+    /**
+     * ユーザが指定した入力画像データをソースデータとして設定する。
+     */
     public void doInputImage() {
-        setSourceData(dataInput()); // メソッド名のスペル修正
+        setSourceData(dataInput()); 
     }
 
     /**
