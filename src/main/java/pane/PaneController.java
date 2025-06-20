@@ -13,6 +13,15 @@ import utility.ValueHolder;
  */
 public class PaneController extends Controller 
 {
+  /**
+  * 新しいPaneControllerクラスのインスタンスを構築する。
+  * このクラスは静的定数のみを提供するため、通常はインスタンス化されない。
+  */
+  public PaneController()
+  {
+    // このクラスは静的フィールドのみを持つため、
+    // デフォルトコンストラクタ内で特別な初期化処理は不要である。
+  }
 
   /**
    * 関連付けられたビューをPaneViewとして取得する。

@@ -69,6 +69,7 @@ public class Model
 
   /**
    * 現在保持している画像（picture）を返すメソッド。
+   * @return このモデルが現在保持しているBufferedImageオブジェクト
    */
   public BufferedImage picture() 
   {
