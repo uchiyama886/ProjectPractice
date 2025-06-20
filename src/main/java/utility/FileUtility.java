@@ -14,6 +14,15 @@ import javax.imageio.ImageIO;
  */
 public class FileUtility extends Object 
 {
+    /**
+     * 新しいFileUtilityクラスのインスタンスを構築する。
+     * このクラスは静的定数のみを提供するため、通常はインスタンス化されない。
+     */
+    public FileUtility()
+    {
+        // このクラスは静的フィールドのみを持つため、
+        // デフォルトコンストラクタ内で特別な初期化処理は不要である。  
+    }
 
     /**
      * カレントディレクトリを文字列（最後が必ずパス区切り文字となる）として応答する。

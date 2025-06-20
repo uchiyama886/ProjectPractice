@@ -8,6 +8,15 @@ import java.awt.Color;
 public class ColorUtility extends Object
 {
 	/**
+     * 新しいColorUtilityクラスのインスタンスを構築する。
+     * このクラスは静的定数のみを提供するため、通常はインスタンス化されない。
+     */
+	public ColorUtility()
+	{
+		// このクラスは静的フィールドのみを持つため、
+        // デフォルトコンストラクタ内で特別な初期化処理は不要である。
+	}
+	/**
 	 * ルミナンス(輝度)から色のインスタンスを生成して応答する。
 	 * @param luminance 輝度(ルミナンス)
 	 * @return 色(RGB)

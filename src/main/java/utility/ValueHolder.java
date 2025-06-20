@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 /**
  * ジェネリクスを活用する例題クラス:形式型{@code <V>}を用いて、ある値を保持するクラス。
+ * @param <V> 値を保持する形式型
  */
 public class ValueHolder<V> extends Object
 {
@@ -24,7 +25,7 @@ public class ValueHolder<V> extends Object
 
 	/**
 	 * 受け取った値で初期化するコンストラクタ。
-	 * @param initialValue
+	 * @param initialValue 初期化する値
 	 */
 	public ValueHolder(V initialValue)
 	{

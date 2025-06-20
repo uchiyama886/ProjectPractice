@@ -272,6 +272,13 @@ public class Condition extends Object
          */
         private boolean executed;
 
+        /**
+         * 新しいSwitchインスタンスを構築する・
+         * 条件とそれに対応するアクションを保持するリストを空のArrayListとして初期化する。
+         * どの条件にも一致しなかった場合に実行されるdefaultActionを、何もしない空のラムダ式で初期化する。
+         * Switchブロックが既に実行されたかを示すフラグであるexecutedをfalseに設定する。
+         * これにより、新しいSwitchオブジェクトは、すぐに利用可能な初期状態になる。
+         */
         public Switch() 
         {
             this.cases = new ArrayList<>();
