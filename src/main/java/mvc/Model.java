@@ -6,7 +6,8 @@ import java.util.ArrayList;
 /**
  * MVCデザインパターンにおける、アプリケーションのビジネスロジックとデータを管理するモデルクラス。
  */
-public class Model {
+public class Model 
+{
 
   /**
    * このモデルに依存しているビュー(View)の一覧を保持するリスト。
@@ -21,7 +22,8 @@ public class Model {
   /**
    * 初期化メソッドを呼び出して dependents と picture を初期化。
    */
-  public Model() {
+  public Model() 
+  {
     super();
     this.initialize();
     return;
@@ -29,17 +31,19 @@ public class Model {
 
   /**
    * View を dependents に追加する。
-   *  @param paramView 
+   *  @param aView dependentsに追加する用
    */
-  public void addDependent(View paramView) {
-    this.dependents.add(paramView);
+  public void addDependent(View aView) 
+  {
+    this.dependents.add(aView);
     return;
   }
 
   /**
    * モデルが変更されたとき、登録されている全ての View に更新を通知する。
    */
-  public void changed() {
+  public void changed() 
+  {
     this.dependents.forEach((View aView) -> { aView.update(); });
     return;
   }
@@ -71,9 +75,10 @@ public class Model {
 
   /**
    * 新しい画像を設定するメソッド。
+   * @param anImage 新しい画像
    */
-  public void picture(BufferedImage paramBufferedImage) {
-    this.picture = paramBufferedImage;
+  public void picture(BufferedImage anImage) {
+    this.picture = anImage;
     return;
   }
 

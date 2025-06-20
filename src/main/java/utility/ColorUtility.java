@@ -3,7 +3,7 @@ package utility;
 import java.awt.Color;
 
 /**
- * 色のユーティリティである。
+ * 色のユーティリティのクラス。
  */
 public class ColorUtility extends Object
 {
@@ -113,8 +113,8 @@ public class ColorUtility extends Object
 		red   = (red   << 16) & 0xff0000;
 		green = (green <<  8) &   0xff00;
 		blue  = (blue       ) &     0xff;
-		Integer aRGB = red + green + blue;
-		return aRGB;
+		Integer anRGB = red + green + blue;
+		return anRGB;
 	}
 
 	/**

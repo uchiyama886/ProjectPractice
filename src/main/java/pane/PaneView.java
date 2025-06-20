@@ -113,6 +113,7 @@ public class PaneView extends mvc.View
 
 	/**
 	 * 描画を行う。
+	 * @param aGraphics 描画に使用されるグラフィックスコンテキスト
 	 */
 	public void paintComponent(Graphics aGraphics)
 	{
@@ -174,7 +175,14 @@ public class PaneView extends mvc.View
 		return;
 	}
 
-    Point convertViewPointToPicturePoint(ValueHolder<Point> point) {
+	/**
+	 * ビュー上の点を画像上の対応する点に変換する。
+	 * @param point ビューの座標を保持するバリューホルダー
+	 * @return      対応する画像上の座標
+	 * @throws UnsupportedOperationException メソッドがまだ実装されていない場合にスローされる
+	 */
+    Point convertViewPointToPicturePoint(ValueHolder<Point> point) 
+	{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
