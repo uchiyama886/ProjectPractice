@@ -18,7 +18,8 @@ import java.nio.file.Paths;
 /**
  * ウィンドウ表示やユーザ操作の処理、画像変換への指示など、UIと処理をつなぐメイン機能全般(二次元)
  */
-public class Example2d {
+public class Example2d 
+{
   /**
    * 保存する画像ファイルの連番カウンター
    */
@@ -39,7 +40,8 @@ public class Example2d {
    * 2：RGBデータを取得(SmalltalkBalloon)
    * 3：RGBデータを取得(Earth)
    */
-  public static void main(String[] arguments) {
+  public static void main(String[] arguments) 
+  {
     // グレースケールデータの処理
     example1();
 
@@ -53,7 +55,8 @@ public class Example2d {
   /**
    * サンプル係数を取得し、変換処理を実行（グレースケール）
    */
-  protected static void example1() {
+  protected static void example1() 
+  {
     // 連番
     fileNo = 100;
 
@@ -67,7 +70,8 @@ public class Example2d {
   /**
    * SmalltalkBalloonの画像に対する変換処理（カラー）
    */
-  protected static void example2() {
+  protected static void example2() 
+  {
     // 連番
     fileNo = 200;
 
@@ -81,7 +85,8 @@ public class Example2d {
   /**
    * Earthの画像に対する変換処理（カラー）
    */
-  protected static void example3() {
+  protected static void example3() 
+  {
     // 連番
     fileNo = 300;
 
@@ -106,7 +111,8 @@ public class Example2d {
    * @param width  幅
    * @param height 高さ
    */
-  protected static void open(JPanel aPanel, int width, int height) {
+  protected static void open(JPanel aPanel, int width, int height) 
+  {
     // タイトルをWavelet Example（2D）にしてフレームを用意
     JFrame jFrame = new JFrame("Wavelet Example (2D)");
 
@@ -145,13 +151,14 @@ public class Example2d {
 
   /**
    * 各種変数を取得し、画像の生成、表示、保存する
-   * @param sourceDataMatrix                   元画像の係数
-   * @param scaleFactor                        画像の大きさ
-   * @param rgbFlag                            カラーにするかどうかのフラグ(0 = グレー、1 = 赤、2 = 緑、3 = 青)
+   * @param sourceDataMatrix 元画像の係数
+   * @param scaleFactor 画像の大きさ
+   * @param rgbFlag カラーにするかどうかのフラグ(0 = グレー、1 = 赤、2 = 緑、3 = 青)
    * 
-   * @return coefficientsOfDisWavelet1         逆ウェーブレット変換を実行して得られた（元画像に相当する）係数
+   * @return 逆ウェーブレット変換を実行して得られた（元画像に相当する）係数
    */
-  protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) {
+  protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) 
+  {
     // 元画像の係数を束縛
     double[][] coefficientsOfSampledata = sourceDataMatrix;
 
@@ -339,8 +346,10 @@ public class Example2d {
     BufferedImage colorImage = new BufferedImage(height, width, 1);
 
     // 各ピクセルにRGB値を設定
-    for (Integer b = 0; b < width; b++) {
-      for (Integer b1 = 0; b1 < height; b1++) {
+    for (Integer b = 0; b < width; b++) 
+    {
+      for (Integer b1 = 0; b1 < height; b1++) 
+      {
         double red = disRedDataMatrix[b1][b];     // R成分
         double green = disGreenDataMatrix[b1][b]; // G成分
         double blue = disBlueDataMatrix[b1][b];   // B成分
@@ -368,7 +377,8 @@ public class Example2d {
   * 画像ファイルを保存
   * @param anImage 書き出す画像
   */
-  protected static void write(BufferedImage anImage) {
+  protected static void write(BufferedImage anImage) 
+  {
     // 処理する画像を束縛
     File file = new File("ResultImages");
 
