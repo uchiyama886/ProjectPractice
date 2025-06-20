@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 
 
 /**
- * 画像のユーティリティ。
+ * 画像のユーティリティのクラス。
  */
 public class ImageUtility extends Object
 {

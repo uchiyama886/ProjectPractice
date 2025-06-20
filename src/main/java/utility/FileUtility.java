@@ -9,7 +9,8 @@ import javax.imageio.ImageIO;
 
 // ConditionとValueHolderが同じutilityパッケージにあることを前提とします
 /**
- * ファイルのユーティリティ。 ファイルシステム上のファイル操作と、JAR/クラスパス内のリソース操作を提供します。
+ * ファイルのユーティリティのクラス。
+ * ファイルシステム上のファイル操作と、JAR/クラスパス内のリソース操作を提供する。
  */
 public class FileUtility extends Object {
 
@@ -67,11 +68,11 @@ public class FileUtility extends Object {
     }
 
     /**
-     * 指定されたパスのリソースを InputStream として読み込む。 主にJARファイル内やクラスパス上のリソースにアクセスするために使用します。
+     * 指定されたパスのリソースを InputStream として読み込む。
+     * 主にJARファイル内やクラスパス上のリソースにアクセスするために使用。
      *
-     * @param resourcePath クラスパス上のリソースのパス (例: "images/icon.png",
-     * "data/config.txt")
-     * @return リソースへの InputStream。リソースが見つからない場合は null。
+     * @param resourcePath クラスパス上のリソースのパス (例: "images/icon.png","data/config.txt")
+     * @return リソースへの InputStream(リソースが見つからない場合は null)
      */
     public static InputStream getResourceAsStream(String resourcePath) {
         ValueHolder<InputStream> is = new ValueHolder<>(FileUtility.class.getClassLoader().getResourceAsStream(resourcePath));
@@ -82,12 +83,11 @@ public class FileUtility extends Object {
     }
 
     /**
-     * 指定されたパスのリソースとして画像を読み込む。 このメソッドは getResourceAsStream()
-     * を内部で使用し、JARファイル内の画像を安全にロードします。
+     * 指定されたパスのリソースとして画像を読み込む。
+     * このメソッドは getResourceAsStream()を内部で使用し、JARファイル内の画像を安全にロードする。
      *
-     * @param resourcePath クラスパス上の画像ファイルのパス (例:
-     * "SampleImages/imageEarth512x256.jpg")
-     * @return 読み込まれたBufferedImage。読み込みに失敗した場合は null。
+     * @param resourcePath クラスパス上の画像ファイルのパス (例:"SampleImages/imageEarth512x256.jpg")
+     * @return 読み込まれたBufferedImage(読み込みに失敗した場合は null)
      */
     public static BufferedImage readImageFromResource(String resourcePath) {
         try (InputStream input = getResourceAsStream(resourcePath)) {
