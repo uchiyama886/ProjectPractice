@@ -1,0 +1,15 @@
+version: '3'
+services:
+  java:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - TZ=Asia/Tokyo
+    # volumes を指定しておくことで、そのディレクトリ内の変更はLocal PC上にも反映されるようになる
+    volumes:
+      - .:/workdir
+    working_dir: /workdir
+
+    # Fix slow shutdown of container
+    init: true
