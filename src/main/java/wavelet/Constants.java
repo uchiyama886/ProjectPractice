@@ -3,7 +3,8 @@ package wavelet;
 /**
 * 定数をフィールド変数にまとめたクラス。定数の定義を行う。
 */
-public class Constants extends Object {
+public class Constants extends Object 
+{
 	/**
      * 輝度（Luminance）に対応する定数である。
      * 通常、画像処理などにおいて、明るさ成分を示すために使用される。

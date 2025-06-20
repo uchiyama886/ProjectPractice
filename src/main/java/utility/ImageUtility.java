@@ -274,7 +274,8 @@ public class ImageUtility extends Object
 	public static BufferedImage readImageFromURL(String aString)
 	{
 		URL aURL = null;
-		try {
+		try 
+		{
 			URI aURI = new URI(aString);
             aURL = aURI.toURL();
 		} catch (URISyntaxException | MalformedURLException anException) 

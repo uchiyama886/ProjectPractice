@@ -13,57 +13,92 @@ import java.util.Arrays;
  * @see DiscreteWaveletTransformation
  * @see ContinuosWaveletTransformation
  */
-public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformation {
-
+public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransformation 
+{
+    /**
+     * 元の入力データ。
+     */
     protected double[] sourceCoefficients;
 
+    /**
+     * DWTにより得られたスケーリング係数。
+     */
     protected double[] scalingCoefficients;
 
+    /**
+     * DWTにより得られたウェーブレット係数。
+     */
     protected double[] waveletCoefficients;
 
+    /**
+     * スケーリング・ウェーブレット係数から再構成された信号。
+     */
     protected double[] recomposedCoefficients;
 
-    private int originalLength; // 元のデータ長を保持する
+    /**
+     * 入力の元の長さ。
+     */
+    private int originalLength;
 
-    private boolean isPadded; //パディングされたかどうかを示すフラグ
+    /**
+     * 入力がゼロパディングされたかどうかのフラグ。
+     */
+    private boolean isPadded;
 
-    public DiscreteWavelet1dTransformation(double[] paramArrayOfdouble) {
+    /**
+     * 元信号から離散ウェーブレット変換を行うコンストラクタ。
+     * @param sourceCollection 入力信号の配列
+     */
+    public DiscreteWavelet1dTransformation(double[] sourceCollection) 
+    {
         this.initialize();
-        this.originalLength = paramArrayOfdouble.length;
+        this.originalLength = sourceCollection.length;
         int nextPowerOfTwo = nextPowerOfTwo(this.originalLength);
 
         // 入力された画像の幅・高さが2の冪乗ならそのまま使う
-        if (this.originalLength != nextPowerOfTwo) {
-            this.sourceCoefficients = Arrays.copyOf(paramArrayOfdouble, nextPowerOfTwo);
+        if (this.originalLength != nextPowerOfTwo) 
+        {
+            this.sourceCoefficients = Arrays.copyOf(sourceCollection, nextPowerOfTwo);
             this.isPadded = true;
         } else { // 冪乗でないならゼロパディングを行ってリサイズする
-            this.sourceCoefficients = paramArrayOfdouble;
+            this.sourceCoefficients = sourceCollection;
             this.isPadded = false;
         }
     }
 
-    public DiscreteWavelet1dTransformation(double[] paramArrayOfdouble, double[] paramArrayOfdouble1) {
+    /**
+     * スケーリング係数とウェーブレット係数を指定して復元用のインスタンスを作成するコンストラクタ。
+     * @param scalingCollection スケーリング係数
+     * @param waveletCollection ウェーブレット係数
+     */
+    public DiscreteWavelet1dTransformation(double[] scalingCollection, double[] waveletCollection) 
+    {
         // このコンストラクタもパディングロジックを考慮する必要があるかもしれません
-        // ここでは簡略化のため、paramArrayOfdouble の長さを基準にしますが、
+        // ここでは簡略化のため、scalingCollection の長さを基準にしますが、
         // 実際には両方の配列の長さを確認し、揃える必要があります。
         // 簡単な例として、scalingCoefficients の長さに合わせて処理します。
         this.initialize();
-        this.originalLength = paramArrayOfdouble.length * 2; // 再構成後の長さを仮定
+        this.originalLength = scalingCollection.length * 2; // 再構成後の長さを仮定
         int nextPowerOfTwo = nextPowerOfTwo(this.originalLength);
 
-        if (this.originalLength != nextPowerOfTwo) {
+        if (this.originalLength != nextPowerOfTwo) 
+        {
             // scalingCoefficients と waveletCoefficients の両方をパディングして扱う必要がある
             // これは少し複雑になるため、ここでは scalingCoefficients の長さを基準に簡略化
-            this.scalingCoefficients = Arrays.copyOf(paramArrayOfdouble, nextPowerOfTwo / 2);
-            this.waveletCoefficients = Arrays.copyOf(paramArrayOfdouble1, nextPowerOfTwo / 2);
+            this.scalingCoefficients = Arrays.copyOf(scalingCollection, nextPowerOfTwo / 2);
+            this.waveletCoefficients = Arrays.copyOf(waveletCollection, nextPowerOfTwo / 2);
             this.isPadded = true;
-        } else {
-            this.scalingCoefficients = paramArrayOfdouble;
-            this.waveletCoefficients = paramArrayOfdouble1;
+        } else 
+        {
+            this.scalingCoefficients = scalingCollection;
+            this.waveletCoefficients = waveletCollection;
             this.isPadded = false;
         }
     }
 
+    /**
+     * フィールドを初期状態にリセットする初期化メソッド。
+     */
     @Override
     protected void initialize() {
         super.initialize();
@@ -75,6 +110,11 @@ public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransf
         this.isPadded = false;
     }
 
+    /**
+     * 再構成された係数(元信号)を返す。
+     * 未計算の場合は計算する。
+     * @return 再構成された信号配列
+     */
     public double[] recomposedCoefficients() {
         if (this.recomposedCoefficients == null) {
             computeRecomposedCoefficients();
@@ -92,8 +132,8 @@ public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransf
         return this.scalingCoefficients;
     }
 
-    public void scalingCoefficients(double[] paramArrayOfdouble) {
-        this.scalingCoefficients = paramArrayOfdouble;
+    public void scalingCoefficients(double[] scalingCollection) {
+        this.scalingCoefficients = scalingCollection;
         this.recomposedCoefficients = null;
     }
 
@@ -101,15 +141,15 @@ public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransf
         return this.sourceCoefficients;
     }
 
-    public void sourceCoefficients(double[] paramArrayOfdouble) {
-        this.originalLength = paramArrayOfdouble.length;
+    public void sourceCoefficients(double[] valueCollction) {
+        this.originalLength = valueCollction.length;
         int nextPowerOfTwo = nextPowerOfTwo(this.originalLength);
 
         if (this.originalLength != nextPowerOfTwo) {
-            this.sourceCoefficients = Arrays.copyOf(paramArrayOfdouble, nextPowerOfTwo);
+            this.sourceCoefficients = Arrays.copyOf(valueCollction, nextPowerOfTwo);
             this.isPadded = true;
         } else {
-            this.sourceCoefficients = paramArrayOfdouble;
+            this.sourceCoefficients = valueCollction;
             this.isPadded = false;
         }
         this.scalingCoefficients = null;
@@ -124,26 +164,26 @@ public final class DiscreteWavelet1dTransformation extends DiscreteWaveletTransf
         return this.waveletCoefficients;
     }
 
-    public void waveletCoefficients(double[] paramArrayOfdouble) {
-        this.waveletCoefficients = paramArrayOfdouble;
+    public void waveletCoefficients(double[] waveletCollection) {
+        this.waveletCoefficients = waveletCollection;
         this.recomposedCoefficients = null;
     }
 
-    public WaveletTransformation applyTo(Object paramObject) {
-        if (!(paramObject instanceof double[])) {
+    public WaveletTransformation applyTo(Object anObject) {
+        if (!(anObject instanceof double[])) {
             throw new IllegalArgumentException("anObject must be a double[].");
         }
-        sourceCoefficients((double[]) paramObject);
+        sourceCoefficients((double[]) anObject);
         scalingCoefficients();
         waveletCoefficients();
         return this;
     }
 
-    public WaveletTransformation transform(WaveletTransformation paramWaveletTransformation) {
-        if (!(paramWaveletTransformation instanceof DiscreteWavelet1dTransformation)) {
+    public WaveletTransformation transform(WaveletTransformation waveletTransformation) {
+        if (!(waveletTransformation instanceof DiscreteWavelet1dTransformation)) {
             throw new IllegalArgumentException("waveletTransformation must be a DiscreteWavelet1dTransformation.");
         }
-        DiscreteWavelet1dTransformation discreteWavelet1dTransformation = (DiscreteWavelet1dTransformation) paramWaveletTransformation;
+        DiscreteWavelet1dTransformation discreteWavelet1dTransformation = (DiscreteWavelet1dTransformation) waveletTransformation;
         double[] arrayOfDouble = discreteWavelet1dTransformation.sourceCoefficients();
         if (arrayOfDouble == null) {
             arrayOfDouble = discreteWavelet1dTransformation.recomposedCoefficients();
