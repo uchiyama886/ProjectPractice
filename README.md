@@ -57,3 +57,16 @@ git push origin 作成したブランチ名
 - perf: パフォーマンス向上関連
 - test: テスト関連
 - chore: ビルド、補助ツール、ライブラリ関連
+
+
+## dockerの起動方法
+
+#### dockerのビルド
+```
+docker-compose build
+```
+
+#### dockerの実行
+```
+docker-compose run java bash
+```
