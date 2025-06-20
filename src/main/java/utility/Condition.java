@@ -101,7 +101,8 @@ public class Condition extends Object
      */
     public void ifFalse(Runnable elsePassage)
     {
-        if (!this.condition.get()) { // 条件が偽の場合
+        if (!this.condition.get()) // 条件が偽の場合
+        { 
             elsePassage.run();
         }
         return;
@@ -191,10 +192,13 @@ public class Condition extends Object
      */
     public void whileTrue(Runnable loopBody)
     {
-        while (this.condition.get()) {
-            try {
+        while (this.condition.get()) 
+        {
+            try 
+            {
                 loopBody.run(); // ループ本体の処理を実行
-            } catch (RuntimeException e) {
+            } catch (RuntimeException e) 
+            {
                 throw e; // RuntimeExceptionをスロー
             }
             
@@ -232,14 +236,16 @@ public class Condition extends Object
          * このケースの条件を評価する。
          * @return 条件が真の場合true、それ以外はfalse
          */
-        public boolean evaluate() {
+        public boolean evaluate() 
+        {
             return condition.get();
         }
 
         /**
          * このケースに関連付けられたアクションを実行する。
          */
-        public void execute() {
+        public void execute() 
+        {
             action.run();
         }
     }
@@ -249,7 +255,8 @@ public class Condition extends Object
      * 最初に成立したケースのアクションを実行し、それ以外は無視。
      * どのケースも成立しなかった場合はデフォルトのアクションを実行。
      */
-    public static class Switch {
+    public static class Switch 
+    {
         /**
          * 登録されたケースのリスト。
          */
@@ -265,7 +272,8 @@ public class Condition extends Object
          */
         private boolean executed;
 
-        public Switch() {
+        public Switch() 
+        {
             this.cases = new ArrayList<>();
             this.defaultAction = () -> {};
             this.executed = false;
@@ -277,7 +285,8 @@ public class Condition extends Object
          * @param action このケースが選択されたときに実行するアクション
          * @return このSwitchインスタンス
          */
-        public Switch addCase(Supplier<Boolean> condition, Runnable action) {
+        public Switch addCase(Supplier<Boolean> condition, Runnable action) 
+        {
             this.cases.add(new Case(condition, action));
             return this;
         }
@@ -288,7 +297,8 @@ public class Condition extends Object
          * @param action デフォルトのアクション
          * @return このSwitchインスタンス
          */
-        public Switch defaultCase(Runnable action) {
+        public Switch defaultCase(Runnable action) 
+        {
             this.defaultAction = action;
             return this;
         }
@@ -297,17 +307,21 @@ public class Condition extends Object
          * 登録されたケースを順に評価し、最初に成立したケースのアクションを実行する。
          * どのケースも成立しなかった場合は、デフォルトアクションを実行する。
          */
-        public void evaluate() {
+        public void evaluate() 
+        {
             executed = false; // 評価前にリセット
-            for (Case singleCase : cases) {
-                if (singleCase.evaluate()) {
+            for (Case singleCase : cases) 
+            {
+                if (singleCase.evaluate()) 
+                {
                     singleCase.execute();
                     executed = true; // 実行されたことをマーク
                     break; // 最初のマッチしたケースで終了
                 }
             }
             // どのケースも実行されなかった場合、デフォルトアクションを実行
-            if (!executed) {
+            if (!executed) 
+            {
                 defaultAction.run();
             }
         }

@@ -17,7 +17,8 @@ import wavelet.Constants;
  * <p>このクラスは、ウェーブレット変換のデモンストレーションやテストにおいて、
  * データソースとして利用されることを意図している。</p>
  */
-public class WaveletData {
+public class WaveletData 
+{
     /**
      * 離散ウェーブレット1次元変換のためのサンプル元データを生成し応答する。
      * 64個の要素を持つ {@code double} 型配列で、特定のパターン（2次曲線と定数）を持つ。
@@ -97,7 +98,8 @@ public class WaveletData {
      */
     public static void fill(double[][] aMatrix, double aValue)
     {
-        for (double[] anArray : aMatrix) {
+        for (double[] anArray : aMatrix) 
+        {
             Arrays.fill(anArray, aValue); // 各行を値で埋める
         }
         return;

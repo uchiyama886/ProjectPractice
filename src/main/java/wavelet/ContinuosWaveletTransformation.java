@@ -7,12 +7,26 @@ package wavelet;
  *
  * @see WaveletTransformation
  */
-public class ContinuosWaveletTransformation extends WaveletTransformation {
-  public WaveletTransformation applyTo(Object paramObject) {
+public class ContinuosWaveletTransformation extends WaveletTransformation 
+{
+  /**
+   * 指定されたオブジェクトに連続ウェーブレット変換を適用する。
+   * @param anObject 対象となる入力オブジェクト
+   * @return このインスタンス
+   */
+  @Override
+  public WaveletTransformation applyTo(Object anObject) 
+  {
     return this;
   }
   
-  public WaveletTransformation transform(WaveletTransformation paramWaveletTransformation) {
+  /**
+   * 指定されたウェーブレット変換に対して、連続ウェーブレット変換を適用する。
+   * @param waveletTransformation 対象となるウェーブレット変換
+   * @return このインスタンス
+   */
+  public WaveletTransformation transform(WaveletTransformation waveletTransformation) 
+  {
     return this;
   }
 }

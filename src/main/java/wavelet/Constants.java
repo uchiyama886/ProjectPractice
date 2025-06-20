@@ -3,7 +3,9 @@ package wavelet;
 /**
 * 定数をフィールド変数にまとめたクラス。定数の定義を行う。
 */
-public class Constants extends Object {
+
+public class Constants extends Object 
+{
     
     /**
      * 新しいConstantsクラスのインスタンスを構築する。
