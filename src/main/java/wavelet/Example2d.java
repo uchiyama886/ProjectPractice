@@ -39,6 +39,7 @@ public class Example2d
    * 1：データのサンプル係数を取得
    * 2：RGBデータを取得(SmalltalkBalloon)
    * 3：RGBデータを取得(Earth)
+   * @param arguments コマンドライン引数
    */
   public static void main(String[] arguments) 
   {
