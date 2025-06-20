@@ -1,17 +1,17 @@
 package pane;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import utility.ImageUtility;
-
 import utility.Condition;
+import utility.ImageUtility;
 import utility.ValueHolder;
 
 /**
- * 窓（ペイン）のビュー。
+ * 窓（ペイン）のビュークラス。
+ * モデルから画像データを取得し、それをGUI上に描画する。
  */
 @SuppressWarnings("serial")
 public class PaneView extends mvc.View
@@ -34,7 +34,7 @@ public class PaneView extends mvc.View
 	public PaneView(PaneModel aModel, PaneController aController)
 	{
 		super(aModel, aController);
-		intialize();
+		this.intialize();
 	}
 
 	/**
@@ -113,6 +113,7 @@ public class PaneView extends mvc.View
 
 	/**
 	 * 描画を行う。
+	 * @param aGraphics 描画に使用されるグラフィックスコンテキスト
 	 */
 	public void paintComponent(Graphics aGraphics)
 	{
@@ -129,8 +130,8 @@ public class PaneView extends mvc.View
 
 			Integer w = picture.get().getWidth();
 			Integer h = picture.get().getHeight();
-			ValueHolder<Double> x = new ValueHolder<Double>(Double.valueOf(width) / Double.valueOf(w));
-			ValueHolder<Double> y = new ValueHolder<Double>(Double.valueOf(height) / Double.valueOf(h));
+			ValueHolder<Double> x = new ValueHolder<>(Double.valueOf(width) / Double.valueOf(w));
+			ValueHolder<Double> y = new ValueHolder<>(Double.valueOf(height) / Double.valueOf(h));
 			new Condition(() -> x.get() > y.get()).ifThenElse(() -> { x.set(y.get()); }, () -> { y.set(x.get()); });
 			scaleFactor = new Point2D.Double(x.get(), y.get());
 
@@ -173,4 +174,15 @@ public class PaneView extends mvc.View
 	{
 		return;
 	}
+
+	/**
+	 * ビュー上の点を画像上の対応する点に変換する。
+	 * @param point ビューの座標を保持するバリューホルダー
+	 * @return      対応する画像上の座標
+	 * @throws UnsupportedOperationException メソッドがまだ実装されていない場合にスローされる
+	 */
+    Point convertViewPointToPicturePoint(ValueHolder<Point> point) 
+	{
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

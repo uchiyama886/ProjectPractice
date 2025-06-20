@@ -3,7 +3,8 @@
 <project name="Wavelet" default="all" basedir=".">
 
 	<property name="progdir" value="src/main/java" />
-	<property name="mvc" value="mvc" /> 
+	<property name="testdir" value="src/test/java" />
+	<property name="mvc" value="mvc" />
 	<property name="package" value="wavelet" />
 	<property name="utility" value="utility" />
 	<property name="pane" value="pane" />
@@ -11,9 +12,53 @@
 
 	<property name="destdir" value="./Classes" />
 	<property name="docdir" value="./JavaDoc" />
+	<property name="srcdir" value="./src" />
 	<property name="instdir" value="./${ant.project.name}.app/Contents/Resources/Java" />
 	<property name="copyright" value="Copyright 2025 Project XX All Rights Reserved." />
 	<property name="zipname" value="${ant.project.name}" />
+
+	<property name="libdir" value="./lib" />
+	<property name="test.report.dir" value="./TestReports" />
+	<property name="test.classes.dir" value="./TestClasses" />
+	<property name="test.result.dir" value="./TestResults" />
+
+
+	<path id="junit.classpath">
+		<fileset dir="${libdir}">
+			<include name="apiguardian-api-*.jar" />
+			<include name="byte-buddy-*.jar" />
+			<include name="byte-buddy-agent-*.jar" />
+			<include name="junit-jupiter-api-*.jar" />
+			<include name="junit-jupiter-engine-*.jar" />
+			<include name="junit-platform-commons-*.jar" />
+			<include name="junit-platform-console-*.jar" />
+			<include name="junit-platform-engine-*.jar" />
+			<include name="junit-platform-launcher-*.jar" />
+			<include name="junit-platform-reporting-*.jar" />
+			<include name="mockito-core-*.jar" />
+			<include name="objenesis-*.jar" />
+			<include name="opentest4j-*.jar" />
+		</fileset>
+	</path>
+
+	<path id="external.lib.classpath">
+		<fileset dir="${libdir}">
+            <include name="commons-math3-*.jar" />
+		</fileset>
+	</path>
+
+	<path id="application.classpath">
+		<pathelement location="${destdir}" />
+		<pathelement location="src/main/resources" />
+		<pathelement location="external.lib.classpath" />
+	</path>
+
+	<path id="test.classpath">
+		<path refid="application.classpath" />
+		<pathelement location="${test.classes.dir}" />
+		<path refid="junit.classpath" />
+	</path>
+
 
 	<target name="all" depends="jar" description="build all">
 		<exec executable="date" spawn="false" />
@@ -21,6 +66,11 @@
 
 	<target name="prepare" depends="" description="prepare to compile">
 		<mkdir dir="${destdir}" />
+		<mkdir dir="${test.report.dir}" />
+		<mkdir dir="${test.classes.dir}" />
+		<mkdir dir="${test.result.dir}" />
+		<mkdir dir="ResultImages"/>
+		<mkdir dir="ResultImages/ResultImages"/>	
 		<exec executable="date" spawn="false" />
 	</target>
 
@@ -37,10 +87,25 @@
 			<compilerarg value="-Xlint:all" />
 			<classpath>
 				<pathelement location="." />
+				<pathelement location="${junitjar}" />
+				<pathelement location="${hamcrestjar}" />
 			</classpath>
 		</javac>
 		<exec executable="date" spawn="false" />
 	</target>
+
+	<target name="compile-test" depends="compile" description="Compile test sources">
+		<javac 
+			srcdir="${testdir}"
+			destdir="${test.classes.dir}"
+			classpathref="test.classpath"
+			includeantruntime="false"
+			encoding="UTF-8">
+			<compilerarg value="-Xlint:unchecked" />
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
 
 	<target name="jar" depends="compile" description="make jar file">
 		<jar
@@ -49,15 +114,22 @@
 			includes="**/*.class"
 		>
 			<manifest>
-                <attribute name="Project" value="XX"  />
-                <attribute name="Main-Class" value="wavelet.Example" /> <section name="Shared">
-                    <attribute name="Title" value="Wavelet" />
-                    <attribute name="Vender" value="Group4" />
-                </section>
-                <section name="Copyright" >
-                    <attribute name="Copy" value="Project XX 2025" />
-                </section>
-            </manifest>
+				<attribute name="Project" value="XX" />
+				<attribute name="Main-Class" value="wavelet.Example" />
+				<section name="Shared">
+					<attribute name="Title" value="Wavelet" />
+					<attribute name="Vender" value="Group4" />
+				</section>
+				<section name="Copyright">
+					<attribute name="Copy" value="Project XX 2025" />
+				</section>
+			</manifest>
+
+			<fileset dir="src/main/resources">
+				<include name="**/*.jpeg" />
+				<include name="**/*.jpg" />
+				<include name="**/*.png" />
+			</fileset>
 		</jar>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -66,21 +138,69 @@
 		<delete dir="${destdir}" />
 		<delete dir="${docdir}" />
 		<delete dir="${instdir}" />
+		<delete dir="${test.report.dir}" />
+		<delete dir="${test.classes.dir}" />
+		<delete dir="${test.result.dir}" />
 		<delete file="../${zipname}.zip" />
+		<delete file="${junitjar}" />
+		<delete dir="${reportdir}" />
+		<exec executable="date" spawn="false" />
+	</target>
+
+	<target name="unittest" depends="compile-test" description="Run JUnit Jupiter tests">
+		<echo message="Running JUnit Jupiter tests..." />
+
+		<java classname="org.junit.platform.console.ConsoleLauncher"
+			fork="true"
+			failonerror="true">
+			<classpath>
+				<path refid="test.classpath" />
+			</classpath>
+			<arg value="--scan-classpath" />
+			<arg value="${test.classes.dir}" />
+			<arg value="--details=tree" />
+			<arg value="--reports-dir=${test.report.dir}" />
+			<arg value="--fail-if-no-tests" />
+		</java>
+
+		<echo message="JUnit Jupiter tests finished. Raw reports generated in ${test.report.dir}" />
+
+		<junitreport todir="${test.result.dir}">
+			<fileset dir="${test.report.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.result.dir}/html" />
+		</junitreport>
+		<echo message="HTML reports generated in ${test.result.dir}/html" />
+
 		<exec executable="date" spawn="false" />
 	</target>
 
 	<target name="test" depends="all" description="test">
 		<exec executable="java" spawn="false">
-			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${destdir}/${ant.project.name}.jar" />
+			<arg
+				line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -jar ${destdir}/${ant.project.name}.jar" />
+		</exec>
+		<exec executable="date" spawn="false" />
+	</target>
+
+	<target name="assert" depends="all" description="assert">
+		<exec executable="java" spawn="false">
+			<arg line="-Dfile.encoding=UTF-8 -Xmx512m -Xss1024k -ea -jar ${destdir}/${ant.project.name}.jar" />
+			<classpath>
+				<path refid="application.classpath"/>
+			</classpath>
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>
 
 	<target name="install" depends="all" description="install into application">
-		<copy file="${package}.jar" todir="${instdir}" />
+		<copy
+			file="${basedir}/${destdir}/${ant.project.name}.jar"
+			todir="${instdir}"
+		/>
 		<exec executable="chmod">
-			<arg line="755 ${instdir}/../../MacOS/applet" />
+			<arg line="755 ${instdir}/../../MacOS/Automator\ Application\ Stub" />
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>
@@ -99,12 +219,10 @@
 			docencoding="UTF-8"
 			linksource="yes"
 			additionalparam="-J-Dfile.encoding=UTF-8"
-			access="private">
-			<doctitle>${doc-title}</doctitle>
+			access="private"
+		>
+			<doctitle><![CDATA[<h1>Wavelet プロジェクト API仕様書</h1>]]></doctitle>
 			<bottom>${copyright}</bottom>
-			<classpath>
-				<pathelement location="." />
-			</classpath>
 		</javadoc>
 		<exec executable="open">
 			<arg line="-a 'Safari' ${docdir}/index.html" />
@@ -119,5 +237,5 @@
 		</zip>
 		<exec executable="date" spawn="false" />
 	</target>
-
+	
 </project>

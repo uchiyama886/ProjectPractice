@@ -110,7 +110,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     double[][] arrayOfDouble4 = transpose(diagonalWaveletCoefficients());
     double[][] arrayOfDouble5 = new double[k][j];
     double[][] arrayOfDouble6 = new double[k][j];
-    for (byte b1 = 0; b1 < k; b1++) {
+    for (Integer b1 = 0; b1 < k; b1++) {
       DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble1, b1), atRow(arrayOfDouble2, b1));
       atRowPut(arrayOfDouble5, b1, discreteWavelet1dTransformation.recomposedCoefficients());
       discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble3, b1), atRow(arrayOfDouble4, b1));
@@ -119,7 +119,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     arrayOfDouble5 = transpose(arrayOfDouble5);
     arrayOfDouble6 = transpose(arrayOfDouble6);
     double[][] arrayOfDouble7 = new double[j][m];
-    for (byte b2 = 0; b2 < j; b2++) {
+    for (Integer b2 = 0; b2 < j; b2++) {
       DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble5, b2), atRow(arrayOfDouble6, b2));
       atRowPut(arrayOfDouble7, b2, discreteWavelet1dTransformation.recomposedCoefficients());
     } 
@@ -135,7 +135,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     int m = k / 2;
     double[][] arrayOfDouble1 = new double[i][m];
     double[][] arrayOfDouble2 = new double[i][m];
-    for (byte b1 = 0; b1 < i; b1++) {
+    for (Integer b1 = 0; b1 < i; b1++) {
       DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(this.sourceCoefficients, b1));
       atRowPut(arrayOfDouble1, b1, discreteWavelet1dTransformation.scalingCoefficients());
       atRowPut(arrayOfDouble2, b1, discreteWavelet1dTransformation.waveletCoefficients());
@@ -146,7 +146,7 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     double[][] arrayOfDouble4 = new double[m][j];
     double[][] arrayOfDouble5 = new double[m][j];
     double[][] arrayOfDouble6 = new double[m][j];
-    for (byte b2 = 0; b2 < m; b2++) {
+    for (Integer b2 = 0; b2 < m; b2++) {
       DiscreteWavelet1dTransformation discreteWavelet1dTransformation = new DiscreteWavelet1dTransformation(atRow(arrayOfDouble1, b2));
       atRowPut(arrayOfDouble3, b2, discreteWavelet1dTransformation.scalingCoefficients());
       atRowPut(arrayOfDouble4, b2, discreteWavelet1dTransformation.waveletCoefficients());
@@ -166,8 +166,14 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     return paramArrayOfdouble[paramInt];
   }
   
+  // private void atRowPut(double[][] paramArrayOfdouble, int paramInt, double[] paramArrayOfdouble1) {
+  //   for (Integer b = 0; b < (paramArrayOfdouble[paramInt]).length; b++)
+  //     paramArrayOfdouble[paramInt][b] = paramArrayOfdouble1[b]; 
+  // }
   private void atRowPut(double[][] paramArrayOfdouble, int paramInt, double[] paramArrayOfdouble1) {
-    for (byte b = 0; b < (paramArrayOfdouble[paramInt]).length; b++)
+    // paramArrayOfdouble[paramInt] の実際の長さと、paramArrayOfdouble1 の実際の長さの、短い方をループの上限にする
+    int copyLength = Math.min((paramArrayOfdouble[paramInt]).length, paramArrayOfdouble1.length);
+    for (Integer b = 0; b < copyLength; b++)
       paramArrayOfdouble[paramInt][b] = paramArrayOfdouble1[b]; 
   }
   
@@ -183,8 +189,8 @@ public class DiscreteWavelet2dTransformation extends DiscreteWaveletTransformati
     int i = rowSize(paramArrayOfdouble);
     int j = columnSize(paramArrayOfdouble);
     double[][] arrayOfDouble = new double[j][i];
-    for (byte b = 0; b < paramArrayOfdouble.length; b++) {
-      for (byte b1 = 0; b1 < (paramArrayOfdouble[b]).length; b1++)
+    for (Integer b = 0; b < paramArrayOfdouble.length; b++) {
+      for (Integer b1 = 0; b1 < (paramArrayOfdouble[b]).length; b1++)
         arrayOfDouble[b1][b] = paramArrayOfdouble[b][b1]; 
     } 
     return arrayOfDouble;

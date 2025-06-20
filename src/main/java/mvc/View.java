@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import utility.Condition;
 
 /**
- * ビュー。表示まわりを専門に行う。
+ * MVCデザインパターンにおける、ユーザーインターフェースを表示するビュークラス。
  */
 @SuppressWarnings("serial")
 public class View extends JPanel
@@ -52,7 +52,7 @@ public class View extends JPanel
 	/**
 	 * インスタンスを生成して応答する。
 	 * 指定されたモデルの依存物となり、指定されたコントローラにモデルとビューを設定し、スクロール量を(0, 0)に設定する。
-	 * @param aModel このビューのモデル
+	 * @param aModel      このビューのモデル
 	 * @param aController このビューのコントローラ
 	 */
 	@SuppressWarnings("this-escape")

@@ -9,9 +9,17 @@ all:
 
 clean:
 	$(ANT) clean
+	@rm -rf ResultImages
+	@rm -rf Wavelet.app
 
 test:
 	$(ANT) test
+
+unittest:
+	$(ANT) unittest
+
+assert:
+	$(ANT) assert
 
 install:
 	$(ANT) install
