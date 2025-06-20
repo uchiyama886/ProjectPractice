@@ -32,34 +32,88 @@ import utility.Interval;
  */
 public final class Wavelet2dModel extends WaveletModel {
 
-    // 読み込み時の最大画像長辺ピクセル数 (2のべき乗にリサイズ後も大きくならない)
+    /**
+     * 読み込み時の最大画像長辺ピクセル数 (2のべき乗にリサイズ後も大きくならない)。
+     */
     private static final int MAX_IMAGE_DIMENSION = 1024;
 
     // 各種の係数配列における絶対値の最大値を保持するフィールド。
     // 画像表示時の正規化などに使用される。
-    protected double maximumAbsoluteSourceCoefficient = Double.MIN_VALUE; // 元データの絶対値の最大値
-    protected double maximumAbsoluteScalingCoefficient = Double.MIN_VALUE; // スケーリング係数の絶対値の最大値
-    protected double maximumAbsoluteWaveletCoefficient = Double.MIN_VALUE; // ウェーブレット係数の絶対値の最大値
-    protected double maximumAbsoluteRecomposedCoefficient = Double.MIN_VALUE; // 再構成された係数の絶対値の最大値
+    /**
+     * 元データの絶対値の最大値。
+     */
+    protected double maximumAbsoluteSourceCoefficient = Double.MIN_VALUE;
+    /**
+     * スケーリング係数の絶対値の最大値。
+     */
+    protected double maximumAbsoluteScalingCoefficient = Double.MIN_VALUE;
+    /**
+     * ウェーブレット係数の絶対値の最大値。
+     */
+    protected double maximumAbsoluteWaveletCoefficient = Double.MIN_VALUE;
+    /**
+     * 再構成された係数の絶対値の最大値。
+     */
+    protected double maximumAbsoluteRecomposedCoefficient = Double.MIN_VALUE;
 
     // ウェーブレット変換に関連する各種係数を保持する3次元配列。
     // 各配列は、RGBチャネル（またはLuminanceとRGBチャネル）ごとに係数を格納する。
-    protected double[][][] sourceCoefficientsArray; // 元の係数（画像データなど）
-    protected double[][][] scalingCoefficientsArray; // スケーリング係数（近似情報）
-    protected double[][][] horizontalWaveletCoefficientsArray; // 水平方向のウェーブレット係数（水平方向のエッジ情報）
-    protected double[][][] verticalWaveletCoefficientsArray; // 垂直方向のウェーブレット係数（垂直方向のエッジ情報）
-    protected double[][][] diagonalWaveletCoefficientsArray; // 対角方向のウェーブレット係数（対角方向のエッジ情報）
-    protected double[][][] interactiveHorizontalWaveletCoefficientsArray; // 対話操作用の水平ウェーブレット係数（一部を操作して再構成する用）
-    protected double[][][] interactiveVerticalWaveletCoefficientsArray; // 対話操作用の垂直ウェーブレット係数
-    protected double[][][] interactiveDiagonalWaveletCoefficientsArray; // 対話操作用の対角ウェーブレット係数
-    protected double[][][] recomposedCoefficientsArray; // 再構成された係数
+    /**
+     * 元の係数（画像データなど）。
+     */
+    protected double[][][] sourceCoefficientsArray;
+    /**
+     * スケーリング係数（近似情報）。
+     */
+    protected double[][][] scalingCoefficientsArray;
+    /**
+     * 水平方向のウェーブレット係数（水平方向のエッジ情報）。
+     */
+    protected double[][][] horizontalWaveletCoefficientsArray;
+    /**
+     * 垂直方向のウェーブレット係数（垂直方向のエッジ情報）。
+     */
+    protected double[][][] verticalWaveletCoefficientsArray;
+    /**
+     * 対角方向のウェーブレット係数（対角方向のエッジ情報）。
+     */
+    protected double[][][] diagonalWaveletCoefficientsArray;
+    /**
+     * 対話操作用の水平ウェーブレット係数（一部を操作して再構成する用）。
+     */
+    protected double[][][] interactiveHorizontalWaveletCoefficientsArray;
+    /**
+     * 対話操作用の垂直ウェーブレット係数。
+     */
+    protected double[][][] interactiveVerticalWaveletCoefficientsArray;
+    /**
+     * 対話操作用の対角ウェーブレット係数。
+     */
+    protected double[][][] interactiveDiagonalWaveletCoefficientsArray;
+    /**
+     * 再構成された係数。
+     */
+    protected double[][][] recomposedCoefficientsArray;
 
     // 各種係数データを表示するためのモデルオブジェクト。
     // それぞれのパネルに表示される画像データを管理する。
-    protected WaveletPaneModel sourceCoefficientsPaneModel = null; // 元の係数表示用モデル
-    protected WaveletPaneModel scalingAndWaveletCoefficientsPaneModel = null; // スケーリング係数とウェーブレット係数表示用モデル
-    protected WaveletPaneModel interactiveScalingAndWaveletCoefficientsPaneModel = null; // 対話操作用のスケーリング・ウェーブレット係数表示用モデル
-    protected WaveletPaneModel recomposedCoefficientsPaneModel = null; // 再構成された係数表示用モデル
+    /**
+     * 元の係数表示用モデル。
+     */
+    protected WaveletPaneModel sourceCoefficientsPaneModel = null;
+    /**
+     * スケーリング係数とウェーブレット係数表示用モデル。
+     * 
+     */
+    protected WaveletPaneModel scalingAndWaveletCoefficientsPaneModel = null;
+    /**
+     * 対話操作用のスケーリング・ウェーブレット係数表示用モデル。
+     */
+    protected WaveletPaneModel interactiveScalingAndWaveletCoefficientsPaneModel = null;
+    /**
+     * 再構成された係数表示用モデル。
+     */
+    protected WaveletPaneModel recomposedCoefficientsPaneModel = null;
 
     /**
      * Wavelet2dModelのコンストラクタ。 インスタンス生成時にサンプル係数データをロードして初期化する。
@@ -944,6 +998,8 @@ public final class Wavelet2dModel extends WaveletModel {
 
     /**
      * 与えられた値以上の最小の2のべき乗を返す
+     * @param value 2のべき乗を計算する基準となる整数値
+     * @return value以上で、かつ最も小さい2のべき乗の整数値
      */
     private static int nextPowerOfTwo(int value) {
         int n = 1;
