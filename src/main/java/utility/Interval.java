@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 /**
- * 形式型<T>を使用して、指定された開始値から条件に基づいて繰り返し処理を行うためのクラス
- * 各クラスで次の値を計算、アクションを行う
+ * 形式型<T>を使用して、指定された開始値から条件に基づいて繰り返し処理を行うためのクラス。
+ * 各クラスで次の値を計算、アクションを行う。
  */
 public class Interval<T>
 {
@@ -15,7 +15,7 @@ public class Interval<T>
     private UnaryOperator<T> nextValueFunction;
 
     /**
-     * コンストラクタ
+     * コンストラクタ。
      */
     public Interval()
     {
@@ -23,7 +23,7 @@ public class Interval<T>
     }
 
     /**
-     * コンストラクタ
+     * コンストラクタ。
      * @param startValue ループ処理の開始値
      * @param loopCondition ループを継続する条件
      * @param nextValueFunction 次の値を計算するための関数

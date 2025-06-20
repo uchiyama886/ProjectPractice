@@ -3,13 +3,16 @@ package pane;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import mvc.Controller;
+import utility.Condition;
+import utility.ValueHolder;
 
 /**
  * マウスイベントを処理し、モデルとビューを仲介するコントローラクラス。
  * View（画面）で発生したマウスクリックやドラッグのイベントを受け取り、
  * 画面上の座標を画像上の座標に変換した後、Modelに処理を委譲する。
  */
-public class PaneController extends Controller {
+public class PaneController extends Controller 
+{
 
   /**
    * 関連付けられたビューをPaneViewとして取得する。
@@ -19,7 +22,8 @@ public class PaneController extends Controller {
    *
    * @return このコントローラに関連付けられたPaneViewオブジェクト
    */
-  public PaneView getView() {
+  public PaneView getView() 
+  {
     // viewをPaneViewにキャストして返す
     return (PaneView)this.view;
   }
@@ -33,16 +37,16 @@ public class PaneController extends Controller {
    * @param aMouseEvent AWTから通知されるマウスイベントオブジェクト
    */
   @Override
-  public void mouseClicked(MouseEvent aMouseEvent) {
+  public void mouseClicked(MouseEvent aMouseEvent) 
+  {
     // 画面上のマウスクリック位置の座標を取得
-    Point point = aMouseEvent.getPoint();
+    ValueHolder<Point> point = new ValueHolder<>(aMouseEvent.getPoint());
     PaneView paneView = getView();
     // 画面上の座標を画像上の座標に変換
-    point = paneView.convertViewPointToPicturePoint(point);
-    if (point == null)
-      return;
+    point.set(paneView.convertViewPointToPicturePoint(point.get()));
+    new Condition(() -> point.get() == null).ifTrue(() -> {});
     // PaneViewからPaneModelを取得し、画像座標とマウスイベントを渡してクリック処理を委譲
-    paneView.getModel().mouseClicked(point, aMouseEvent);
+    paneView.getModel().mouseClicked(point.get(), aMouseEvent);
   }
   
   /**
@@ -53,12 +57,15 @@ public class PaneController extends Controller {
    *
    * @param aMouseEvent AWTから通知されるマウスイベントオブジェクト
    */
-  public void mouseDragged(MouseEvent aMouseEvent) {
-    Point point = aMouseEvent.getPoint();
+  @Override
+  public void mouseDragged(MouseEvent aMouseEvent) 
+  {
+    // 画面上のマウスクリック位置の座標を取得
+    ValueHolder<Point> point = new ValueHolder<>(aMouseEvent.getPoint());
     PaneView paneView = getView();
-    point = paneView.convertViewPointToPicturePoint(point);
-    if (point == null)
-      return; 
-    paneView.getModel().mouseDragged(point, aMouseEvent);
+    // 画面上の座標を画像上の座標に変換
+    point.set(paneView.convertViewPointToPicturePoint(point.get()));
+    new Condition(() -> point.get() == null).ifTrue(() -> {});
+    paneView.getModel().mouseDragged(point.get(), aMouseEvent);
   }
 }

@@ -10,7 +10,7 @@ import wavelet.Wavelet2dModel;
 import wavelet.Constants;
 
 /**
- * ウェーブレット変換に関連するサンプルデータやユーティリティメソッドを提供するクラスである。
+ * ウェーブレット変換に関連するサンプルデータやユーティリティメソッドを提供するクラス。
  * 1次元および2次元の離散ウェーブレット変換のためのサンプル係数データ、
  * 特定の画像データの読み込み、および数値行列を画像に変換する機能などを提供する。
  *
@@ -106,9 +106,9 @@ public class WaveletData {
     /**
      * 離散ウェーブレット2次元変換のためのデータ値（輝度およびRGB各成分の行列）を画像に変換して応答する。
      *
-     * @param valueMatrixArray 輝度、赤、緑、青の各成分を表す {@code double[][][]} 配列。
-     * 配列の2番目から4番目の要素（RGB成分）が {@code null} の場合、グレイスケール画像として生成される。
-     * @param maxValue 行列内の値の最大絶対値。色スケール計算に用いられる。
+     * @param valueMatrixArray 輝度、赤、緑、青の各成分を表す {@code double[][][]} 配列
+     * 配列の2番目から4番目の要素（RGB成分）が {@code null} の場合、グレイスケール画像として生成される
+     * @param maxValue 行列内の値の最大絶対値。色スケール計算に用いられる
      * @return 生成された {@link BufferedImage} オブジェクト
      */
     public static BufferedImage generateImage(double[][][] valueMatrixArray, double maxValue)
@@ -168,7 +168,7 @@ public class WaveletData {
      *
      * @param valueMatrix 変換対象の2次元データ行列
      * @param scaleFactor 各ピクセルの拡大率を表す {@link Point} (x: 幅方向、y: 高さ方向)
-     * @param rgbFlag 色成分（赤、緑、青、またはグレイスケール）を指定するフラグ。
+     * @param rgbFlag 色成分（赤、緑、青、またはグレイスケール）を指定するフラグ
      * {@link Constants#Red}、{@link Constants#Green}、{@link Constants#Blue}、またはその他の値（グレイスケール）
      * @return 生成された {@link BufferedImage} オブジェクト
      */

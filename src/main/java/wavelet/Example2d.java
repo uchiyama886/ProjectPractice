@@ -52,7 +52,6 @@ public class Example2d {
   
   /**
    * サンプル係数を取得し、変換処理を実行（グレースケール）
-   * @param coefficientsOfSampledata：データのサンプル係数
    */
   protected static void example1() {
     // 連番
@@ -67,7 +66,6 @@ public class Example2d {
   
   /**
    * SmalltalkBalloonの画像に対する変換処理（カラー）
-   * @param rgbData：SmalltalkBalloonのRGBデータ
    */
   protected static void example2() {
     // 連番
@@ -82,7 +80,6 @@ public class Example2d {
   
   /**
    * Earthの画像に対する変換処理（カラー）
-   * @param rgbData：EarthのRGBデータ
    */
   protected static void example3() {
     // 連番
@@ -97,6 +94,7 @@ public class Example2d {
   
   /**
    * デフォルトサイズでのパネルの表示
+   * @param aPanel 表示するパネル
    */
   private static void open(JPanel aPanel) {
     open(aPanel, 512, 512);
@@ -104,9 +102,9 @@ public class Example2d {
   
   /**
    * 指定サイズでのパネル表示
-   * @param width         幅
-   * @param height        高さ
-   * @param spaceOfTitle  タイトルバーの余白
+   * @param aPanel 表示するパネル
+   * @param width  幅
+   * @param height 高さ
    */
   protected static void open(JPanel aPanel, int width, int height) {
     // タイトルをWavelet Example（2D）にしてフレームを用意
@@ -147,21 +145,11 @@ public class Example2d {
 
   /**
    * 各種変数を取得し、画像の生成、表示、保存する
-   * @param coefficientsOfSampledata           データのサンプル係数
-   * @param coefficientsOfScaling              離散ウェーブレットのスケーリング係数
-   * @param coefficientsOfHorizontalWavelet    水平方向の離散ウェーブレットのウェーブレット係数
-   * @param coefficientsOfVerticalWavelet      垂直方向の離散ウェーブレットのウェーブレット係数
-   * @param coefficientsOfDiagonalWavelet      対角方向の離散ウェーブレットのウェーブレット係数
-   * @param waveletCoefficientsInAllDirections 水平・垂直・対角方向のウェーブレット係数をまとめたもの
-   * @param coefficientsOfDisWavelet           逆ウェーブレット変換で得た係数
-   * @param imageOfSampledata                  サンプル係数を元にした画像
-   * @param imageOfScaling                     スケーリング係数を元にした画像
-   * @param imageOfHorizontalWavelet           水平方向のウェーブレット係数を元にした画像
-   * @param imageOfVerticalWavelet             垂直方向のウェーブレット係数を元にした画像
-   * @param imageOfDiagonalWavelet             対角方向のウェーブレット係数を元にした画像
-   * @param compositesImage                    bufferedImage2~6の4枚の画像を合成した画像
-   * @param compositesDisImage1                一回目に復元した画像
-   * @param compositesDisImage2                二回目に復元した画像
+   * @param sourceDataMatrix                   元画像の係数
+   * @param scaleFactor                        画像の大きさ
+   * @param rgbFlag                            カラーにするかどうかのフラグ(0 = グレー、1 = 赤、2 = 緑、3 = 青)
+   * 
+   * @return coefficientsOfDisWavelet1         逆ウェーブレット変換を実行して得られた（元画像に相当する）係数
    */
   protected static double[][] perform(double[][] sourceDataMatrix, Point scaleFactor, int rgbFlag) {
     // 元画像の係数を束縛
@@ -179,9 +167,9 @@ public class Example2d {
     // 各係数をもとに画像を生成
     BufferedImage imageOfSampledata1 = Wavelet2dModel.generateImage(coefficientsOfSampledata, scaleFactor, rgbFlag);
     BufferedImage imageOfScaling1 = Wavelet2dModel.generateImage(coefficientsOfScaling1, scaleFactor, rgbFlag);
-    BufferedImage imageOfHorizontalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfHorizontalWavelet1, scaleFactor, 0);
-    BufferedImage imageOfVerticalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfVerticalWavelet1, scaleFactor, 0);
-    BufferedImage imageOfDiagonalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfDiagonalWavelet1, scaleFactor, 0);
+    BufferedImage imageOfHorizontalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfHorizontalWavelet1, scaleFactor, rgbFlag);
+    BufferedImage imageOfVerticalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfVerticalWavelet1, scaleFactor, rgbFlag);
+    BufferedImage imageOfDiagonalWavelet1 = Wavelet2dModel.generateImage(coefficientsOfDiagonalWavelet1, scaleFactor, rgbFlag);
 
     // 画像の書き出し
     write(imageOfSampledata1);
@@ -207,9 +195,9 @@ public class Example2d {
 
     // 二回目の各係数をもとに画像を生成し、束縛
     BufferedImage imageOfScaling2 = Wavelet2dModel.generateImage(coefficientsOfScaling2, scaleFactor, rgbFlag);
-    BufferedImage imageOfHorizontalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfHorizontalWavelet2, scaleFactor, 0);
-    BufferedImage imageOfVerticalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfVerticalWavelet2, scaleFactor, 0);
-    BufferedImage imageOfDiagonalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfDiagonalWavelet2, scaleFactor, 0);
+    BufferedImage imageOfHorizontalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfHorizontalWavelet2, scaleFactor, rgbFlag);
+    BufferedImage imageOfVerticalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfVerticalWavelet2, scaleFactor, rgbFlag);
+    BufferedImage imageOfDiagonalWavelet2 = Wavelet2dModel.generateImage(coefficientsOfDiagonalWavelet2, scaleFactor, rgbFlag);
 
     // 二回目の画像の書き出し
     write(imageOfScaling2);
@@ -326,14 +314,6 @@ public class Example2d {
    * 4つの2次元配列を入力として画像処理を行い、結果を表示・保存する
    * @param lrgbSourceCoefficients 入力データ
    * @param labelString            画像・ファイル名
-   * @param originalDataMatrix     元画像のデータの行列
-   * @param redDataMatrix          赤要素のデータの行列
-   * @param greenDataMatrix        緑要素のデータの行列
-   * @param blueDataMatrix         青要素のデータの行列
-   * @param disOriginalDataMatrix  逆変換に用いる元画像のデータの行列
-   * @param disRedDataMatrix       逆変換に用いる赤要素のデータの行列
-   * @param disGreenDataMatrix     逆変換に用いる緑要素のデータの行列
-   * @param disBlueDataMatrix      逆変換に用いる青要素のデータの行列
    */
   protected static void perform(double[][][] lrgbSourceCoefficients, String labelString) {
     // 元画像と赤と青と緑（上から順に）の要素を束縛
@@ -386,8 +366,7 @@ public class Example2d {
   
   /**
   * 画像ファイルを保存
-  * @param fileNumber ファイル名の連番（001, 002, 003,,）
-  * @param file 書き出す用のファイル
+  * @param anImage 書き出す画像
   */
   protected static void write(BufferedImage anImage) {
     // 処理する画像を束縛

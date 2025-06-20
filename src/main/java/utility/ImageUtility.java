@@ -4,23 +4,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.MalformedParameterizedTypeException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import javax.imageio.ImageIO;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.MalformedInputException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 
-import utility.Condition;
-import utility.ValueHolder;
 
 /**
- * 画像のユーティリティ。
+ * 画像のユーティリティのクラス。
  */
 public class ImageUtility extends Object
 {
@@ -58,10 +54,10 @@ public class ImageUtility extends Object
 		Integer width = anImage.getWidth();
 		Integer height = anImage.getHeight();
 		BufferedImage grayscaleImage = new BufferedImage(anImage.getWidth(), anImage.getHeight(), anImage.getType());
-		ValueHolder<Integer> y = new ValueHolder<Integer>(0);
+		ValueHolder<Integer> y = new ValueHolder<>(0);
 		new Condition(() -> y.get() < height).whileTrue(() ->
 		{
-			ValueHolder<Integer> x = new ValueHolder<Integer>(0);
+			ValueHolder<Integer> x = new ValueHolder<>(0);
 			new Condition(() ->  x.get() < width).whileTrue(() ->
 			{
 				Integer aRGB = anImage.getRGB(x.get(), y.get());
@@ -100,10 +96,10 @@ public class ImageUtility extends Object
 		Integer width = anImage.getWidth();
 		Integer height = anImage.getHeight();
 		double[][] aMatrix = new double[height][width];
-		ValueHolder<Integer> y = new ValueHolder<Integer>(0);
+		ValueHolder<Integer> y = new ValueHolder<>(0);
 		new Condition(() -> y.get() < height).whileTrue(() -> 
 		{
-			ValueHolder<Integer> x = new ValueHolder<Integer>(0);
+			ValueHolder<Integer> x = new ValueHolder<>(0);
 			new Condition(() -> x.get() < width).whileTrue(() ->
 			{
 				Integer xValue = x.get();
@@ -129,10 +125,10 @@ public class ImageUtility extends Object
 		double[][] yMatrix = new double[height][width];
 		double[][] uMatrix = new double[height][width];
 		double[][] vMatrix = new double[height][width];
-		ValueHolder<Integer> y = new ValueHolder<Integer>(0);
+		ValueHolder<Integer> y = new ValueHolder<>(0);
 		new Condition(() -> y.get() < height).whileTrue(() ->
 		{
-			ValueHolder<Integer> x = new ValueHolder<Integer>(0);
+			ValueHolder<Integer> x = new ValueHolder<>(0);
 			new Condition(() -> x.get() < width).whileTrue(() ->
 			{
 				Integer xValue = x.get();
@@ -162,10 +158,10 @@ public class ImageUtility extends Object
 		Graphics2D aGraphics = anImage.createGraphics();
 		aGraphics.setColor(Color.white);
 		aGraphics.fillRect(0, 0, width, height);
-		ValueHolder<Integer> y = new ValueHolder<Integer>(0);
+		ValueHolder<Integer> y = new ValueHolder<>(0);
 		new Condition(() -> y.get() < height).whileTrue(() ->
 		{
-			ValueHolder<Integer> x = new ValueHolder<Integer>(0);
+			ValueHolder<Integer> x = new ValueHolder<>(0);
 			new Condition(() -> x.get() < width).whileTrue(() ->
 			{
 				double luminance = aMatrix[y.get()][x.get()];
@@ -195,10 +191,10 @@ public class ImageUtility extends Object
 		Graphics2D aGraphics = anImage.createGraphics();
 		aGraphics.setColor(Color.white);
 		aGraphics.fillRect(0, 0, width, height);
-		ValueHolder<Integer> y = new ValueHolder<Integer>(0);
+		ValueHolder<Integer> y = new ValueHolder<>(0);
 		new Condition(() -> y.get() < height).whileTrue(() ->
 		{
-			ValueHolder<Integer> x = new ValueHolder<Integer>(0);
+			ValueHolder<Integer> x = new ValueHolder<>(0);
 			new Condition(() -> x.get() < width).whileTrue(() ->
 			{
 				double[] rgb = ColorUtility.convertYUVtoRGB(yMatrix[y.get()][x.get()],
