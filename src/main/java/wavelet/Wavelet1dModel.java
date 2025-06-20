@@ -27,22 +27,69 @@ import javax.swing.JPopupMenu;
 */
 public class Wavelet1dModel extends WaveletModel {
 
-    // 各種係数を保持する配列
+        // 各種係数を保持する配列
+        /**
+        * 元の信号または入力データ系列の係数を保持する。
+        * このデータに対してウェーブレット変換が適用される。
+        */
 	protected double[] sourceCoefficients;	// 元の信号の係数
+        /**
+        * ウェーブレット分解によって得られるスケーリング係数（近似係数）を保持する。
+        * これは信号の低周波成分や滑らかな部分を表す。
+        */
 	protected double[] scalingCoefficients;	// スケーリング係数（低周波成分）
+        /**
+        * ウェーブレット分解によって得られるウェーブレット係数（詳細係数）を保持する。
+        * これは信号の高周波成分やエッジなどの詳細部分を表す。
+        */
 	protected double[] waveletCoefficients;	// ウェーブレット係数（高周波成分）
-	protected double[] interactiveWaveletCoefficients;	// ユーザーが操作可能なウェーブレット係数
-	protected double[] recomposedCoefficients;	// 再構成された信号の係数
+        /**
+        * ユーザーが操作可能なウェーブレット係数を保持する。
+        * インタラクティブな操作（例: 特定の係数をゼロにする）による信号の変化をシミュレートするために使用される。
+        */
+	protected double[] interactiveWaveletCoefficients; // ユーザーが操作可能なウェーブレット係数
+        /**
+        * スケーリング係数と（操作後の）ウェーブレット係数から再構成された信号の係数を保持する
+        */
+	protected double[] recomposedCoefficients; // 再構成された信号の係数
 
 	// 各係数データを表示するためのペインモデル
+        /**
+        * 元の係数データを表示するためのインスタンス。
+        * このモデルを通じて、元の信号がUIに視覚化される。
+        */
 	protected WaveletPaneModel sourceCoefficientsPaneModel = null;	 // 元の係数表示用のペインモデル
+        /**
+        * スケーリング係数データを表示するためのWaveletPaneModelインスタンス。
+        * このモデルを通じて、分解された信号の低周波成分がUIに視覚化される。
+        */
 	protected WaveletPaneModel scalingCoefficientsPaneModel = null;	// スケーリング係数表示用のペインモデル
+        /**
+        * ウェーブレット係数データを表示するための{@link WaveletPaneModel}インスタンス。
+        * このモデルを通じて、分解された信号の高周波成分がUIに視覚化される。
+        */
 	protected WaveletPaneModel waveletCoefficientsPaneModel = null;	// ウェーブレット係数表示用のペインモデル
-	protected WaveletPaneModel interactiveWaveletCoefficientsPaneModel = null;	// ユーザー操作ウェーブレット係数表示用のペインモデル
+        /**
+        * ユーザーが操作可能なウェーブレット係数データを表示するための{@link WaveletPaneModel}インスタンス。
+        * このモデルは、ユーザーのインタラクションを処理し、再構成された信号にその影響を反映させる。
+        */
+	protected WaveletPaneModel interactiveWaveletCoefficientsPaneModel = null; // ユーザー操作ウェーブレット係数表示用のペインモデル
+        /**
+        * 再構成された係数データを表示するための{@link WaveletPaneModel}インスタンス。
+        * このモデルを通じて、ウェーブレット係数から再構築された信号がUIに視覚化される。
+        */
 	protected WaveletPaneModel recomposedCoefficientsPaneModel = null;	// 再構成された係数表示用のペインモデル
 
 	// 画像描画に関する静的設定値
+        /**
+        * 描画時のスケールファクターを定義する静的{@link Point}オブジェクト。
+        * x成分はX軸方向の、y成分はY軸方向の拡大率（ピクセル/単位）を示す。
+        */
 	private static Point scaleFactor = new Point(10, 100);	// 描画時のスケールファクター
+        /**
+        * 描画範囲の最大絶対値を定義する静的な値。
+        * グラフのY軸表示範囲を決定するために使用される。
+        */
 	private static double rangeValue = 2.8d;	// 描画範囲の値
 
     /**
@@ -109,10 +156,11 @@ public class Wavelet1dModel extends WaveletModel {
 		this.recomposedCoefficientsPaneModel.changed();
 	}
 
-    /**
-     * サンプルの係数データを生成して返す。
-     * 特定のパターンを持つダブル配列を生成する。
-     */
+        /**
+        * サンプルの係数データを生成して返す。
+        * 特定のパターンを持つダブル配列を生成する。
+        @return 特定のパターンで初期化された64要素の配列
+        */
 	public static double[] dataSampleCoefficients() {
         double[] arrayOfDouble = new double[64]; // 64要素のダブル配列を初期化
         Arrays.fill(arrayOfDouble, 0.0D); // 全ての要素を0.0で埋める
@@ -153,17 +201,22 @@ public class Wavelet1dModel extends WaveletModel {
         setSourceData(dataSampleCoefficients()); // サンプル係数を生成し、ソースデータとして設定
 	}
 
-    /**
-     * 指定された配列を特定の値で埋める。
-     */
+        /**
+        * 指定された配列を特定の値で埋める。
+        *
+        * @param anArray 要素を埋める対象の型配列
+        * @param aValue 配列の全要素に設定する値
+        */
 	public static void fill(double[] anArray, double aValue) {
         Arrays.fill(anArray, aValue); // Arrays.fillメソッドを使用して配列を埋める
 	}
 
-    /**
-     * double配列のデータから画像を生成する。
-     * データは折れ線グラフとして描画される。
-     */
+        /**
+        * double配列のデータから画像を生成する。
+        * データは折れ線グラフとして描画される。
+        * @param valueCollection 画像生成に使用する型のデータ配列
+        * @return 生成されたオブジェクト
+        */
 	public static BufferedImage generateImage(double[] valueCollection) {
         Integer dataLength = valueCollection.length; // データコレクションの要素数
         Integer imageWidth = (Integer) Math.round(dataLength * scaleFactor.x); // 画像の幅を計算
@@ -289,11 +342,12 @@ public class Wavelet1dModel extends WaveletModel {
         jFrame.toFront(); // フレームを最前面に表示
 	}
 
-    /**
-     *  ソースデータを設定し、ウェーブレット変換を実行して、関連するペインモデルを更新する。
-     */
+        /**
+        * ソースデータを設定し、ウェーブレット変換を実行して、関連するペインモデルを更新する。
+        * @param sourceDataArray 変換の元となる{@code double}型のデータ配列
+        */
 	public void setSourceData(double[] sourceDataArray) {
-		        this.sourceCoefficients = sourceDataArray; // ソースデータを設定
+	        this.sourceCoefficients = sourceDataArray; // ソースデータを設定
 
         // 1次元ウェーブレット変換を実行
         DiscreteWavelet1dTransformation discreteWavelet1dTransformation1 = new DiscreteWavelet1dTransformation(this.sourceCoefficients);
