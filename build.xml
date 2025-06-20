@@ -225,7 +225,7 @@
 			<bottom>${copyright}</bottom>
 		</javadoc>
 		<exec executable="open">
-			<arg line="-a 'Safari' ${docdir}/index.html" />
+			<!-- <arg line="-a 'Safari' ${docdir}/index.html" /> -->
 		</exec>
 		<exec executable="date" spawn="false" />
 	</target>

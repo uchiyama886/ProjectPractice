@@ -13,10 +13,14 @@ import utility.Condition;
  */
 public class WaveletPaneModel extends PaneModel {
 
-	// このペインのラベル（画像の名前など）
+	/**
+	 * このペインのラベル（画像の名前など）。
+	 */
 	private String label;
 
-	// WaveletModel リスナー（イベント処理を委譲する相手）
+	/**
+	 * WaveletModel リスナー（イベント処理を委譲する相手）。
+	 */
 	private WaveletModel listener= null;
 
 	/**
