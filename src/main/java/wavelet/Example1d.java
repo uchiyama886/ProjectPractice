@@ -46,7 +46,6 @@ public class Example1d extends Object {
   
   /**
    * サンプル係数を取得し、変換処理を実行
-   * @param coefficientsOfSampledata：データのサンプル係数
    */
   protected static void example1() {
     // サンプル係数を取得
@@ -57,14 +56,7 @@ public class Example1d extends Object {
   }
   /**
    * 各種変数を所得し、画像の生成、表示、保存する
-   * @param coefficientsOfSampledata  データのサンプル係数
-   * @param coefficientsOfScaling     離散ウェーブレットのスケーリング係数
-   * @param coefficientsOfWavelet     離散ウェーブレットのウェーブレット係数
-   * @param coefficientsOfComposites  離散ウェーブレットの再構成した（元の信号に戻した）係数
-   * @param imageOfSampledata         サンプル係数を元にした画像
-   * @param imageOfScaling            スケーリング係数を元にした画像
-   * @param imageOfWavelet            ウェーブレット係数を元にした画像
-   * @param compositesImage           再構成した係数を元にした（元の信号に戻した）画像
+   * @param sourceData サンプル係数
    */
   protected static void perform(double[] sourceData) {
     // サンプル係数を束縛
@@ -144,13 +136,14 @@ public class Example1d extends Object {
   
   /**
    * パネルを開いて表示
+   * @param aPanel 表示するパネル
    */
-  protected static void open(JPanel paramJPanel) {
+  protected static void open(JPanel aJPanel) {
     // タイトルをWavelet Example (1D）にしてフレームを用意
     JFrame jFrame = new JFrame("Wavelet Example (1D)");
 
-    // paramJPanelをJFrameの表示エリアに追加する
-    jFrame.getContentPane().add(paramJPanel);
+    // aJPanelをJFrameの表示エリアに追加する
+    jFrame.getContentPane().add(aJPanel);
 
     // ×ボタンを押すとそのウィンドウを閉じて破棄（他のウィンドウが開いていればそのウィンドウは継続）
     jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -184,8 +177,7 @@ public class Example1d extends Object {
   
   /**
    * 画像ファイルを保存
-   * @param fileNumber ファイル名の連番（001, 002, 003,,）
-   * @param file 書き出す用のファイル
+   * @param anImage 書き出す画像
    */
   protected static void write(BufferedImage anImage) {
     // 処理する画像を束縛
