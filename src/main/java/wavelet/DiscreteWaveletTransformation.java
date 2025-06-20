@@ -44,7 +44,7 @@ public abstract class DiscreteWaveletTransformation extends WaveletTransformatio
    * <li>{@code index == 4}: 8タップフィルター係数</li>
    * </ul>
    * 指定された次数に応じて、{@link #daubechiesScalingSequence} と {@link #daubechiesWaveletSequence} を設定する。
-   * ウェーブレット係数はスケーリング係数から導出される。</p>
+   * ウェーブレット係数はスケーリング係数から導出される。
    *
    * @param index 初期化するDaubechiesウェーブレットの次数（通常、N）
    */

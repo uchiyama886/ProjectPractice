@@ -136,7 +136,7 @@ public class Example1d extends Object {
   
   /**
    * パネルを開いて表示
-   * @param aPanel 表示するパネル
+   * @param aJPanel 表示するパネル
    */
   protected static void open(JPanel aJPanel) {
     // タイトルをWavelet Example (1D）にしてフレームを用意
