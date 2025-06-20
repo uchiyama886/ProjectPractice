@@ -40,7 +40,7 @@ public class Example1d extends Object
   
   /**
    * データのサンプル係数を取得する。
-   * @param arguments
+   * @param arguments コマンドライン引数
    */
   public static void main(String[] arguments) {
     example1();
