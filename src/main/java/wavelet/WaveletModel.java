@@ -11,7 +11,18 @@ import mvc.Model;
  */
 public class WaveletModel extends Model {
 
-	// 計算の精度を表す定数
+	/**
+     * 新しいWaveletModelインスタンスを構築する。
+     * このデフォルトコンストラクタは、特に初期化パラメータを必要としない。
+     */
+    public WaveletModel() {
+        // デフォルトコンストラクタなので、通常はここに特別な処理は書かない。
+        // 親クラスのModelのデフォルトコンストラクタが自動的に呼ばれる。。
+    }
+
+	/**
+	 * 計算の精度を表す定数
+	 */ 
 	public static double accuracy = 1.0E-5d;
 
 	/**

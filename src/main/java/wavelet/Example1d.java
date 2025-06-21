@@ -19,33 +19,35 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * ウィンドウ表示やユーザ操作の処理、画像変換への指示など、UIと処理をつなぐメイン機能全般(一次元)
+ * ウィンドウ表示やユーザ操作の処理、画像変換への指示など、UIと処理をつなぐメイン機能全般(一次元)。
  */
-public class Example1d extends Object {
+public class Example1d extends Object 
+{
   /**
-   * 保存する画像ファイルの連番カウンター
+   * 保存する画像ファイルの連番カウンター。
    */
   private static int fileNo = 0;
   
   /**
-   * ウィンドウの初期表示座標
+   * ウィンドウの初期表示座標。
    */
   private static Point displayPoint = new Point(30, 50);
   
   /**
-   * ウィンドウを開いていく際に少しずつずらしていくオフセット
+   * ウィンドウを開いていく際に少しずつずらしていくオフセット。
    */
   private static Point offsetPoint = new Point(25, 25);
   
   /**
-   * データのサンプル係数を取得する
+   * データのサンプル係数を取得する。
+   * @param arguments コマンドライン引数
    */
-  public static void main(String[] argument) {
+  public static void main(String[] arguments) {
     example1();
   }
   
   /**
-   * サンプル係数を取得し、変換処理を実行
+   * サンプル係数を取得し、変換処理を実行。
    */
   protected static void example1() {
     // サンプル係数を取得
@@ -55,7 +57,7 @@ public class Example1d extends Object {
     perform(coefficientsOfSampledata);
   }
   /**
-   * 各種変数を所得し、画像の生成、表示、保存する
+   * 各種変数を所得し、画像の生成、表示、保存する。
    * @param sourceData サンプル係数
    */
   protected static void perform(double[] sourceData) {
@@ -135,8 +137,8 @@ public class Example1d extends Object {
   }
   
   /**
-   * パネルを開いて表示
-   * @param aPanel 表示するパネル
+   * パネルを開いて表示。
+   * @param aJPanel 表示するパネル
    */
   protected static void open(JPanel aJPanel) {
     // タイトルをWavelet Example (1D）にしてフレームを用意
@@ -176,7 +178,7 @@ public class Example1d extends Object {
   }
   
   /**
-   * 画像ファイルを保存
+   * 画像ファイルを保存。
    * @param anImage 書き出す画像
    */
   protected static void write(BufferedImage anImage) {

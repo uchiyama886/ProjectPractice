@@ -51,7 +51,8 @@ public class Model
   /**
    * モデルの内部状態（依存ビューリストと画像）を初期化。
    */
-  private void initialize() {
+  private void initialize() 
+  {
     // 新しい空のリストを作成
     this.dependents = new ArrayList<>(); 
 
@@ -68,8 +69,10 @@ public class Model
 
   /**
    * 現在保持している画像（picture）を返すメソッド。
+   * @return このモデルが現在保持しているBufferedImageオブジェクト
    */
-  public BufferedImage picture() {
+  public BufferedImage picture() 
+  {
     return this.picture;
   }
 
@@ -77,7 +80,8 @@ public class Model
    * 新しい画像を設定するメソッド。
    * @param anImage 新しい画像
    */
-  public void picture(BufferedImage anImage) {
+  public void picture(BufferedImage anImage) 
+  {
     this.picture = anImage;
     return;
   }
@@ -86,7 +90,8 @@ public class Model
    * モデルの文字列表現を返す。
    */
   @Override
-  public String toString() {
+  public String toString() 
+  {
     // 文字列を効率よく連結するためのバッファ
     StringBuffer stringBuffer = new StringBuffer();  
 
